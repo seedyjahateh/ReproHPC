@@ -1,0 +1,33 @@
+{
+  "root": "/opt/reprohpc/src/reprohpc",
+  "files": {
+    "__init__.py": "cd7420db94926760e5048d3d83c277956b62b3822de30866ac6c7b44b1ee7790",
+    "archive.py": "93a2acb6e9687e8a80863bb71c6c647ec75929ed02171235a6af7d3b16afed1c",
+    "cli.py": "ede3d73f301a8f4eab202c17678c4175dc3351f6d636582a05537002ce0b0c4e",
+    "config.py": "888029a7fcf1cdd7d337e9ad55407f728fe5d58cf25f4f2ee9749a48b4113585",
+    "data.py": "86ed79321903dc262412c965284bd5c3096663956b1a4ed1cd0027a1659ea88b",
+    "errors.py": "62826dcfbbfe2699767eb4bcc70139a75c5db74130795c12f0fca28981ede431",
+    "io.py": "65d7e992e8b78d4caa7a23cb8661d44f4864bb6f9ef3f33e895fecdbf15170f5",
+    "metadata.py": "b17d67768a22e8c0520040fabb8b81529b7b47efff892c944e481b5c0e07b49e",
+    "provenance.py": "ee4e006ae5ec9ce0bcb4089bc379e149449b7eb452bfd6da3e09ad2b5e240c43",
+    "schema.py": "d4254203f042e7c57a82eebae98b816e6919f64221a591f681a1913a6f46f739",
+    "schemas/analysis.json": "3cc2207c95662bbefcb60516293366c2245a4577c7c9ed36cc40737e8d87c4bf",
+    "schemas/calibration.json": "e7258c84d1336116d5fc9a6347eb3f7fb7d1a171b0948bfe73b8e5781968ae55",
+    "schemas/dataset.json": "0c5a9c2c86b2d6ec96792d0af13b551fdaf29c2ee5d68e24cb5110e9f5ddd0ed",
+    "schemas/metrics.json": "f3af9710a8d093a56f2c347f3f393f3429fd39508ac12081f0c1342fec377a32",
+    "schemas/output.json": "fa9f93dbfe0e0e271b93c5eefdb32c051b45a07285a8daa9b556ee498d8670b6",
+    "schemas/params.json": "2f6dec69cd76ad45dd568cb9e564e1703d0776607c2dd5ec9e252f1d538b7aed",
+    "schemas/reference.json": "cd05868bbc13ce04bc47b2e2efc4e21abbd361ae1e1d3407ec050143103137bf",
+    "schemas/release.json": "b7ff4da564d2803f6ab5fb58a100a577dbe9fadb84a232636fcc360e8cb49e09",
+    "schemas/run.json": "a7f2315f2d23d750ff659c0d46c027dff152050c240e381d886226811a55630c",
+    "schemas/sample.json": "6af9a832dc805a3325ed13b8695d1afc5afcb3739968b44bcf392e281f47bf5a",
+    "schemas/status.json": "4fe86c23d38a7e73e39274dad939bd8767788c25df7db987eb04586fac7ec642",
+    "schemas/summary.json": "54c88e0a7c6c5e146bb9f9d0c54d295c89b6cb4d8f8b72382c05330b4465f5c3",
+    "schemas/task.json": "643e7772d79ec55b01c2243a0592c2d42cd894f339fc8e94c8936c01be9503e5",
+    "science.py": "62d501697c1d156b34501843635bb2612058201d78f4aa28609b4308cdef7bfb",
+    "task.py": "bf6fdf72d7f969682c807ac5da8192dcd752cb2355b2be0db1d1ee97aed506ea"
+  },
+  "kind": "actual-baked-source-byte-comparison",
+  "verified": true,
+  "sif_sha256": "7056aa1d75f0062c3f7383e0d1bc695c65f7c232edebdb5a6307149eca6fb849"
+}

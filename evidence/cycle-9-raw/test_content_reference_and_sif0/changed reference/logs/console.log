@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [condescending_majorana] DSL2 - revision: 9dc8d37637
+[0b/fc87d8] Submitted process > VALIDATE_DATASET
+[84/431886] Submitted process > ANALYZE_BATCH (batch-000000)
+[1b/3b9b2b] Submitted process > ANALYZE_BATCH (batch-000002)
+[2f/bb4b39] Submitted process > ANALYZE_BATCH (batch-000001)
+[64/9f36e1] Submitted process > AGGREGATE
+[db/13da96] Submitted process > REPORT

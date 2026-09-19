@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [cheesy_golick] DSL2 - revision: 9dc8d37637
+[b3/4a325d] Submitted process > VALIDATE_DATASET
+[6d/9e056b] Submitted process > ANALYZE_BATCH (batch-000000)
+[1b/1623e0] Cached process > ANALYZE_BATCH (batch-000001)
+[bc/395338] Cached process > ANALYZE_BATCH (batch-000002)
+[a8/f97eae] Submitted process > AGGREGATE
+[ec/94149f] Submitted process > REPORT

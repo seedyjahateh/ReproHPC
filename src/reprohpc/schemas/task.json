@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/task.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "process": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "native_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sample_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+      }
+    },
+    "requested": {
+      "type": "object"
+    },
+    "usage": {
+      "type": "object"
+    },
+    "exit_code": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "origin_work_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scientific_metadata": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "origin_run_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "origin_session_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "origin_task_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "logs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "process",
+    "task_id",
+    "hash",
+    "status",
+    "attempt",
+    "native_id",
+    "sample_ids",
+    "requested",
+    "usage",
+    "exit_code",
+    "origin_work_dir",
+    "scientific_metadata",
+    "origin_run_id",
+    "origin_session_id",
+    "origin_task_id",
+    "logs"
+  ],
+  "additionalProperties": false
+}

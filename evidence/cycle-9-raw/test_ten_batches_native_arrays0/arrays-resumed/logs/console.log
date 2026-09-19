@@ -1,0 +1,15 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [stupefied_chandrasekhar] DSL2 - revision: 9dc8d37637
+[8b/fee380] Submitted process > VALIDATE_DATASET
+[30/94bfb1] Cached process > ANALYZE_BATCH (batch-000001)
+[47/25648a] Cached process > ANALYZE_BATCH (batch-000008)
+[97/a53d7c] Cached process > ANALYZE_BATCH (batch-000003)
+[d9/f4dbda] Cached process > ANALYZE_BATCH (batch-000009)
+[c6/1b5ec7] Cached process > ANALYZE_BATCH (batch-000005)
+[76/aa652c] Cached process > ANALYZE_BATCH (batch-000000)
+[b6/541864] Cached process > ANALYZE_BATCH (batch-000007)
+[42/bfd59d] Cached process > ANALYZE_BATCH (batch-000004)
+[d8/6be8fc] Cached process > ANALYZE_BATCH (batch-000002)
+[43/c1e152] Cached process > ANALYZE_BATCH (batch-000006)
+[7c/606e24] Cached process > AGGREGATE
+[bb/bf18b9] Cached process > REPORT

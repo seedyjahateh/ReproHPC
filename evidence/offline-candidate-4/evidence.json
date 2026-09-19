@@ -1,0 +1,38 @@
+{
+  "sif_sha256": "5924ea4d806aa7b260a68789db4d262925f0a88f1364303d5eae879b594e6d4d",
+  "attached_networks_during_execution": [
+    {
+      "name": "reprohpc-offline-e05c1d9f",
+      "internal": true
+    }
+  ],
+  "interfaces_during_execution": [
+    "eth1",
+    "lo"
+  ],
+  "ipv4_routes": "Iface\tDestination\tGateway \tFlags\tRefCnt\tUse\tMetric\tMask\t\tMTU\tWindow\tIRTT                                                       \neth1\t000014AC\t00000000\t0001\t0\t0\t0\t0000FFFF\t0\t0\t0",
+  "external_connection_failures": {
+    "1.1.1.1": "[Errno 101] Network is unreachable",
+    "8.8.8.8": "[Errno 101] Network is unreachable"
+  },
+  "launcher_python": "/scratch/reprohpc-host/bin/python",
+  "profiles": [
+    "local",
+    "slurm"
+  ],
+  "comparison": {
+    "equivalent": true,
+    "mode": "tolerance",
+    "rtol": 1e-06,
+    "atol": 1e-08,
+    "max_absolute_difference_by_column": {
+      "area_um2": 0.0,
+      "centroid_x_px": 0.0,
+      "centroid_y_px": 0.0,
+      "foreground_fraction": 0.0,
+      "mean_area_px": 0.0,
+      "mean_intensity": 0.0
+    }
+  },
+  "run_root": "/scratch/offline-candidate-4"
+}

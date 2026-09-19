@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	process	tag	status	exit	submit	start	complete	duration	realtime	%cpu	peak_rss	cpus	memory	time	attempt	workdir
+1	25/eb7384	162814	VALIDATE_DATASET	VALIDATE_DATASET	-	FAILED	3	1789414276328	1789414276427	1789414277755	1427	1328	-	-	1	1073741824	1800000	1	/scratch/reprohpc-check/test_content_reference_and_sif0/work with spaces/25/eb7384391db573e99ccfb60daa2229

@@ -1,0 +1,34 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [compassionate_descartes] DSL2 - revision: 9dc8d37637
+[25/eb7384] Submitted process > VALIDATE_DATASET
+ERROR ~ Error executing process > 'VALIDATE_DATASET'
+
+Caused by:
+  Process `VALIDATE_DATASET` terminated with an error exit status (3)
+
+
+Command executed:
+
+  python -m reprohpc.task validate --dataset dataset/dataset.json --manifest samples.csv --reference reference/reference.json --output validated.json
+
+Command exit status:
+  3
+
+Command output:
+  (empty)
+
+Command error:
+  /bin/bash: line 1: cd: too many arguments
+  Sample above: Checksum/size mismatch: /scratch/reprohpc-check/test_content_reference_and_sif0/inputs with spaces/images/above with spaces.png; restore locked bytes or publish a new dataset version
+
+Work dir:
+  /scratch/reprohpc-check/test_content_reference_and_sif0/work with spaces/25/eb7384391db573e99ccfb60daa2229
+
+Container:
+  /scratch/reprohpc-candidate-5.sif
+
+Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
+
+ -- Check '/scratch/reprohpc-check/test_content_reference_and_sif0/corrupt input/logs/driver.log' file for details
+WARN: Failed to render execution report -- see the log file for details
+WARN: Failed to render execution timeline -- see the log file for details

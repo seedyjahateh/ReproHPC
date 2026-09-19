@@ -1,0 +1,4 @@
+Run 268bc61b-e77c-45ad-889b-105400cfdc75
+Output: /scratch/report-acceptance-candidate-6/run
+Status: success; session: 6bec99f5-c66a-4a4c-87d6-23f7b81a9411; report: /scratch/report-acceptance-candidate-6/run/report/index.html
+Resume: /workspace/reprohpc run --profile local --params-file /scratch/report-acceptance-candidate-6/run/provenance/params.resolved.json --sif /scratch/reprohpc-candidate-6.sif --sif-sha256 f08950a64d5371429caf5b8c939d843eb94404323e75c527d5269d251b39260a --resume 6bec99f5-c66a-4a4c-87d6-23f7b81a9411 --outdir /scratch/report-acceptance-candidate-6/run-resumed --work-dir /scratch/report-acceptance-candidate-6/work --launch-dir /scratch/report-acceptance-candidate-6/launch --partition demo --account '' --qos '' --array-size 4 --max-inflight 8 --analysis-memory '2 GB' --analysis-time '10 min'

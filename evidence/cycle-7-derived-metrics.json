@@ -1,0 +1,80 @@
+{
+  "kind": "derived-from-real-cycle-7-evidence",
+  "sif_sha256": "8f9e404fd010152b4728d0ee00f1343779fd37673126ae90ddee85dafe1aa265",
+  "observations": [
+    {
+      "run": "test_content_reference_and_sif0/changed input",
+      "analysis_batches": 3,
+      "cached_batches": 2,
+      "executed_attempts": 1,
+      "reused_original_task_wall_seconds_sum": 9.459,
+      "cached_batches_with_time": 2,
+      "time_scope": "original Nextflow task realtime; sum across cached analysis, not current walltime speedup"
+    },
+    {
+      "run": "test_handled_interrupt_preserv0/recovered",
+      "analysis_batches": 12,
+      "cached_batches": 2,
+      "executed_attempts": 10,
+      "reused_original_task_wall_seconds_sum": 2.459,
+      "cached_batches_with_time": 2,
+      "time_scope": "original Nextflow task realtime; sum across cached analysis, not current walltime speedup"
+    },
+    {
+      "run": "test_hard_kill_manual_cleanup_0/recovered",
+      "analysis_batches": 12,
+      "cached_batches": 2,
+      "executed_attempts": 10,
+      "reused_original_task_wall_seconds_sum": 4.086,
+      "cached_batches_with_time": 2,
+      "time_scope": "original Nextflow task realtime; sum across cached analysis, not current walltime speedup"
+    },
+    {
+      "run": "test_real_workflow_repeat_resu0/repaired",
+      "analysis_batches": 12,
+      "cached_batches": 11,
+      "executed_attempts": 1,
+      "reused_original_task_wall_seconds_sum": 16.482,
+      "cached_batches_with_time": 11,
+      "time_scope": "original Nextflow task realtime; sum across cached analysis, not current walltime speedup"
+    },
+    {
+      "run": "test_real_workflow_repeat_resu0/resumed",
+      "analysis_batches": 12,
+      "cached_batches": 12,
+      "executed_attempts": 0,
+      "reused_original_task_wall_seconds_sum": 17.767,
+      "cached_batches_with_time": 12,
+      "time_scope": "original Nextflow task realtime; sum across cached analysis, not current walltime speedup"
+    },
+    {
+      "run": "test_ten_batches_native_arrays0/arrays",
+      "observed_max_concurrent_analysis_allocations": 2,
+      "analysis_attempts": 10,
+      "trace_intervals": 10,
+      "observed_threads": [
+        1
+      ],
+      "submitter_uids": [
+        1001
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "test_handled_interrupt_preserv0/evidence.json",
+      "evidence": {
+        "cached_after_resume": [
+          "batch-000001",
+          "batch-000010"
+        ],
+        "cleanup_seconds": 2.3774791739997454,
+        "completed_before_interrupt": [
+          "batch-000001",
+          "batch-000010"
+        ],
+        "exit_code": 130
+      }
+    }
+  ]
+}

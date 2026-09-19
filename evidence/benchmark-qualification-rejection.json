@@ -1,0 +1,6 @@
+{
+  "kind": "actual-environment-qualification-rejection",
+  "exit_code": 2,
+  "stderr": "usage: benchmark.py [-h] --params-file PARAMS_FILE --sif SIF --sif-sha256\n                    SIF_SHA256 --output OUTPUT [--site-config SITE_CONFIG]\n                    [--account ACCOUNT] [--partition PARTITION]\n                    [--memory-rationale MEMORY_RATIONALE]\n                    [--dedicated-allocation] [--diagnostic]\nbenchmark.py: error: Qualified benchmark requires >=8 CPUs, >=16 GiB RAM, and an idle dedicated allocation\n",
+  "no_trials_submitted": true
+}

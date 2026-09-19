@@ -1,0 +1,19 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [wise_nobel] DSL2 - revision: 9dc8d37637
+[68/50d0b8] Submitted process > VALIDATE_DATASET
+[98/d57dd0] Submitted process > ANALYZE_BATCH (batch-000005)
+[51/7d9626] Submitted process > ANALYZE_BATCH (batch-000004)
+[ff/cbb576] Submitted process > ANALYZE_BATCH (batch-000007)
+[eb/090c8e] Submitted process > ANALYZE_BATCH (batch-000010)
+[f4/ca8992] Submitted process > ANALYZE_BATCH (batch-000008)
+[0e/a0f942] Submitted process > ANALYZE_BATCH (batch-000011)
+[31/6fb23a] Submitted process > ANALYZE_BATCH (batch-000009)
+[fc/b24f10] Submitted process > ANALYZE_BATCH (batch-000001)
+[f3/461589] Submitted process > ANALYZE_BATCH (batch-000003)
+[9a/ba3805] Submitted process > ANALYZE_BATCH (batch-000006)
+[8b/4b0afb] Submitted process > ANALYZE_BATCH (batch-000000)
+[29/fda51c] Submitted process > ANALYZE_BATCH (batch-000002)
+[f3/461589] NOTE: Process `ANALYZE_BATCH (batch-000003)` terminated with an error exit status (75) -- Execution is retried (1)
+[e2/74a0a1] Re-submitted process > ANALYZE_BATCH (batch-000003)
+[48/623cc1] Submitted process > AGGREGATE
+[3b/bd743a] Submitted process > REPORT

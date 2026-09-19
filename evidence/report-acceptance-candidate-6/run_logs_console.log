@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [astonishing_ritchie] DSL2 - revision: 9dc8d37637
+[31/b7915c] Submitted process > VALIDATE_DATASET
+[7c/811d75] Submitted process > ANALYZE_BATCH (batch-000000)
+[ae/7428d0] Submitted process > ANALYZE_BATCH (batch-000002)
+[a2/17a71c] Submitted process > ANALYZE_BATCH (batch-000001)
+[a3/e2e664] Submitted process > AGGREGATE
+[d6/57d44e] Submitted process > REPORT

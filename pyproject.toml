@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reprohpc"
+version = "0.1.0"
+description = "Reproducible scientific image analysis with Nextflow, Apptainer, and Slurm"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = ["PyYAML==6.0.2", "jsonschema==4.25.1"]
+
+[project.optional-dependencies]
+science = ["numpy==2.2.6", "opencv-python-headless==4.12.0.88"]
+
+[project.scripts]
+reprohpc = "reprohpc.cli:main"
+reprohpc-task = "reprohpc.task:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+reprohpc = ["schemas/*.json", "report_assets/*.html", "report_assets/*.css", "report_assets/*.js"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+markers = ["integration: real Nextflow/Apptainer integration", "slurm: real Slurm integration", "slow: resource and benchmark tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.coverage.run]
+branch = true
+source = ["reprohpc"]
+
+[tool.coverage.report]
+show_missing = true

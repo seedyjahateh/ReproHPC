@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [thirsty_poitras] DSL2 - revision: 9dc8d37637
+[cc/1d73e9] Submitted process > VALIDATE_DATASET
+[2a/4b3f31] Submitted process > ANALYZE_BATCH (batch-000000)
+[1b/1623e0] Submitted process > ANALYZE_BATCH (batch-000001)
+[bc/395338] Submitted process > ANALYZE_BATCH (batch-000002)
+[47/a3e53a] Submitted process > AGGREGATE
+[de/33954b] Submitted process > REPORT

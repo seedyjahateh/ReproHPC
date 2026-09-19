@@ -1,0 +1,63 @@
+name: Test
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pipeline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Cache checksum-verified tool downloads
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
+        with:
+          path: .tools/lab-build
+          key: tools-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('environment.lock.json', 'requirements*.lock', 'ops/slurm/Dockerfile') }}
+      - name: Build pinned Linux tools
+        run: python3 scripts/build_lab.py
+      - name: Start disposable Linux runtime (no Slurm service required for PRs)
+        run: |
+          docker run -d --init --name reprohpc-lab --hostname reprohpc-lab --add-host reprohpc-lab:127.0.0.1 --privileged --cgroupns private \
+            -v "$PWD:/workspace" -v reprohpc-scratch:/scratch reprohpc-lab:dev
+          docker exec reprohpc-lab chown researcher:researcher /scratch
+      - name: Build candidate image and canonical SIF
+        run: python3 scripts/build_candidate.py
+      - name: Lint, build, units and real local Apptainer workflow
+        run: |
+          docker exec -u researcher -e REPROHPC_SIF=/workspace/artifacts/reprohpc.sif reprohpc-lab \
+            bash scripts/check.sh
+      - name: Build report browser fixtures from the scientific routine
+        run: docker exec -u researcher reprohpc-lab python scripts/report_fixtures.py --output /workspace/artifacts/ui-fixtures
+      - name: Test offline report in desktop and mobile browsers
+        working-directory: tests/ui
+        run: |
+          node --version
+          npm ci --ignore-scripts
+          npx playwright install --with-deps chromium
+          npm test
+      - name: Collect synthetic workflow diagnostics
+        if: always()
+        run: |
+          if docker inspect reprohpc-lab >/dev/null 2>&1; then
+            docker exec -u researcher reprohpc-lab python scripts/collect_evidence.py \
+              --root /scratch/reprohpc-check --output /workspace/evidence/workflow-raw --include-logs
+          fi
+      - name: Retain validation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: validation-evidence
+          path: |
+            coverage.xml
+            evidence/
+            artifacts/candidate.json
+          retention-days: 30
+      - name: Stop this job's disposable runtime
+        if: always()
+        run: docker rm -f reprohpc-lab

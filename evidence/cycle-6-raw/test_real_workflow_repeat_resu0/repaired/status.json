@@ -1,0 +1,1 @@
+{"exit_code":5,"message":"[Errno 2] No such file or directory: '/scratch/reprohpc-check/test_real_workflow_repeat_resu0/repaired/samples/two/mask.npy'","run_id":"e1a2bf95-287a-4561-b7fb-67e925f5b807","schema_version":"1.0.0","status":"finalization-failed"}

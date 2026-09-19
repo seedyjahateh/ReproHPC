@@ -1,0 +1,17 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [cranky_agnesi] DSL2 - revision: 9dc8d37637
+[f6/7a2fa7] Submitted process > VALIDATE_DATASET
+[d4/864398] Submitted process > ANALYZE_BATCH (batch-000009)
+[ec/4afd20] Submitted process > ANALYZE_BATCH (batch-000000)
+[15/911a9c] Submitted process > ANALYZE_BATCH (batch-000011)
+[92/0f1600] Submitted process > ANALYZE_BATCH (batch-000002)
+[68/0a9bed] Submitted process > ANALYZE_BATCH (batch-000008)
+[29/b863df] Submitted process > ANALYZE_BATCH (batch-000004)
+[20/2ac94f] Submitted process > ANALYZE_BATCH (batch-000007)
+[85/52c62b] Submitted process > ANALYZE_BATCH (batch-000005)
+[79/a8dc2d] Submitted process > ANALYZE_BATCH (batch-000001)
+[dc/4efb54] Submitted process > ANALYZE_BATCH (batch-000010)
+[c4/564146] Submitted process > ANALYZE_BATCH (batch-000006)
+[ca/179551] Submitted process > ANALYZE_BATCH (batch-000003)
+[ba/23077f] Submitted process > AGGREGATE
+[f8/430e83] Submitted process > REPORT

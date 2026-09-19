@@ -1,0 +1,17 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [small_leavitt] DSL2 - revision: 9dc8d37637
+[d9/ef9714] Submitted process > VALIDATE_DATASET
+[69/143fed] Submitted process > ANALYZE_BATCH (batch-000000)
+[1a/7bb519] Submitted process > ANALYZE_BATCH (batch-000004)
+[1c/f72c2a] Submitted process > ANALYZE_BATCH (batch-000005)
+[03/158810] Submitted process > ANALYZE_BATCH (batch-000008)
+[eb/7e5f67] Submitted process > ANALYZE_BATCH (batch-000007)
+[fa/012655] Submitted process > ANALYZE_BATCH (batch-000011)
+[13/4d965b] Submitted process > ANALYZE_BATCH (batch-000006)
+[c5/7b6090] Submitted process > ANALYZE_BATCH (batch-000002)
+[b4/6e7294] Submitted process > ANALYZE_BATCH (batch-000001)
+[e5/449682] Submitted process > ANALYZE_BATCH (batch-000009)
+[82/0de69e] Submitted process > ANALYZE_BATCH (batch-000010)
+[c6/e22b7b] Submitted process > ANALYZE_BATCH (batch-000003)
+[11/798337] Submitted process > AGGREGATE
+[b8/c0e4df] Submitted process > REPORT

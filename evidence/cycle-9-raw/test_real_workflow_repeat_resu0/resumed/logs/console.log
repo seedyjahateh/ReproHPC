@@ -1,0 +1,17 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [jovial_liskov] DSL2 - revision: 9dc8d37637
+[c1/55d5f0] Submitted process > VALIDATE_DATASET
+[ee/08a386] Cached process > ANALYZE_BATCH (batch-000003)
+[cf/7aecd5] Cached process > ANALYZE_BATCH (batch-000007)
+[12/4b2a21] Cached process > ANALYZE_BATCH (batch-000008)
+[c3/b7a1a1] Cached process > ANALYZE_BATCH (batch-000002)
+[a8/3b36c4] Cached process > ANALYZE_BATCH (batch-000010)
+[40/5cc5b6] Cached process > ANALYZE_BATCH (batch-000006)
+[5c/2dadd7] Cached process > ANALYZE_BATCH (batch-000009)
+[4c/7650ce] Cached process > ANALYZE_BATCH (batch-000000)
+[eb/9b4c87] Cached process > ANALYZE_BATCH (batch-000005)
+[03/31f710] Cached process > ANALYZE_BATCH (batch-000004)
+[15/724905] Cached process > ANALYZE_BATCH (batch-000001)
+[2c/fa9798] Cached process > ANALYZE_BATCH (batch-000011)
+[cb/cd371b] Cached process > AGGREGATE
+[d3/4e0170] Cached process > REPORT

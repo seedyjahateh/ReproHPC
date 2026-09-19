@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [reverent_morse] DSL2 - revision: 9dc8d37637
+[6a/e7acfb] Submitted process > VALIDATE_DATASET
+[a3/c7d08e] Submitted process > ANALYZE_BATCH (batch-000000)
+[54/c8401a] Submitted process > ANALYZE_BATCH (batch-000001)
+[8a/88f9a9] Submitted process > ANALYZE_BATCH (batch-000002)
+[fd/1d2efe] Submitted process > AGGREGATE
+[fb/1ce43f] Submitted process > REPORT

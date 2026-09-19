@@ -1,0 +1,55 @@
+name: Candidate container
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    paths:
+      - containers/**
+      - requirements*.lock
+      - src/**
+permissions:
+  contents: read
+jobs:
+  candidate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Cache checksum-verified tool downloads
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
+        with:
+          path: .tools/lab-build
+          key: tools-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('environment.lock.json', 'requirements*.lock', 'ops/slurm/Dockerfile') }}
+      - run: python3 scripts/build_lab.py
+      - run: |
+          docker run -d --init --name reprohpc-lab --hostname reprohpc-lab --add-host reprohpc-lab:127.0.0.1 --privileged --cgroupns private -v "$PWD:/workspace" -v reprohpc-scratch:/scratch reprohpc-lab:dev
+          docker exec reprohpc-lab chown researcher:researcher /scratch
+      - run: python3 scripts/build_candidate.py
+      - name: Execute candidate scientific tasks
+        run: |
+          mkdir -p evidence
+          docker exec -u researcher -e REPROHPC_SIF=/workspace/artifacts/reprohpc.sif reprohpc-lab \
+            python -m pytest tests/integration -q --basetemp=/scratch/candidate-tests --junitxml=evidence/container-tests.xml
+      - name: Collect synthetic workflow diagnostics
+        if: always()
+        run: |
+          if docker inspect reprohpc-lab >/dev/null 2>&1; then
+            docker exec -u researcher reprohpc-lab python scripts/collect_evidence.py \
+              --root /scratch/candidate-tests --output /workspace/evidence/container-raw --include-logs
+          fi
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: candidate-validation
+          path: evidence/
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: candidate-image
+          path: |
+            artifacts/reprohpc.sif
+            artifacts/reprohpc.sif.sha256
+            artifacts/candidate.json
+          retention-days: 30
+      - if: always()
+        run: docker rm -f reprohpc-lab

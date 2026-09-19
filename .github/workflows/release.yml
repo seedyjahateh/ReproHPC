@@ -1,0 +1,76 @@
+name: Release gate
+on:
+  workflow_dispatch:
+    inputs:
+      release_lock_url:
+        description: HTTPS URL of the external immutable release lock
+        type: string
+        required: true
+      release_lock_sha256:
+        description: SHA-256 of that lock
+        type: string
+        required: true
+      acceptance_bundle_url:
+        description: HTTPS URL of the exact-candidate acceptance tar.gz
+        type: string
+        required: true
+      acceptance_bundle_sha256:
+        description: SHA-256 of that acceptance bundle
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  release-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Cache checksum-verified tool downloads
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
+        with:
+          path: .tools/lab-build
+          key: tools-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('environment.lock.json', 'requirements*.lock', 'ops/slurm/Dockerfile') }}
+      - name: Retrieve external release lock
+        env:
+          RELEASE_LOCK_URL: ${{ inputs.release_lock_url }}
+          RELEASE_LOCK_SHA256: ${{ inputs.release_lock_sha256 }}
+          ACCEPTANCE_BUNDLE_URL: ${{ inputs.acceptance_bundle_url }}
+          ACCEPTANCE_BUNDLE_SHA256: ${{ inputs.acceptance_bundle_sha256 }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, os, pathlib, re, urllib.request
+          pathlib.Path('artifacts').mkdir(exist_ok=True)
+          for prefix, name, limit in [('RELEASE_LOCK', 'release.lock.json', 1024**2), ('ACCEPTANCE_BUNDLE', 'acceptance.tar.gz', 200*1024**2)]:
+              url, digest = os.environ[prefix+'_URL'], os.environ[prefix+'_SHA256']
+              assert url.startswith('https://') and re.fullmatch('[0-9a-f]{64}', digest)
+              count, actual = 0, hashlib.sha256()
+              with urllib.request.urlopen(url, timeout=60) as response, pathlib.Path('artifacts', name).open('wb') as output:
+                  assert response.geturl().startswith('https://')
+                  while block := response.read(1024**2):
+                      count += len(block)
+                      assert count <= limit
+                      actual.update(block)
+                      output.write(block)
+              assert actual.hexdigest() == digest
+          PY
+      - name: Require real release identities and Slurm evidence
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install --require-hashes -r requirements-dev.lock
+          PYTHONPATH=src .venv/bin/python -c "from pathlib import Path; from reprohpc.archive import extract; extract(Path('artifacts/acceptance.tar.gz'), Path('artifacts/acceptance'), limit_bytes=1024**3)"
+          PYTHONPATH=src .venv/bin/python scripts/validate_release.py --lock artifacts/release.lock.json --evidence artifacts/acceptance/slurm-acceptance.json
+      - run: python3 scripts/build_lab.py
+      - run: |
+          docker run -d --init --name reprohpc-lab --hostname reprohpc-lab --add-host reprohpc-lab:127.0.0.1 --privileged --cgroupns private -v "$PWD:/workspace" -v reprohpc-scratch:/scratch reprohpc-lab:dev
+          docker exec reprohpc-lab chown researcher:researcher /scratch
+      - name: Verify public release downloads and scientific reproduction
+        run: docker exec -u researcher reprohpc-lab python reprohpc reproduce --release-lock artifacts/release.lock.json --cache-dir /scratch/public-release-cache --profile local --outdir results/public-release
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: public-release-verification
+          path: results/public-release/
+          retention-days: 90
+      - if: always()
+        run: docker rm -f reprohpc-lab

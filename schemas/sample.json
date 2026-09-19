@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/sample.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "sample_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4096
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4096
+    },
+    "dtype": {
+      "const": "uint8"
+    },
+    "channels": {
+      "const": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "sample_id",
+    "path",
+    "sha256",
+    "size_bytes",
+    "width",
+    "height",
+    "dtype",
+    "channels"
+  ],
+  "additionalProperties": false
+}

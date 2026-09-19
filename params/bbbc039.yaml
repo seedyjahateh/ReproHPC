@@ -1,0 +1,12 @@
+# Real BBBC039v1 nuclei images. Create the dataset first:
+#   python scripts/fetch_bbbc039.py
+#
+# threshold and min_area_px were selected on the tuning half of the dataset
+# (every second sample_id) and are reported on the held-out half by
+# scripts/evaluate_bbbc039.py. They are not defaults for other data.
+dataset: data/bbbc039/1.0.0/dataset.json
+input_manifest: data/bbbc039/1.0.0/samples.csv
+reference: references/bbbc039/1.0.0/reference.json
+threshold: 25
+min_area_px: 50
+batch_size: 16

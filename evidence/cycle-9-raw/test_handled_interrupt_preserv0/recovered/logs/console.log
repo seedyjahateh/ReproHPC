@@ -1,0 +1,17 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [voluminous_goodall] DSL2 - revision: 9dc8d37637
+[d0/a45679] Submitted process > VALIDATE_DATASET
+[db/9f44f7] Cached process > ANALYZE_BATCH (batch-000005)
+[5c/f12a6b] Cached process > ANALYZE_BATCH (batch-000001)
+[ad/69fd30] Submitted process > ANALYZE_BATCH (batch-000008)
+[17/51e42e] Submitted process > ANALYZE_BATCH (batch-000009)
+[6a/515e5d] Submitted process > ANALYZE_BATCH (batch-000010)
+[68/1b6187] Submitted process > ANALYZE_BATCH (batch-000002)
+[b7/43a939] Submitted process > ANALYZE_BATCH (batch-000011)
+[8e/afabc6] Submitted process > ANALYZE_BATCH (batch-000004)
+[d8/0f0bed] Submitted process > ANALYZE_BATCH (batch-000003)
+[12/996247] Submitted process > ANALYZE_BATCH (batch-000006)
+[4d/af2f5e] Submitted process > ANALYZE_BATCH (batch-000000)
+[87/47278d] Submitted process > ANALYZE_BATCH (batch-000007)
+[93/8cbb3a] Submitted process > AGGREGATE
+[8c/b33c0e] Submitted process > REPORT

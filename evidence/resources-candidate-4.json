@@ -1,0 +1,35 @@
+{
+  "kind": "actual-candidate-resource-enforcement",
+  "sif_sha256": "5924ea4d806aa7b260a68789db4d262925f0a88f1364303d5eae879b594e6d4d",
+  "job_id": "58",
+  "accounting_command": [
+    "sacct",
+    "-n",
+    "-P",
+    "-j",
+    "58",
+    "--units=K",
+    "--format=JobID,State,ExitCode,ElapsedRaw,AllocCPUS,ReqMem,MaxRSS,TotalCPU,TimelimitRaw"
+  ],
+  "raw_accounting": "resource-candidate-4-sacct.tsv",
+  "requested_cpus": 1,
+  "requested_memory_bytes": 2147483648,
+  "requested_time_seconds": 600,
+  "max_image": {
+    "baked_package": "/opt/reprohpc/src/reprohpc/__init__.py",
+    "case": "max-image",
+    "elapsed_seconds": 1.5712629199842922,
+    "peak_rss_kib": 449532,
+    "platform_units": "Linux ru_maxrss KiB",
+    "rows": null
+  },
+  "million_rows": {
+    "baked_package": "/opt/reprohpc/src/reprohpc/__init__.py",
+    "case": "million-rows",
+    "elapsed_seconds": 20.965394544007722,
+    "peak_rss_kib": 52984,
+    "platform_units": "Linux ru_maxrss KiB",
+    "rows": 1000000
+  },
+  "measurement_note": "Per-process Linux ru_maxrss records the high-water mark; sampled Slurm MaxRSS can miss short peaks. These are envelope fixtures, not a qualified scaling benchmark."
+}

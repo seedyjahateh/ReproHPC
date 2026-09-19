@@ -1,0 +1,1 @@
+{"exit_code":5,"message":"[Errno 2] No such file or directory: '/scratch/reprohpc-check/test_missing_output_cannot_be_1/missing/samples/above/mask.npy'","run_id":"c9360d68-87a9-45a8-a2e2-00f14a1a6e9d","schema_version":"1.0.0","status":"finalization-failed"}

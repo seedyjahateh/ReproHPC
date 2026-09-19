@@ -1,0 +1,17 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [mighty_golick] DSL2 - revision: 9dc8d37637
+[f6/8c8520] Submitted process > VALIDATE_DATASET
+[6e/014942] Submitted process > ANALYZE_BATCH (batch-000001)
+[10/cdff09] Submitted process > ANALYZE_BATCH (batch-000010)
+[4d/bb732e] Submitted process > ANALYZE_BATCH (batch-000002)
+[88/cbd422] Submitted process > ANALYZE_BATCH (batch-000006)
+[49/adea23] Submitted process > ANALYZE_BATCH (batch-000000)
+[59/b38a75] Submitted process > ANALYZE_BATCH (batch-000007)
+[b1/b74d23] Submitted process > ANALYZE_BATCH (batch-000008)
+[7d/14f4c4] Submitted process > ANALYZE_BATCH (batch-000009)
+[40/ac16d4] Submitted process > ANALYZE_BATCH (batch-000011)
+[fb/657d0f] Submitted process > ANALYZE_BATCH (batch-000004)
+[bc/a8f8a0] Submitted process > ANALYZE_BATCH (batch-000005)
+[0f/6a7875] Submitted process > ANALYZE_BATCH (batch-000003)
+[73/d8c8dd] Submitted process > AGGREGATE
+[f0/3ad333] Submitted process > REPORT

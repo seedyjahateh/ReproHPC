@@ -1,0 +1,3 @@
+task_id	hash	native_id	name	process	tag	status	exit	submit	start	complete	duration	realtime	%cpu	peak_rss	cpus	memory	time	attempt	workdir
+1	2a/cfbefd	162916	VALIDATE_DATASET	VALIDATE_DATASET	-	COMPLETED	0	1789299234378	1789299234442	1789299238068	3690	3089	40.9	59936768	1	1073741824	1800000	1	/scratch/reprohpc-check/test_missing_output_cannot_be_0/work/2a/cfbefded4854939d7527804e6ee153
+2	db/bb0485	163192	ANALYZE_BATCH (batch-000000)	ANALYZE_BATCH	batch-000000	FAILED	0	1789299239794	1789299239894	1789299246680	6886	5899	35.8	64688128	1	2147483648	600000	1	/scratch/reprohpc-check/test_missing_output_cannot_be_0/work/db/bb0485965d3ad4cb9788fbaad9e16d

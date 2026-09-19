@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/release.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "software_doi": {
+      "type": "string",
+      "pattern": "^10\\.[0-9]{4,9}/[^ ]+$"
+    },
+    "data_doi": {
+      "type": "string",
+      "pattern": "^10\\.[0-9]{4,9}/[^ ]+$"
+    },
+    "nextflow_version": {
+      "const": "25.10.4"
+    },
+    "nextflow_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "oci_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "platform": {
+      "const": "linux/amd64"
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "python": {
+          "const": "3.12.3"
+        },
+        "java_vendor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "java_build": {
+          "type": "string",
+          "minLength": 1
+        },
+        "apptainer": {
+          "const": "1.5.3"
+        },
+        "slurm": {
+          "const": "23.11.4"
+        },
+        "docker_base_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "requirements_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "host_requirements_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "build_requirements_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "python_packages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "name",
+              "version"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "build_tools": {
+          "type": "object",
+          "properties": {
+            "pip": {
+              "const": "25.2"
+            },
+            "setuptools": {
+              "const": "80.9.0"
+            },
+            "wheel": {
+              "const": "0.45.1"
+            }
+          },
+          "required": [
+            "pip",
+            "setuptools",
+            "wheel"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "python",
+        "java_vendor",
+        "java_build",
+        "apptainer",
+        "slurm",
+        "docker_base_digest",
+        "requirements_sha256",
+        "host_requirements_sha256",
+        "build_requirements_sha256",
+        "python_packages",
+        "build_tools"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "url",
+        "sha256",
+        "size_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "sif": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "url",
+        "sha256",
+        "size_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "url",
+        "sha256",
+        "size_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "reference": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "url",
+        "sha256",
+        "size_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "expected": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "url",
+        "sha256",
+        "size_bytes"
+      ],
+      "additionalProperties": false
+    },
+    "params": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "version",
+    "source_commit",
+    "software_doi",
+    "data_doi",
+    "nextflow_version",
+    "nextflow_sha256",
+    "oci_digest",
+    "platform",
+    "environment",
+    "source",
+    "sif",
+    "data",
+    "reference",
+    "expected",
+    "params"
+  ],
+  "additionalProperties": false
+}

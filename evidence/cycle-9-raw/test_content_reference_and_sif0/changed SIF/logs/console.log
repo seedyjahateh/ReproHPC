@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [distraught_meninsky] DSL2 - revision: 9dc8d37637
+[66/3206a7] Submitted process > VALIDATE_DATASET
+[a4/813d07] Submitted process > ANALYZE_BATCH (batch-000002)
+[83/4b1ddd] Submitted process > ANALYZE_BATCH (batch-000000)
+[e4/1ca054] Submitted process > ANALYZE_BATCH (batch-000001)
+[4d/c09070] Submitted process > AGGREGATE
+[cd/2faa6b] Submitted process > REPORT

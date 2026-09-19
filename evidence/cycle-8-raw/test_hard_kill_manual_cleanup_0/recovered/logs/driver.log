@@ -1,0 +1,127 @@
+Sep-14 14:51:04.943 [main] DEBUG nextflow.cli.Launcher - $> nextflow -C /workspace/nextflow.config,/scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/hard-kill.config -log /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/recovered/logs/driver.log run /workspace/main.nf -profile local -params-file /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/recovered/provenance/engine.params.json -work-dir /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work -ansi-log false -resume 206e31b0-1516-491b-843c-c8d645e1ead1
+Sep-14 14:51:05.212 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.10.4
+Sep-14 14:51:05.264 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/researcher/.nextflow/plugins; core-plugins: nf-amazon@3.4.4,nf-azure@1.20.2,nf-cloudcache@0.5.0,nf-codecommit@0.5.0,nf-console@1.3.0,nf-google@1.23.5,nf-k8s@1.2.2,nf-tower@1.17.5,nf-wave@1.16.1
+Sep-14 14:51:05.342 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Sep-14 14:51:05.345 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Sep-14 14:51:05.355 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Sep-14 14:51:05.405 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Sep-14 14:51:05.599 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /workspace/nextflow.config
+Sep-14 14:51:05.603 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/hard-kill.config
+Sep-14 14:51:05.699 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `local`
+Sep-14 14:51:07.289 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `local`
+Sep-14 14:51:07.435 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [slurm, test, slurm_scalar, local]
+Sep-14 14:51:07.982 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Sep-14 14:51:07.984 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Sep-14 14:51:08.072 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/researcher/.nextflow/secrets/store.json
+Sep-14 14:51:08.084 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@7c112f5f] - activable => nextflow.secret.LocalSecretsProvider@7c112f5f
+Sep-14 14:51:08.109 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Sep-14 14:51:08.179 [main] INFO  nextflow.cli.CmdRun - Launching `/workspace/main.nf` [disturbed_curry] DSL2 - revision: 9dc8d37637
+Sep-14 14:51:08.357 [main] DEBUG nextflow.Session - Session UUID: 206e31b0-1516-491b-843c-c8d645e1ead1
+Sep-14 14:51:08.358 [main] DEBUG nextflow.Session - Run name: disturbed_curry
+Sep-14 14:51:08.360 [main] DEBUG nextflow.Session - Executor pool size: 12
+Sep-14 14:51:08.410 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Sep-14 14:51:08.439 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=36; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Sep-14 14:51:08.587 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.10.4 build 11177
+  Created: 10-02-2026 17:12 UTC 
+  System: Linux 6.18.33.2-microsoft-standard-WSL2
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.12+8-1-24.04-Ubuntu
+  Encoding: UTF-8 (UTF-8)
+  Process: 97347@reprohpc-lab [127.0.0.1]
+  CPUs: 12 - Mem: 7.6 GB (4.3 GB) - Swap: 2 GB (2 GB)
+Sep-14 14:51:08.793 [main] DEBUG nextflow.Session - Work-dir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work [ext2/ext3]
+Sep-14 14:51:08.799 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /workspace/bin
+Sep-14 14:51:08.855 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Sep-14 14:51:08.936 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Sep-14 14:51:08.955 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+Sep-14 14:51:09.177 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Sep-14 14:51:09.206 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 13; maxThreads: 1000
+Sep-14 14:51:09.397 [main] DEBUG nextflow.Session - Session start
+Sep-14 14:51:09.416 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/recovered/provenance/trace.tsv
+Sep-14 14:51:10.085 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Sep-14 14:51:11.497 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Sep-14 14:51:11.498 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-14 14:51:11.551 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Sep-14 14:51:11.588 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=2; memory=4 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
+Sep-14 14:51:11.598 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Sep-14 14:51:11.603 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 1 submissions per 1 seconds
+Sep-14 14:51:11.737 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'VALIDATE_DATASET': maxForks=0; fair=false; array=0
+Sep-14 14:51:12.317 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:ANALYZE_BATCH` matches process ANALYZE_BATCH
+Sep-14 14:51:12.323 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Sep-14 14:51:12.324 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-14 14:51:12.340 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ANALYZE_BATCH': maxForks=0; fair=false; array=0
+Sep-14 14:51:12.493 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Sep-14 14:51:12.494 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-14 14:51:12.502 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'AGGREGATE': maxForks=0; fair=false; array=0
+Sep-14 14:51:12.564 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Sep-14 14:51:12.565 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-14 14:51:12.570 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'REPORT': maxForks=0; fair=false; array=0
+Sep-14 14:51:12.605 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: ANALYZE_BATCH, AGGREGATE, VALIDATE_DATASET, REPORT
+Sep-14 14:51:12.627 [main] DEBUG nextflow.Session - Igniting dataflow network (4)
+Sep-14 14:51:12.631 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > VALIDATE_DATASET
+Sep-14 14:51:12.637 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ANALYZE_BATCH
+Sep-14 14:51:12.641 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > AGGREGATE
+Sep-14 14:51:12.644 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > REPORT
+Sep-14 14:51:12.652 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_8206e768df477e7f: /workspace/modules/local/report.nf
+  Script_2137dc01860f9fd4: /workspace/modules/local/aggregate.nf
+  Script_6cc5ba90e8adc7ec: /workspace/modules/local/analyze_batch.nf
+  Script_cc6cd6ba808bef7e: /workspace/modules/local/validate.nf
+  Script_26027d724c330979: /workspace/main.nf
+Sep-14 14:51:12.652 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Sep-14 14:51:12.653 [main] DEBUG nextflow.Session - Session await
+Sep-14 14:51:13.859 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:13.866 [Task submitter] INFO  nextflow.Session - [95/9c69f9] Submitted process > VALIDATE_DATASET
+Sep-14 14:51:16.582 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: VALIDATE_DATASET; status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/95/9c69f9dae0b4096e3120bdf1a4af65]
+Sep-14 14:51:16.586 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=36; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Sep-14 14:51:16.977 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [b7/1781d1] Cached process > ANALYZE_BATCH (batch-000007)
+Sep-14 14:51:16.977 [Actor Thread 8] INFO  nextflow.processor.TaskProcessor - [31/4336a8] Cached process > ANALYZE_BATCH (batch-000005)
+Sep-14 14:51:17.007 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:17.016 [Task submitter] INFO  nextflow.Session - [ea/553319] Submitted process > ANALYZE_BATCH (batch-000000)
+Sep-14 14:51:17.049 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:17.050 [Task submitter] INFO  nextflow.Session - [6f/08a568] Submitted process > ANALYZE_BATCH (batch-000001)
+Sep-14 14:51:17.116 [Actor Thread 8] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'PublishDir' minSize=10; maxSize=36; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Sep-14 14:51:24.861 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: ANALYZE_BATCH (batch-000000); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/ea/553319a79b873954af688796be9393]
+Sep-14 14:51:24.922 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 3; name: ANALYZE_BATCH (batch-000001); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/6f/08a568e67cac63ad533f1cac9f46ea]
+Sep-14 14:51:24.973 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:24.975 [Task submitter] INFO  nextflow.Session - [d8/febd17] Submitted process > ANALYZE_BATCH (batch-000006)
+Sep-14 14:51:25.953 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:25.954 [Task submitter] INFO  nextflow.Session - [2e/0a8848] Submitted process > ANALYZE_BATCH (batch-000002)
+Sep-14 14:51:32.517 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 8; name: ANALYZE_BATCH (batch-000006); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/d8/febd17984188834a6a11624d23f2cc]
+Sep-14 14:51:32.953 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:32.955 [Task submitter] INFO  nextflow.Session - [cb/2b85a9] Submitted process > ANALYZE_BATCH (batch-000011)
+Sep-14 14:51:33.987 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 4; name: ANALYZE_BATCH (batch-000002); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/2e/0a88485a009f8e751a48ff112cd60f]
+Sep-14 14:51:34.947 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:34.948 [Task submitter] INFO  nextflow.Session - [80/f1f1ae] Submitted process > ANALYZE_BATCH (batch-000010)
+Sep-14 14:51:40.004 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 13; name: ANALYZE_BATCH (batch-000011); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/cb/2b85a94248b3c613e64f4119b7ad73]
+Sep-14 14:51:40.948 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:40.949 [Task submitter] INFO  nextflow.Session - [06/31a69a] Submitted process > ANALYZE_BATCH (batch-000008)
+Sep-14 14:51:42.212 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 12; name: ANALYZE_BATCH (batch-000010); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/80/f1f1ae2939e54bf4685ada1cd6123a]
+Sep-14 14:51:42.945 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:42.945 [Task submitter] INFO  nextflow.Session - [b5/f38975] Submitted process > ANALYZE_BATCH (batch-000009)
+Sep-14 14:51:48.292 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 10; name: ANALYZE_BATCH (batch-000008); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/06/31a69af88e37c4f87a70ae0a41727c]
+Sep-14 14:51:48.946 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:48.948 [Task submitter] INFO  nextflow.Session - [73/108415] Submitted process > ANALYZE_BATCH (batch-000004)
+Sep-14 14:51:50.134 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 11; name: ANALYZE_BATCH (batch-000009); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/b5/f389751ccc3bde65d412566717028e]
+Sep-14 14:51:50.943 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:50.944 [Task submitter] INFO  nextflow.Session - [2a/7653cb] Submitted process > ANALYZE_BATCH (batch-000003)
+Sep-14 14:51:55.853 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 6; name: ANALYZE_BATCH (batch-000004); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/73/108415071b5ed6f9f98fd0e68f5fbf]
+Sep-14 14:51:58.128 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 5; name: ANALYZE_BATCH (batch-000003); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/2a/7653cb5224598d5ada8c11b01642e7]
+Sep-14 14:51:58.160 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:58.162 [Task submitter] INFO  nextflow.Session - [83/c6f7de] Submitted process > AGGREGATE
+Sep-14 14:51:59.819 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 14; name: AGGREGATE; status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/83/c6f7de16068da1f39fd93d90791f10]
+Sep-14 14:51:59.888 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:51:59.889 [Task submitter] INFO  nextflow.Session - [fb/f7c8f4] Submitted process > REPORT
+Sep-14 14:52:02.159 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 15; name: REPORT; status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_hard_kill_manual_cleanup_0/work/fb/f7c8f4921ccf364c56d470b903d338]
+Sep-14 14:52:02.169 [main] DEBUG nextflow.Session - Session await > all processes finished
+Sep-14 14:52:02.260 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Sep-14 14:52:02.261 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Sep-14 14:52:02.267 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
+Sep-14 14:52:02.269 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'PublishDir' shutdown completed (hard=false)
+Sep-14 14:52:02.293 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=13; failedCount=0; ignoredCount=0; cachedCount=2; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=24.8s; failedDuration=0ms; cachedDuration=3.2s;loadCpus=0; loadMemory=0; peakRunning=2; peakCpus=2; peakMemory=4 GB; ]
+Sep-14 14:52:02.342 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+Sep-14 14:52:03.500 [main] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+Sep-14 14:52:03.622 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+Sep-14 14:52:03.637 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Sep-14 14:52:03.668 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+Sep-14 14:52:03.669 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

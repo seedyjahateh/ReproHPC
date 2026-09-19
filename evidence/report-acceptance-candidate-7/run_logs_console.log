@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [agitated_cori] DSL2 - revision: 9dc8d37637
+[4f/6a724c] Submitted process > VALIDATE_DATASET
+[5e/80d3d0] Submitted process > ANALYZE_BATCH (batch-000002)
+[a5/bc6b34] Submitted process > ANALYZE_BATCH (batch-000001)
+[ef/676fa1] Submitted process > ANALYZE_BATCH (batch-000000)
+[fe/055a01] Submitted process > AGGREGATE
+[3d/82b243] Submitted process > REPORT

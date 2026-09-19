@@ -1,0 +1,9 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [compassionate_chandrasekhar] DSL2 - revision: 9dc8d37637
+[e0/a33691] Submitted process > VALIDATE_DATASET
+[5c/f12a6b] Submitted process > ANALYZE_BATCH (batch-000001)
+[db/9f44f7] Submitted process > ANALYZE_BATCH (batch-000005)
+[46/a8a337] Submitted process > ANALYZE_BATCH (batch-000002)
+[28/cf5354] Submitted process > ANALYZE_BATCH (batch-000010)
+WARN: Failed to render execution report -- see the log file for details
+WARN: Failed to render execution timeline -- see the log file for details

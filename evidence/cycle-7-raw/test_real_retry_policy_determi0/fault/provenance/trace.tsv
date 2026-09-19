@@ -1,0 +1,3 @@
+task_id	hash	native_id	name	process	tag	status	exit	submit	start	complete	duration	realtime	%cpu	peak_rss	cpus	memory	time	attempt	workdir
+1	b5/f998d6	72255	VALIDATE_DATASET	VALIDATE_DATASET	-	COMPLETED	0	1789352372727	1789352372803	1789352374136	1409	1077	39.1	10506240	1	1073741824	1800000	1	/scratch/reprohpc-check/test_real_retry_policy_determi0/work/b5/f998d69d8b6692dc0d9f82699c7c6c
+2	3e/3819bd	72424	ANALYZE_BATCH (batch-000000)	ANALYZE_BATCH	batch-000000	FAILED	23	1789352374483	1789352374498	1789352374500	17	2	-	-	1	2147483648	600000	1	/scratch/reprohpc-check/test_real_retry_policy_determi0/work/3e/3819bd70f225988edf00644f5bfc99

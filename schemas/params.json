@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/params.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "algorithm": {
+      "const": "demo-cv-v1"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "gaussian_kernel": {
+      "enum": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23,
+        25,
+        27,
+        29,
+        31
+      ]
+    },
+    "gaussian_sigma": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 10
+    },
+    "threshold": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "min_area_px": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16777216
+    },
+    "connectivity": {
+      "enum": [
+        4,
+        8
+      ]
+    },
+    "batch_size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "write_previews": {
+      "type": "boolean"
+    },
+    "dataset": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_manifest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "algorithm",
+    "seed",
+    "gaussian_kernel",
+    "gaussian_sigma",
+    "threshold",
+    "min_area_px",
+    "connectivity",
+    "batch_size",
+    "write_previews"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,5 @@
+task_id	hash	native_id	name	process	tag	status	exit	submit	start	complete	duration	realtime	%cpu	peak_rss	cpus	memory	time	attempt	workdir
+1	a4/54b706	10800	VALIDATE_DATASET	VALIDATE_DATASET	-	COMPLETED	0	1789351595768	1789351595837	1789351597829	2061	1672	40.4	60174336	1	1073741824	1800000	1	/scratch/reprohpc-check/test_handled_interrupt_preserv0/work/a4/54b706e91af8a373efe47de2f01a9d
+12	6e/1fa58c	11152	ANALYZE_BATCH (batch-000010)	ANALYZE_BATCH	batch-000010	COMPLETED	0	1789351598253	1789351598338	1789351604810	6557	1218	49.1	63565824	1	2147483648	600000	1	/scratch/reprohpc-check/test_handled_interrupt_preserv0/work/6e/1fa58cad239007c85f9f9d5961d820
+3	d4/77323e	11161	ANALYZE_BATCH (batch-000001)	ANALYZE_BATCH	batch-000001	COMPLETED	0	1789351598410	1789351598444	1789351605022	6612	1241	47.8	63688704	1	2147483648	600000	1	/scratch/reprohpc-check/test_handled_interrupt_preserv0/work/d4/77323e882e4a910356e6066b534991
+5	0d/6e5256	11857	ANALYZE_BATCH (batch-000003)	ANALYZE_BATCH	batch-000003	ABORTED	-	1789351605208	0	-	-	-	-	-	1	2147483648	600000	1	/scratch/reprohpc-check/test_handled_interrupt_preserv0/work/0d/6e52565bdda1a6b994d9f5f91ba119

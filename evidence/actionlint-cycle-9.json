@@ -1,0 +1,20 @@
+{
+  "tool": "actionlint 1.7.12",
+  "exit_code": 0,
+  "shellcheck": "not installed; explicitly disabled",
+  "pyflakes": "not installed; explicitly disabled",
+  "files": [
+    {
+      "path": ".github/workflows/container.yml",
+      "sha256": "adfc4307d76d73c382de2c19c5fbba83d05979cac65c8a4348df249db5d1ee94"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "sha256": "2fbfde6b3d4c134359597048aebc85b8093071eb3ac1a1614e33b2d14586653a"
+    },
+    {
+      "path": ".github/workflows/test.yml",
+      "sha256": "097c1851553788e23797aae66f6ec60737934a372db67821612ff284868911e2"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+    "kind":  "served-export-browser-check",
+    "description":  "Chrome via Playwright against the verified candidate-7 export served by python -m http.server on 127.0.0.1:8765",
+    "sif_sha256":  "0f5297bce295b8a6980d109504f1b556396c5fc35b5e708cff9c865d467b15ac",
+    "checked_utc":  "2026-09-16T16:06:00.3246141Z",
+    "result":  {
+                   "stats":  [
+                                 "12images",
+                                 "9objects",
+                                 "8images",
+                                 "12previews"
+                             ],
+                   "views":  {
+                                 "overview":  true,
+                                 "explorer":  true,
+                                 "measurements":  true,
+                                 "provenance":  true
+                             },
+                   "anchors":  [
+                                   "c29b3d2ad330cb285f900d60270727ca38bb9d5a6e927bda81f2bda6b2b21146",
+                                   "ded2165f900fa07316758aa0c058246a6146be8d90b5c31ed0ad9cd50a66520f",
+                                   "0f5297bce295b8a6980d109504f1b556396c5fc35b5e708cff9c865d467b15ac"
+                               ],
+                   "selected":  "square",
+                   "renderedPreviews":  19,
+                   "download":  {
+                                    "name":  "objects.csv",
+                                    "bytes":  131
+                                },
+                   "linkStatus":  {
+                                      "200":  43
+                                  },
+                   "errors":  [
+
+                              ],
+                   "offHostRequests":  [
+
+                                       ]
+               }
+}

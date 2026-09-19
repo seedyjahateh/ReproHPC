@@ -1,0 +1,193 @@
+Sep-14 19:41:08.296 [main] DEBUG nextflow.cli.Launcher - $> nextflow -C /workspace/nextflow.config,/scratch/reprohpc-check/test_workflow_limit_failure_an1/limits.config -log /scratch/reprohpc-check/test_workflow_limit_failure_an1/failed/logs/driver.log run /workspace/main.nf -profile slurm -params-file /scratch/reprohpc-check/test_workflow_limit_failure_an1/failed/provenance/engine.params.json -work-dir /scratch/reprohpc-check/test_workflow_limit_failure_an1/work -ansi-log false
+Sep-14 19:41:08.479 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.10.4
+Sep-14 19:41:08.529 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/researcher/.nextflow/plugins; core-plugins: nf-amazon@3.4.4,nf-azure@1.20.2,nf-cloudcache@0.5.0,nf-codecommit@0.5.0,nf-console@1.3.0,nf-google@1.23.5,nf-k8s@1.2.2,nf-tower@1.17.5,nf-wave@1.16.1
+Sep-14 19:41:08.566 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Sep-14 19:41:08.567 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Sep-14 19:41:08.571 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Sep-14 19:41:08.594 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Sep-14 19:41:08.696 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /workspace/nextflow.config
+Sep-14 19:41:08.700 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /scratch/reprohpc-check/test_workflow_limit_failure_an1/limits.config
+Sep-14 19:41:08.764 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `slurm`
+Sep-14 19:41:09.899 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `slurm`
+Sep-14 19:41:09.967 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [slurm, test, slurm_scalar, local]
+Sep-14 19:41:10.026 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Sep-14 19:41:10.026 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Sep-14 19:41:10.056 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/researcher/.nextflow/secrets/store.json
+Sep-14 19:41:10.062 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6ed922e1] - activable => nextflow.secret.LocalSecretsProvider@6ed922e1
+Sep-14 19:41:10.070 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Sep-14 19:41:10.099 [main] INFO  nextflow.cli.CmdRun - Launching `/workspace/main.nf` [wise_boyd] DSL2 - revision: 9dc8d37637
+Sep-14 19:41:10.179 [main] DEBUG nextflow.Session - Session UUID: 6948dcd2-c774-4787-a8b0-474f03663824
+Sep-14 19:41:10.179 [main] DEBUG nextflow.Session - Run name: wise_boyd
+Sep-14 19:41:10.180 [main] DEBUG nextflow.Session - Executor pool size: 12
+Sep-14 19:41:10.191 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Sep-14 19:41:10.201 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=36; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Sep-14 19:41:10.235 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.10.4 build 11177
+  Created: 10-02-2026 17:12 UTC 
+  System: Linux 6.18.33.2-microsoft-standard-WSL2
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.12+8-1-24.04-Ubuntu
+  Encoding: UTF-8 (UTF-8)
+  Process: 200036@reprohpc-lab [127.0.0.1]
+  CPUs: 12 - Mem: 7.6 GB (4.2 GB) - Swap: 2 GB (2 GB)
+Sep-14 19:41:10.284 [main] DEBUG nextflow.Session - Work-dir: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work [ext2/ext3]
+Sep-14 19:41:10.286 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /workspace/bin
+Sep-14 19:41:10.299 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Sep-14 19:41:10.315 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Sep-14 19:41:10.322 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+Sep-14 19:41:10.420 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Sep-14 19:41:10.433 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 13; maxThreads: 1000
+Sep-14 19:41:10.520 [main] DEBUG nextflow.Session - Session start
+Sep-14 19:41:10.527 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /scratch/reprohpc-check/test_workflow_limit_failure_an1/failed/provenance/trace.tsv
+Sep-14 19:41:11.084 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Sep-14 19:41:11.906 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Sep-14 19:41:11.907 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Sep-14 19:41:11.943 [main] DEBUG nextflow.executor.Executor - [warm up] executor > slurm
+Sep-14 19:41:11.966 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'slurm' > capacity: 8; pollInterval: 5s; dumpInterval: 5m 
+Sep-14 19:41:11.972 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: slurm)
+Sep-14 19:41:11.974 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 1 submissions per 1 seconds
+Sep-14 19:41:11.979 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'slurm' > queue-stat-interval: 1m
+Sep-14 19:41:12.024 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'VALIDATE_DATASET': maxForks=0; fair=false; array=0
+Sep-14 19:41:12.224 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:ANALYZE_BATCH` matches process ANALYZE_BATCH
+Sep-14 19:41:12.228 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Sep-14 19:41:12.229 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Sep-14 19:41:12.242 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ANALYZE_BATCH': maxForks=8; fair=false; array=4
+Sep-14 19:41:12.275 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Sep-14 19:41:12.276 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Sep-14 19:41:12.278 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'AGGREGATE': maxForks=0; fair=false; array=0
+Sep-14 19:41:12.286 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Sep-14 19:41:12.287 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Sep-14 19:41:12.288 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'REPORT': maxForks=0; fair=false; array=0
+Sep-14 19:41:12.294 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: ANALYZE_BATCH, AGGREGATE, VALIDATE_DATASET, REPORT
+Sep-14 19:41:12.301 [main] DEBUG nextflow.Session - Igniting dataflow network (4)
+Sep-14 19:41:12.303 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > VALIDATE_DATASET
+Sep-14 19:41:12.305 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ANALYZE_BATCH
+Sep-14 19:41:12.307 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > AGGREGATE
+Sep-14 19:41:12.308 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > REPORT
+Sep-14 19:41:12.310 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_8206e768df477e7f: /workspace/modules/local/report.nf
+  Script_2137dc01860f9fd4: /workspace/modules/local/aggregate.nf
+  Script_6cc5ba90e8adc7ec: /workspace/modules/local/analyze_batch.nf
+  Script_cc6cd6ba808bef7e: /workspace/modules/local/validate.nf
+  Script_26027d724c330979: /workspace/main.nf
+Sep-14 19:41:12.311 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Sep-14 19:41:12.311 [main] DEBUG nextflow.Session - Session await
+Sep-14 19:41:12.702 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process VALIDATE_DATASET > jobId: 155; workDir: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/17/d7514601686b4cd089a19c4ad5c63f
+Sep-14 19:41:12.703 [Task submitter] INFO  nextflow.Session - [17/d75146] Submitted process > VALIDATE_DATASET
+Sep-14 19:41:16.983 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 155; id: 1; name: VALIDATE_DATASET; status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/17/d7514601686b4cd089a19c4ad5c63f started: 1789414876979; exited: 2026-09-14T19:41:14.099743869Z; ]
+Sep-14 19:41:16.984 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=36; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Sep-14 19:41:17.160 [Actor Thread 6] DEBUG n.processor.TaskArrayCollector - Creating task array run >> /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/91/cfba210a07bb275223c2aebbedecc6
+array=( /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/ce/ef8a332ed8dd5d1306b29feecad884 /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362 /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/e6/16f506a705cfa09697753fa8e04474 )
+export nxf_array_task_dir=${array[SLURM_ARRAY_TASK_ID]}
+bash $nxf_array_task_dir/.command.run 2>&1 > $nxf_array_task_dir/.command.log
+
+Sep-14 19:41:17.189 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process ANALYZE_BATCH (1) > jobId: 156; workDir: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/91/cfba210a07bb275223c2aebbedecc6
+Sep-14 19:41:17.190 [Task submitter] INFO  nextflow.Session - [ce/ef8a33] Submitted process > ANALYZE_BATCH (batch-000001)
+Sep-14 19:41:17.192 [Task submitter] INFO  nextflow.Session - [52/81b062] Submitted process > ANALYZE_BATCH (batch-000000)
+Sep-14 19:41:17.194 [Task submitter] INFO  nextflow.Session - [e6/16f506] Submitted process > ANALYZE_BATCH (batch-000002)
+Sep-14 19:41:31.981 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 156_0; id: 3; name: ANALYZE_BATCH (batch-000001); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/ce/ef8a332ed8dd5d1306b29feecad884 started: 1789414881980; exited: 2026-09-14T19:41:27.40239566Z; ]
+Sep-14 19:41:32.014 [TaskFinalizer-2] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'PublishDir' minSize=10; maxSize=36; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Sep-14 19:41:41.984 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 156_2; id: 4; name: ANALYZE_BATCH (batch-000002); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/e6/16f506a705cfa09697753fa8e04474 started: 1789414891982; exited: 2026-09-14T19:41:37.340101612Z; ]
+Sep-14 19:42:31.985 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 156_1; id: 2; name: ANALYZE_BATCH (batch-000000); status: COMPLETED; exit: 143; error: -; workDir: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362 started: 1789414881994; exited: 2026-09-14T19:42:28.011658163Z; ]
+Sep-14 19:42:31.995 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=ANALYZE_BATCH (batch-000000); work-dir=/scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362
+  error [nextflow.exception.ProcessFailedException]: Process `ANALYZE_BATCH (batch-000000)` terminated with an error exit status (143)
+Sep-14 19:42:32.012 [TaskFinalizer-4] DEBUG nextflow.processor.TaskRun - Unable to dump output of process 'ANALYZE_BATCH (batch-000000)' -- Cause: java.nio.file.NoSuchFileException: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362/.command.out
+Sep-14 19:42:32.013 [TaskFinalizer-4] DEBUG nextflow.processor.TaskRun - Unable to dump error of process 'ANALYZE_BATCH (batch-000000)' -- Cause: java.nio.file.NoSuchFileException: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362/.command.err
+Sep-14 19:42:32.024 [TaskFinalizer-4] ERROR nextflow.processor.TaskProcessor - Error executing process > 'ANALYZE_BATCH (batch-000000)'
+
+Caused by:
+  Process `ANALYZE_BATCH (batch-000000)` terminated with an error exit status (143)
+
+
+Command executed:
+
+  python -m reprohpc.task analyze --spec-b64 'eyJiYXRjaF9pZCI6ImJhdGNoLTAwMDAwMCIsInNhbXBsZXMiOlt7ImNoYW5uZWxzIjoxLCJkdHlwZSI6InVpbnQ4IiwiaGVpZ2h0Ijo2NCwicGF0aCI6ImltYWdlcy9hYm92ZS5wbmciLCJzYW1wbGVfaWQiOiJhYm92ZSIsInNjaGVtYV92ZXJzaW9uIjoiMS4wLjAiLCJzaGEyNTYiOiI4MWY3ZWNlOTdhZTVlZTZmOWMxZmQ2MmQ5NDQwNTViOTc0Yjg3OWFjZGE5ODc3YzM0OWM4NjAyZWNhZjRmNzU1Iiwic2l6ZV9ieXRlcyI6MTgyLCJ3aWR0aCI6NjR9LHsiY2hhbm5lbHMiOjEsImR0eXBlIjoidWludDgiLCJoZWlnaHQiOjY0LCJwYXRoIjoiaW1hZ2VzL2JsYW5rLnBuZyIsInNhbXBsZV9pZCI6ImJsYW5rIiwic2NoZW1hX3ZlcnNpb24iOiIxLjAuMCIsInNoYTI1NiI6ImFhZDQxZDYzYzUzYWU2YTFjYmYwNjhlMjRjNDIwZGRhZWZlYjYxODJiZjJhMjIyZmY5YjdhOTRkNzhjNDRkZjIiLCJzaXplX2J5dGVzIjoxNTcsIndpZHRoIjo2NH0seyJjaGFubmVscyI6MSwiZHR5cGUiOiJ1aW50OCIsImhlaWdodCI6NjQsInBhdGgiOiJpbWFnZXMvYm9yZGVyLnBuZyIsInNhbXBsZV9pZCI6ImJvcmRlciIsInNjaGVtYV92ZXJzaW9uIjoiMS4wLjAiLCJzaGEyNTYiOiIzYTNjM2UwZDA0MGY1ZmI3MDA3YTQzYTQ2YThmZGRhMWQxMjRmZDQ1NTQ2MmQ0NjE1Y2YwNWM5NzFiNThiNmM1Iiwic2l6ZV9ieXRlcyI6MTkyLCJ3aWR0aCI6NjR9LHsiY2hhbm5lbHMiOjEsImR0eXBlIjoidWludDgiLCJoZWlnaHQiOjY0LCJwYXRoIjoiaW1hZ2VzL2RpYWdvbmFsLnBuZyIsInNhbXBsZV9pZCI6ImRpYWdvbmFsIiwic2NoZW1hX3ZlcnNpb24iOiIxLjAuMCIsInNoYTI1NiI6IjExZmE5NDMxYzBhZjJmYzVhNzVmOTk3YzdmMmE4YWRlZDg0NTZlZWQzN2NkYzE3NmFjYjQxODJkMzNlYmU2ZGYiLCJzaXplX2J5dGVzIjoyNjMsIndpZHRoIjo2NH1dLCJwYXJhbXMiOnsiYmF0Y2hfc2l6ZSI6NCwiY29ubmVjdGl2aXR5Ijo4LCJzZWVkIjo0MiwibWluX2FyZWFfcHgiOjIwLCJnYXVzc2lhbl9rZXJuZWwiOjUsInRocmVzaG9sZCI6MTI3LCJ3cml0ZV9wcmV2aWV3cyI6dHJ1ZSwiZ2F1c3NpYW5fc2lnbWEiOjEuMCwiYWxnb3JpdGhtIjoiZGVtby1jdi12MSJ9LCJjYWxpYnJhdGlvbiI6eyJwaXhlbF9zaXplX3VtIjowLjUsInNjaGVtYV92ZXJzaW9uIjoiMS4wLjAiLCJ1bml0IjoidW0ifSwicmVmZXJlbmNlX3NoYTI1NiI6ImRlZDIxNjVmOTAwZmEwNzMxNjc1OGFhMGMwNTgyNDZhNjE0NmJlOGQ5MGI1YzMxZWQwYWQ5Y2Q1MGE2NjUyMGYiLCJzaWZfc2hhMjU2IjoiNzA1NmFhMWQ3NWYwMDYyYzNmNzM4M2UwZDFiYzY5NWM2NWY3YzIzMmVkZWJkYjVhNjMwNzE0OWVjYTZmYjg0OSJ9' --output result image*.png
+
+Command exit status:
+  143
+
+Command output:
+  (empty)
+
+Work dir:
+  /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362
+
+Container:
+  /scratch/reprohpc-candidate-5.sif
+
+Tip: view the complete command output by changing to the process work dir and entering the command `cat .command.out`
+Sep-14 19:42:32.029 [TaskFinalizer-4] DEBUG nextflow.Session - Session aborted -- Cause: Process `ANALYZE_BATCH (batch-000000)` terminated with an error exit status (143)
+Sep-14 19:42:32.050 [TaskFinalizer-4] DEBUG nextflow.Session - The following nodes are still active:
+[process] REPORT
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: summary
+  port 1: (value) bound ; channel: batches
+  port 2: (cntrl) -     ; channel: $
+
+Sep-14 19:42:32.055 [TaskFinalizer-4] DEBUG nextflow.processor.TaskRun - Unable to dump error of process 'ANALYZE_BATCH (batch-000000)' -- Cause: java.nio.file.NoSuchFileException: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362/.command.err
+Sep-14 19:42:32.055 [TaskFinalizer-4] DEBUG nextflow.processor.TaskRun - Unable to dump output of process 'ANALYZE_BATCH (batch-000000)' -- Cause: java.nio.file.NoSuchFileException: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362/.command.out
+Sep-14 19:42:32.067 [TaskFinalizer-4] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=3; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=1; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=3.1s; failedDuration=1m 10s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=3; peakCpus=3; peakMemory=6 GB; ]
+Sep-14 19:42:32.085 [TaskFinalizer-4] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+Sep-14 19:42:32.749 [TaskFinalizer-4] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+Sep-14 19:42:32.865 [TaskFinalizer-4] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+Sep-14 19:42:32.875 [TaskFinalizer-4] DEBUG nextflow.processor.TaskRun - Unable to dump error of process 'ANALYZE_BATCH (batch-000000)' -- Cause: java.nio.file.NoSuchFileException: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362/.command.err
+Sep-14 19:42:32.876 [TaskFinalizer-4] DEBUG nextflow.processor.TaskRun - Unable to dump output of process 'ANALYZE_BATCH (batch-000000)' -- Cause: java.nio.file.NoSuchFileException: /scratch/reprohpc-check/test_workflow_limit_failure_an1/work/52/81b0626fe763ff572fe2662a98c362/.command.out
+Sep-14 19:42:32.879 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: slurm) - terminating tasks monitor poll loop
+Sep-14 19:42:32.879 [main] DEBUG nextflow.Session - Session await > all processes finished
+Sep-14 19:42:32.879 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Sep-14 19:42:32.885 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=3; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=1; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=3.1s; failedDuration=1m 10s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=3; peakCpus=3; peakMemory=6 GB; ]
+Sep-14 19:42:32.894 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+Sep-14 19:42:33.753 [main] WARN  nextflow.trace.ReportObserver - Failed to render execution report -- see the log file for details
+nextflow.exception.AbortOperationException: Report file already exists: /scratch/reprohpc-check/test_workflow_limit_failure_an1/failed/provenance/report.html -- enable the 'report.overwrite' option in your config file to overwrite existing files
+	at nextflow.trace.TraceHelper.newFileWriter(TraceHelper.groovy:67)
+	at nextflow.trace.ReportObserver.renderHtml(ReportObserver.groovy:243)
+	at nextflow.trace.ReportObserver.onFlowComplete(ReportObserver.groovy:129)
+	at nextflow.Session$_notifyFlowComplete_lambda39.doCall(Session.groovy:1121)
+	at nextflow.Session.notifyEvent(Session.groovy:1151)
+	at nextflow.Session.notifyFlowComplete(Session.groovy:1121)
+	at nextflow.Session.shutdown0(Session.groovy:779)
+	at nextflow.Session.destroy(Session.groovy:724)
+	at nextflow.script.ScriptRunner.shutdown(ScriptRunner.groovy:263)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:147)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:429)
+	at nextflow.cli.Launcher.run(Launcher.groovy:515)
+	at nextflow.cli.Launcher.main(Launcher.groovy:675)
+Caused by: java.nio.file.FileAlreadyExistsException: /scratch/reprohpc-check/test_workflow_limit_failure_an1/failed/provenance/report.html
+	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:94)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
+	at java.base/sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261)
+	at java.base/java.nio.file.spi.FileSystemProvider.newOutputStream(FileSystemProvider.java:482)
+	at java.base/java.nio.file.Files.newOutputStream(Files.java:228)
+	at java.base/java.nio.file.Files.newBufferedWriter(Files.java:3001)
+	at nextflow.trace.TraceHelper.newFileWriter(TraceHelper.groovy:64)
+	... 12 common frames omitted
+Sep-14 19:42:33.756 [main] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+Sep-14 19:42:33.833 [main] WARN  nextflow.trace.TimelineObserver - Failed to render execution timeline -- see the log file for details
+nextflow.exception.AbortOperationException: Timeline file already exists: /scratch/reprohpc-check/test_workflow_limit_failure_an1/failed/provenance/timeline.html -- enable the 'timeline.overwrite' option in your config file to overwrite existing files
+	at nextflow.trace.TraceHelper.newFileWriter(TraceHelper.groovy:67)
+	at nextflow.trace.TimelineObserver.renderHtml(TimelineObserver.groovy:164)
+	at nextflow.trace.TimelineObserver.onFlowComplete(TimelineObserver.groovy:91)
+	at nextflow.Session$_notifyFlowComplete_lambda39.doCall(Session.groovy:1121)
+	at nextflow.Session.notifyEvent(Session.groovy:1151)
+	at nextflow.Session.notifyFlowComplete(Session.groovy:1121)
+	at nextflow.Session.shutdown0(Session.groovy:779)
+	at nextflow.Session.destroy(Session.groovy:724)
+	at nextflow.script.ScriptRunner.shutdown(ScriptRunner.groovy:263)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:147)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:429)
+	at nextflow.cli.Launcher.run(Launcher.groovy:515)
+	at nextflow.cli.Launcher.main(Launcher.groovy:675)
+Caused by: java.nio.file.FileAlreadyExistsException: /scratch/reprohpc-check/test_workflow_limit_failure_an1/failed/provenance/timeline.html
+	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:94)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
+	at java.base/sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261)
+	at java.base/java.nio.file.spi.FileSystemProvider.newOutputStream(FileSystemProvider.java:482)
+	at java.base/java.nio.file.Files.newOutputStream(Files.java:228)
+	at java.base/java.nio.file.Files.newBufferedWriter(Files.java:3001)
+	at nextflow.trace.TraceHelper.newFileWriter(TraceHelper.groovy:64)
+	... 12 common frames omitted
+Sep-14 19:42:33.834 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+Sep-14 19:42:33.840 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Sep-14 19:42:33.858 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

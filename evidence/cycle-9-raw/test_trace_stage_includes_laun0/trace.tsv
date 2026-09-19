@@ -1,0 +1,3 @@
+process	status	submit	start	complete	realtime
+ANALYZE_BATCH	CACHED	1000	2000	6000	4000
+ANALYZE_BATCH	COMPLETED	2000	4000	7000	3000

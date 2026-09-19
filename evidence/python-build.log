@@ -1,0 +1,193 @@
+* Creating isolated environment: venv+pip...
+* Installing packages in isolated environment:
+  - setuptools==80.9.0
+  - wheel==0.45.1
+* Getting build dependencies for sdist...
+running egg_info
+writing src/reprohpc.egg-info/PKG-INFO
+writing dependency_links to src/reprohpc.egg-info/dependency_links.txt
+writing entry points to src/reprohpc.egg-info/entry_points.txt
+writing requirements to src/reprohpc.egg-info/requires.txt
+writing top-level names to src/reprohpc.egg-info/top_level.txt
+reading manifest file 'src/reprohpc.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/reprohpc.egg-info/SOURCES.txt'
+* Building sdist...
+running sdist
+running egg_info
+writing src/reprohpc.egg-info/PKG-INFO
+writing dependency_links to src/reprohpc.egg-info/dependency_links.txt
+writing entry points to src/reprohpc.egg-info/entry_points.txt
+writing requirements to src/reprohpc.egg-info/requires.txt
+writing top-level names to src/reprohpc.egg-info/top_level.txt
+reading manifest file 'src/reprohpc.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/reprohpc.egg-info/SOURCES.txt'
+running check
+creating reprohpc-0.1.0
+creating reprohpc-0.1.0/src/reprohpc
+creating reprohpc-0.1.0/src/reprohpc.egg-info
+creating reprohpc-0.1.0/src/reprohpc/schemas
+copying files to reprohpc-0.1.0...
+copying LICENSE -> reprohpc-0.1.0
+copying README.md -> reprohpc-0.1.0
+copying pyproject.toml -> reprohpc-0.1.0
+copying src/reprohpc/__init__.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/archive.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/cli.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/config.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/data.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/errors.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/io.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/metadata.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/provenance.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/schema.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/science.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc/task.py -> reprohpc-0.1.0/src/reprohpc
+copying src/reprohpc.egg-info/PKG-INFO -> reprohpc-0.1.0/src/reprohpc.egg-info
+copying src/reprohpc.egg-info/SOURCES.txt -> reprohpc-0.1.0/src/reprohpc.egg-info
+copying src/reprohpc.egg-info/dependency_links.txt -> reprohpc-0.1.0/src/reprohpc.egg-info
+copying src/reprohpc.egg-info/entry_points.txt -> reprohpc-0.1.0/src/reprohpc.egg-info
+copying src/reprohpc.egg-info/requires.txt -> reprohpc-0.1.0/src/reprohpc.egg-info
+copying src/reprohpc.egg-info/top_level.txt -> reprohpc-0.1.0/src/reprohpc.egg-info
+copying src/reprohpc/schemas/analysis.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/calibration.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/dataset.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/metrics.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/output.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/params.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/reference.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/release.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/run.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/sample.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/status.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/summary.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc/schemas/task.json -> reprohpc-0.1.0/src/reprohpc/schemas
+copying src/reprohpc.egg-info/SOURCES.txt -> reprohpc-0.1.0/src/reprohpc.egg-info
+Writing reprohpc-0.1.0/setup.cfg
+Creating tar archive
+removing 'reprohpc-0.1.0' (and everything under it)
+* Building wheel from sdist
+* Creating isolated environment: venv+pip...
+* Installing packages in isolated environment:
+  - setuptools==80.9.0
+  - wheel==0.45.1
+* Getting build dependencies for wheel...
+running egg_info
+writing src/reprohpc.egg-info/PKG-INFO
+writing dependency_links to src/reprohpc.egg-info/dependency_links.txt
+writing entry points to src/reprohpc.egg-info/entry_points.txt
+writing requirements to src/reprohpc.egg-info/requires.txt
+writing top-level names to src/reprohpc.egg-info/top_level.txt
+reading manifest file 'src/reprohpc.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/reprohpc.egg-info/SOURCES.txt'
+* Building wheel...
+running bdist_wheel
+running build
+running build_py
+creating build/lib/reprohpc
+copying src/reprohpc/data.py -> build/lib/reprohpc
+copying src/reprohpc/__init__.py -> build/lib/reprohpc
+copying src/reprohpc/task.py -> build/lib/reprohpc
+copying src/reprohpc/provenance.py -> build/lib/reprohpc
+copying src/reprohpc/archive.py -> build/lib/reprohpc
+copying src/reprohpc/io.py -> build/lib/reprohpc
+copying src/reprohpc/errors.py -> build/lib/reprohpc
+copying src/reprohpc/schema.py -> build/lib/reprohpc
+copying src/reprohpc/cli.py -> build/lib/reprohpc
+copying src/reprohpc/science.py -> build/lib/reprohpc
+copying src/reprohpc/metadata.py -> build/lib/reprohpc
+copying src/reprohpc/config.py -> build/lib/reprohpc
+running egg_info
+writing src/reprohpc.egg-info/PKG-INFO
+writing dependency_links to src/reprohpc.egg-info/dependency_links.txt
+writing entry points to src/reprohpc.egg-info/entry_points.txt
+writing requirements to src/reprohpc.egg-info/requires.txt
+writing top-level names to src/reprohpc.egg-info/top_level.txt
+reading manifest file 'src/reprohpc.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'src/reprohpc.egg-info/SOURCES.txt'
+creating build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/dataset.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/analysis.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/metrics.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/task.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/calibration.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/release.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/reference.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/run.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/summary.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/output.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/sample.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/params.json -> build/lib/reprohpc/schemas
+copying src/reprohpc/schemas/status.json -> build/lib/reprohpc/schemas
+installing to build/bdist.linux-x86_64/wheel
+running install
+running install_lib
+creating build/bdist.linux-x86_64/wheel
+creating build/bdist.linux-x86_64/wheel/reprohpc
+copying build/lib/reprohpc/data.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/__init__.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/task.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/provenance.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/archive.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/io.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/errors.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/schema.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/cli.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/science.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/metadata.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+copying build/lib/reprohpc/config.py -> build/bdist.linux-x86_64/wheel/./reprohpc
+creating build/bdist.linux-x86_64/wheel/reprohpc/schemas
+copying build/lib/reprohpc/schemas/dataset.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/analysis.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/metrics.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/task.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/calibration.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/release.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/reference.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/run.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/summary.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/output.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/sample.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/params.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+copying build/lib/reprohpc/schemas/status.json -> build/bdist.linux-x86_64/wheel/./reprohpc/schemas
+running install_egg_info
+Copying src/reprohpc.egg-info to build/bdist.linux-x86_64/wheel/./reprohpc-0.1.0-py3.12.egg-info
+running install_scripts
+creating build/bdist.linux-x86_64/wheel/reprohpc-0.1.0.dist-info/WHEEL
+creating '/workspace/dist/.tmp-p9t6pkny/reprohpc-0.1.0-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+adding 'reprohpc/__init__.py'
+adding 'reprohpc/archive.py'
+adding 'reprohpc/cli.py'
+adding 'reprohpc/config.py'
+adding 'reprohpc/data.py'
+adding 'reprohpc/errors.py'
+adding 'reprohpc/io.py'
+adding 'reprohpc/metadata.py'
+adding 'reprohpc/provenance.py'
+adding 'reprohpc/schema.py'
+adding 'reprohpc/science.py'
+adding 'reprohpc/task.py'
+adding 'reprohpc/schemas/analysis.json'
+adding 'reprohpc/schemas/calibration.json'
+adding 'reprohpc/schemas/dataset.json'
+adding 'reprohpc/schemas/metrics.json'
+adding 'reprohpc/schemas/output.json'
+adding 'reprohpc/schemas/params.json'
+adding 'reprohpc/schemas/reference.json'
+adding 'reprohpc/schemas/release.json'
+adding 'reprohpc/schemas/run.json'
+adding 'reprohpc/schemas/sample.json'
+adding 'reprohpc/schemas/status.json'
+adding 'reprohpc/schemas/summary.json'
+adding 'reprohpc/schemas/task.json'
+adding 'reprohpc-0.1.0.dist-info/licenses/LICENSE'
+adding 'reprohpc-0.1.0.dist-info/METADATA'
+adding 'reprohpc-0.1.0.dist-info/WHEEL'
+adding 'reprohpc-0.1.0.dist-info/entry_points.txt'
+adding 'reprohpc-0.1.0.dist-info/top_level.txt'
+adding 'reprohpc-0.1.0.dist-info/RECORD'
+removing build/bdist.linux-x86_64/wheel
+Successfully built reprohpc-0.1.0.tar.gz and reprohpc-0.1.0-py3-none-any.whl

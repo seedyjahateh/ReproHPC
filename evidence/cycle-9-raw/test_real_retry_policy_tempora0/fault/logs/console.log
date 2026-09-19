@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [prickly_golick] DSL2 - revision: 9dc8d37637
+[f9/8b5b75] Submitted process > VALIDATE_DATASET
+[5f/4dd2d7] Submitted process > ANALYZE_BATCH (batch-000000)
+[5f/4dd2d7] NOTE: Process `ANALYZE_BATCH (batch-000000)` terminated with an error exit status (75) -- Execution is retried (1)
+[88/2de92f] Re-submitted process > ANALYZE_BATCH (batch-000000)
+[29/d3617f] Submitted process > AGGREGATE
+[90/3cea23] Submitted process > REPORT

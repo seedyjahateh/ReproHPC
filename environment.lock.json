@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "nextflow": "25.10.4",
+  "apptainer": "1.5.3",
+  "python_host_tested": "3.12.12",
+  "assets": [
+    {
+      "name": "apptainer_1.5.3_amd64.deb",
+      "url": "https://github.com/apptainer/apptainer/releases/download/v1.5.3/apptainer_1.5.3_amd64.deb",
+      "sha256": "82b0bdddf459087d202383360b8318d526ad6826c748a2f669913cc6aef9ee40"
+    },
+    {
+      "name": "nextflow-25.10.4-dist",
+      "url": "https://github.com/nextflow-io/nextflow/releases/download/v25.10.4/nextflow-25.10.4-dist",
+      "sha256": "60db869a7618783e3ee60183a2b0c6c50ffc67221eabec60800b904991786aaa"
+    }
+  ]
+}

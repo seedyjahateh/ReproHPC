@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Cite the exact published version DOI when available. This is an unpublished development version."
+title: "ReproHPC: reproducible scientific image analysis"
+type: software
+authors:
+  - name: "seedyjahateh"
+repository-code: "https://github.com/seedyjahateh/ReproHPC"
+version: "0.1.0"
+license: MIT
+date-released: "2026-09-12"
+abstract: "A Nextflow DSL2 image-analysis workflow using Apptainer and Slurm, with versioned synthetic data and verifiable provenance."

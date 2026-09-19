@@ -1,0 +1,21 @@
+# Benchmark protocol
+
+Performance gates require a dedicated, otherwise idle allocation with at least eight logical CPUs, 16 GiB RAM, and 100 GiB free disk. Docker scheduling on one machine is not physical multinode scaling. The current shared Docker Desktop host does not qualify; report measurements there as diagnostic only.
+
+The small lab advertises only 4096 MiB of Slurm worker memory, so default 2-GiB requests allow at most two simultaneous analysis jobs. For a qualified dedicated host, configure at least 8192 MiB of allocatable worker memory in the `NodeName=worker` line before starting Slurm, leaving memory for the driver and services; alternatively use a measured smaller fixed request through site configuration. Verify that four jobs can actually run concurrently. Merely increasing `--max-inflight` or selecting `bench4` cannot overcome the worker's memory capacity. Do not increase this lab allocation on the current undersized shared host.
+
+Install plotting dependencies with `pip install --require-hashes -r requirements-benchmark.lock`. Generate a new immutable workload using `python scripts/generate_workload.py --count 256 --size 2048 --output /shared/workload`. Point a copied scientific YAML at its descriptor and manifest, then run `python scripts/benchmark.py --help` for the exact invocation. The benchmark uses the site's `bench1`, `bench2`, and `bench4` QoS limits; the disposable lab provisions them. A different site must provision equivalent limits before running this harness.
+
+The harness records a preparation identity, three direct serial baseline measurements in real one-CPU Slurm jobs, randomized trial order, raw traces/accounting, `trials.json`, `scaling.csv`, `summary.json`, and an exportable `scaling.png`. `--diagnostic` explicitly labels nonqualifying conditions and returns nonzero for release acceptance. `--memory-rationale` points to a reviewed explanation when measured worst-case or site-minimum sizing justifies low typical utilization. Never use the mathematical chart unit fixture under `evidence/` as measured scaling evidence.
+
+Freeze the image manifest, source commit, SIF SHA-256, reference, scientific parameters, batch size, CPU model, memory, storage path/type, and software inventory. Start with at least 256 representative images. Increase the real workload until direct serial analysis takes at least 120 seconds. Never add sleeps, redundant analysis, or repeated output-free calculations to make speedup appear favorable.
+
+Use worker budgets C=1,2,4 with one CPU/thread per task. Slurm QoS `bench1`, `bench2`, and `bench4` cap running jobs for the lab user; select array size min(4,C), fixed batch size, and the matching max-inflight value. No other runs by that user may overlap. Randomize three uncached trials at each C and preserve the order. Reuse prepared files, label filesystem-cache conditions, and report preparation time separately.
+
+For each trial measure the first analysis submission to final analysis completion from the raw trace, full driver walltime, stage durations, queue wait, and storage bytes. From three timings calculate median and range, speedup S_C=T_1/T_C, efficiency E_C=S_C/C. Preserve all raw values; cached runs are resume tests and never scaling evidence.
+
+Run the same direct serial containerized Python routine with identical output writes three times. One-worker analysis/serial overhead must be <=1.25. Target S_4>=2.8 and E_4>=0.70, with full workflow faster at four workers. Include validation/aggregation fractions so serial stages remain visible.
+
+Use matching Slurm accounting scopes: parent allocation for requested resources, `.batch` for CPU time and peak RSS when available. Do not add parent and child peak memory. CPU efficiency is TotalCPU/(Elapsed*AllocCPUS); preserve missing values and reasons. Targets are median CPU efficiency >=70%, 95% of tasks <=80% requested memory, and median peak RSS >=20% request or a measured site-minimum/worst-case explanation.
+
+Separately measure a 4096x4096 image and streaming aggregation of 1,000,000 rows. Planning on 10,000 records proves planning only; at least 256 images must execute end to end. Keep maximum-size fixture measurements separate from typical-task memory sizing. Retain an exportable chart and machine-readable raw measurements with the release.

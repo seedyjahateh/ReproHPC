@@ -1,0 +1,17 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [irreverent_brattain] DSL2 - revision: 9dc8d37637
+[26/8995fe] Submitted process > VALIDATE_DATASET
+[eb/9b4c87] Submitted process > ANALYZE_BATCH (batch-000005)
+[ee/08a386] Submitted process > ANALYZE_BATCH (batch-000003)
+[a8/3b36c4] Submitted process > ANALYZE_BATCH (batch-000010)
+[2c/fa9798] Submitted process > ANALYZE_BATCH (batch-000011)
+[03/31f710] Submitted process > ANALYZE_BATCH (batch-000004)
+[4c/7650ce] Submitted process > ANALYZE_BATCH (batch-000000)
+[12/4b2a21] Submitted process > ANALYZE_BATCH (batch-000008)
+[c3/b7a1a1] Submitted process > ANALYZE_BATCH (batch-000002)
+[40/5cc5b6] Submitted process > ANALYZE_BATCH (batch-000006)
+[cf/7aecd5] Submitted process > ANALYZE_BATCH (batch-000007)
+[15/724905] Submitted process > ANALYZE_BATCH (batch-000001)
+[5c/2dadd7] Submitted process > ANALYZE_BATCH (batch-000009)
+[cb/cd371b] Submitted process > AGGREGATE
+[d3/4e0170] Submitted process > REPORT

@@ -1,0 +1,15 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [awesome_newton] DSL2 - revision: 9dc8d37637
+[10/606494] Submitted process > VALIDATE_DATASET
+[c6/1b5ec7] Submitted process > ANALYZE_BATCH (batch-000005)
+[47/25648a] Submitted process > ANALYZE_BATCH (batch-000008)
+[43/c1e152] Submitted process > ANALYZE_BATCH (batch-000006)
+[76/aa652c] Submitted process > ANALYZE_BATCH (batch-000000)
+[d9/f4dbda] Submitted process > ANALYZE_BATCH (batch-000009)
+[b6/541864] Submitted process > ANALYZE_BATCH (batch-000007)
+[97/a53d7c] Submitted process > ANALYZE_BATCH (batch-000003)
+[30/94bfb1] Submitted process > ANALYZE_BATCH (batch-000001)
+[d8/6be8fc] Submitted process > ANALYZE_BATCH (batch-000002)
+[42/bfd59d] Submitted process > ANALYZE_BATCH (batch-000004)
+[7c/606e24] Submitted process > AGGREGATE
+[bb/bf18b9] Submitted process > REPORT

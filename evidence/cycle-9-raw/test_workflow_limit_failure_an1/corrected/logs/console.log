@@ -1,0 +1,8 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [tiny_saha] DSL2 - revision: 9dc8d37637
+[0d/590f20] Submitted process > VALIDATE_DATASET
+[ce/ef8a33] Cached process > ANALYZE_BATCH (batch-000001)
+[e6/16f506] Cached process > ANALYZE_BATCH (batch-000002)
+[c0/537078] Submitted process > ANALYZE_BATCH (batch-000000)
+[e9/550234] Submitted process > AGGREGATE
+[cf/27b0b7] Submitted process > REPORT

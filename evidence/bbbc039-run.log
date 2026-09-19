@@ -1,0 +1,43 @@
+Run bc09f84f-7900-4c64-9098-4aeb8f0c52e6
+Output: /scratch/bbbc039-run-9/run
+Status: success; session: c42ed63d-79a0-4b8f-98a3-6283ad3a471d; report: /scratch/bbbc039-run-9/run/report/index.html
+Resume: /workspace/reprohpc run --profile local --params-file /scratch/bbbc039-run-9/run/provenance/params.resolved.json --sif /scratch/reprohpc-candidate-9.sif --sif-sha256 dc501aabf7ad753d6311a1091eed379c9925975063bf47aa9ca903bef7fc413b --resume c42ed63d-79a0-4b8f-98a3-6283ad3a471d --outdir /scratch/bbbc039-run-9/run-resumed --work-dir /scratch/bbbc039-run-9/work --launch-dir /scratch/bbbc039-run-9/launch --partition demo --account '' --qos '' --array-size 4 --max-inflight 8 --analysis-memory '2 GB' --analysis-time '10 min'
+{
+  "kind": "bbbc039-ground-truth-agreement",
+  "run_id": "bc09f84f-7900-4c64-9098-4aeb8f0c52e6",
+  "dataset": "BBBC039v1 U2OS nuclei, 8-bit conversion",
+  "parameters": {
+    "threshold": 25,
+    "min_area_px": 50,
+    "gaussian_kernel": 5,
+    "connectivity": 8
+  },
+  "metric": "nuclei per image: connected components of the published mask vs objects reported by demo-cv-v1",
+  "limitation": "No instance matching or splitting of touching nuclei; area agreement is reported separately.",
+  "splits": {
+    "tuning": {
+      "images": 100,
+      "expected_nuclei": 9923,
+      "observed_objects": 9286,
+      "median_signed_error": -6.0,
+      "median_absolute_error": 6.0,
+      "median_ratio_observed_over_expected": 0.9396,
+      "within_10_percent": 78.6,
+      "images_undercounted": 93,
+      "images_overcounted": 5,
+      "median_foreground_area_ratio": 0.9433
+    },
+    "held_out": {
+      "images": 100,
+      "expected_nuclei": 9642,
+      "observed_objects": 8989,
+      "median_signed_error": -5.0,
+      "median_absolute_error": 5.0,
+      "median_ratio_observed_over_expected": 0.9367,
+      "within_10_percent": 80.8,
+      "images_undercounted": 98,
+      "images_overcounted": 0,
+      "median_foreground_area_ratio": 0.9143
+    }
+  }
+}

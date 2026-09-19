@@ -1,0 +1,2 @@
+task_id	process	hash	status	attempt	native_id	cpus	memory	time	exit	workdir
+1	VALIDATE_DATASET	ab/1234	COMPLETED	1	-	1	1024	60	0	/scratch/reprohpc-check/test_trace_parsing_and_diagnos0/work

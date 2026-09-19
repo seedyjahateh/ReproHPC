@@ -1,0 +1,18 @@
+{
+  "kind": "author-visual-inspection",
+  "candidate": 4,
+  "renderer": "existing Chrome headless, isolated profile",
+  "viewport": [
+    1280,
+    1500
+  ],
+  "html_sha256": "e7d539499b9a7d2743e9af01c1b5150f3d3fc365901e104ade79c23a91afb5ad",
+  "screenshot_sha256": "26467adf3ebccd95b4d38b90dffe38970b92463ba13954adfb2010260fd663e4",
+  "observations": [
+    "12 images and 9 objects visible",
+    "QC and parameters legible",
+    "all 12 labeled thumbnails rendered without overlap",
+    "measurement and provenance links visible"
+  ],
+  "independent_usability_study": false
+}

@@ -1,0 +1,1 @@
+{"exit_code":5,"message":"Invalid mask /scratch/reprohpc-check/test_missing_output_cannot_be_2/missing/samples/above/mask.npy: unsupported NPY magic/version","run_id":"8862c40f-ef27-4853-a80f-5355fea630d2","schema_version":"1.0.0","status":"finalization-failed"}

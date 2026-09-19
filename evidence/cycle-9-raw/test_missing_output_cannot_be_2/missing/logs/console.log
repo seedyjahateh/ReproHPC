@@ -1,0 +1,6 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [insane_lavoisier] DSL2 - revision: 9dc8d37637
+[2d/690a99] Submitted process > VALIDATE_DATASET
+[2a/fdeac2] Submitted process > ANALYZE_BATCH (batch-000000)
+[40/8c0c42] Submitted process > AGGREGATE
+[db/986bd3] Submitted process > REPORT

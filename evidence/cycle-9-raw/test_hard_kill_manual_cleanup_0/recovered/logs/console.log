@@ -1,0 +1,17 @@
+N E X T F L O W  ~  version 25.10.4
+Launching `/workspace/main.nf` [small_dubinsky] DSL2 - revision: 9dc8d37637
+[49/4cfafa] Submitted process > VALIDATE_DATASET
+[bd/e0eec5] Cached process > ANALYZE_BATCH (batch-000000)
+[34/6eb848] Cached process > ANALYZE_BATCH (batch-000003)
+[35/8b58b9] Submitted process > ANALYZE_BATCH (batch-000005)
+[09/e0f90b] Submitted process > ANALYZE_BATCH (batch-000006)
+[d8/1b8ed9] Submitted process > ANALYZE_BATCH (batch-000010)
+[1e/77f9fb] Submitted process > ANALYZE_BATCH (batch-000007)
+[e0/5c077f] Submitted process > ANALYZE_BATCH (batch-000008)
+[63/e0e362] Submitted process > ANALYZE_BATCH (batch-000002)
+[58/8a8d5c] Submitted process > ANALYZE_BATCH (batch-000011)
+[36/f1533f] Submitted process > ANALYZE_BATCH (batch-000009)
+[2b/961156] Submitted process > ANALYZE_BATCH (batch-000001)
+[b0/d9da9e] Submitted process > ANALYZE_BATCH (batch-000004)
+[d4/ad7ef4] Submitted process > AGGREGATE
+[5e/d7df03] Submitted process > REPORT

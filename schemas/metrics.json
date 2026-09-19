@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/metrics.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "sample_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "object_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "foreground_fraction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "mean_area_px": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "qc": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "NO_OBJECTS",
+          "BORDER_OBJECTS"
+        ]
+      }
+    },
+    "parameter_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "sample_id",
+    "width",
+    "height",
+    "object_count",
+    "foreground_fraction",
+    "mean_area_px",
+    "qc",
+    "parameter_sha256"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,181 @@
+Sep-14 14:52:46.963 [main] DEBUG nextflow.cli.Launcher - $> nextflow -C /workspace/nextflow.config,/scratch/reprohpc-check/test_missing_output_cannot_be_1/missing.config -log /scratch/reprohpc-check/test_missing_output_cannot_be_1/missing/logs/driver.log run /workspace/main.nf -profile local -params-file /scratch/reprohpc-check/test_missing_output_cannot_be_1/missing/provenance/engine.params.json -work-dir /scratch/reprohpc-check/test_missing_output_cannot_be_1/work -ansi-log false
+Sep-14 14:52:47.117 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.10.4
+Sep-14 14:52:47.167 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/researcher/.nextflow/plugins; core-plugins: nf-amazon@3.4.4,nf-azure@1.20.2,nf-cloudcache@0.5.0,nf-codecommit@0.5.0,nf-console@1.3.0,nf-google@1.23.5,nf-k8s@1.2.2,nf-tower@1.17.5,nf-wave@1.16.1
+Sep-14 14:52:47.220 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Sep-14 14:52:47.221 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Sep-14 14:52:47.228 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Sep-14 14:52:47.253 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Sep-14 14:52:47.354 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /workspace/nextflow.config
+Sep-14 14:52:47.357 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /scratch/reprohpc-check/test_missing_output_cannot_be_1/missing.config
+Sep-14 14:52:47.435 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `local`
+Sep-14 14:52:48.553 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `local`
+Sep-14 14:52:48.617 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [slurm, test, slurm_scalar, local]
+Sep-14 14:52:48.690 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Sep-14 14:52:48.690 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Sep-14 14:52:48.712 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/researcher/.nextflow/secrets/store.json
+Sep-14 14:52:48.719 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@24eb65e3] - activable => nextflow.secret.LocalSecretsProvider@24eb65e3
+Sep-14 14:52:48.730 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Sep-14 14:52:48.756 [main] INFO  nextflow.cli.CmdRun - Launching `/workspace/main.nf` [kickass_rubens] DSL2 - revision: 9dc8d37637
+Sep-14 14:52:48.830 [main] DEBUG nextflow.Session - Session UUID: 91559f92-a7c0-4f4e-bead-574573688628
+Sep-14 14:52:48.830 [main] DEBUG nextflow.Session - Run name: kickass_rubens
+Sep-14 14:52:48.831 [main] DEBUG nextflow.Session - Executor pool size: 12
+Sep-14 14:52:48.845 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Sep-14 14:52:48.859 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=36; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Sep-14 14:52:48.969 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.10.4 build 11177
+  Created: 10-02-2026 17:12 UTC 
+  System: Linux 6.18.33.2-microsoft-standard-WSL2
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.12+8-1-24.04-Ubuntu
+  Encoding: UTF-8 (UTF-8)
+  Process: 101360@reprohpc-lab [127.0.0.1]
+  CPUs: 12 - Mem: 7.6 GB (4.3 GB) - Swap: 2 GB (2 GB)
+Sep-14 14:52:49.015 [main] DEBUG nextflow.Session - Work-dir: /scratch/reprohpc-check/test_missing_output_cannot_be_1/work [ext2/ext3]
+Sep-14 14:52:49.017 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /workspace/bin
+Sep-14 14:52:49.026 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Sep-14 14:52:49.044 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Sep-14 14:52:49.052 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+Sep-14 14:52:49.186 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Sep-14 14:52:49.209 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 13; maxThreads: 1000
+Sep-14 14:52:49.939 [main] DEBUG nextflow.Session - Session start
+Sep-14 14:52:49.946 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /scratch/reprohpc-check/test_missing_output_cannot_be_1/missing/provenance/trace.tsv
+Sep-14 14:52:50.482 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Sep-14 14:52:51.409 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Sep-14 14:52:51.410 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-14 14:52:51.443 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Sep-14 14:52:51.460 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=2; memory=4 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
+Sep-14 14:52:51.465 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Sep-14 14:52:51.468 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 1 submissions per 1 seconds
+Sep-14 14:52:51.535 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'VALIDATE_DATASET': maxForks=0; fair=false; array=0
+Sep-14 14:52:51.802 [main] DEBUG n.script.dsl.ProcessConfigBuilder - Config settings `withName:ANALYZE_BATCH` matches process ANALYZE_BATCH
+Sep-14 14:52:51.807 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Sep-14 14:52:51.808 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-14 14:52:51.812 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'ANALYZE_BATCH': maxForks=0; fair=false; array=0
+Sep-14 14:52:51.862 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Sep-14 14:52:51.863 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-14 14:52:51.864 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'AGGREGATE': maxForks=0; fair=false; array=0
+Sep-14 14:52:51.878 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Sep-14 14:52:51.879 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-14 14:52:51.880 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'REPORT': maxForks=0; fair=false; array=0
+Sep-14 14:52:51.890 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: ANALYZE_BATCH, AGGREGATE, VALIDATE_DATASET, REPORT
+Sep-14 14:52:51.896 [main] DEBUG nextflow.Session - Igniting dataflow network (4)
+Sep-14 14:52:51.898 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > VALIDATE_DATASET
+Sep-14 14:52:51.900 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ANALYZE_BATCH
+Sep-14 14:52:51.902 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > AGGREGATE
+Sep-14 14:52:51.903 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > REPORT
+Sep-14 14:52:51.906 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_8206e768df477e7f: /workspace/modules/local/report.nf
+  Script_2137dc01860f9fd4: /workspace/modules/local/aggregate.nf
+  Script_6cc5ba90e8adc7ec: /workspace/modules/local/analyze_batch.nf
+  Script_cc6cd6ba808bef7e: /workspace/modules/local/validate.nf
+  Script_26027d724c330979: /workspace/main.nf
+Sep-14 14:52:51.906 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Sep-14 14:52:51.907 [main] DEBUG nextflow.Session - Session await
+Sep-14 14:52:52.352 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:52:52.358 [Task submitter] INFO  nextflow.Session - [9f/f7efc7] Submitted process > VALIDATE_DATASET
+Sep-14 14:52:54.711 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: VALIDATE_DATASET; status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_missing_output_cannot_be_1/work/9f/f7efc7e0c5c1593b90819f6608942b]
+Sep-14 14:52:54.712 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=36; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Sep-14 14:52:55.188 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-14 14:52:55.190 [Task submitter] INFO  nextflow.Session - [2f/62beae] Submitted process > ANALYZE_BATCH (batch-000000)
+Sep-14 14:52:57.094 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: ANALYZE_BATCH (batch-000000); status: COMPLETED; exit: 0; error: -; workDir: /scratch/reprohpc-check/test_missing_output_cannot_be_1/work/2f/62beaec1f6ba154cda07161ab30b53]
+Sep-14 14:52:57.099 [TaskFinalizer-2] DEBUG n.processor.TaskFileCollector - Process `ANALYZE_BATCH (batch-000000)` is unable to find [UnixPath]: `/scratch/reprohpc-check/test_missing_output_cannot_be_1/work/2f/62beaec1f6ba154cda07161ab30b53/result/samples/above/mask.npy` (pattern: `result/samples/above/mask.npy`)
+Sep-14 14:52:57.107 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=ANALYZE_BATCH (batch-000000); work-dir=/scratch/reprohpc-check/test_missing_output_cannot_be_1/work/2f/62beaec1f6ba154cda07161ab30b53
+  error [nextflow.exception.MissingFileException]: Missing output file(s) `result/samples/above/mask.npy` expected by process `ANALYZE_BATCH (batch-000000)`
+Sep-14 14:52:57.127 [TaskFinalizer-2] ERROR nextflow.processor.TaskProcessor - Error executing process > 'ANALYZE_BATCH (batch-000000)'
+
+Caused by:
+  Missing output file(s) `result/samples/above/mask.npy` expected by process `ANALYZE_BATCH (batch-000000)`
+
+
+Command executed:
+
+  python -m reprohpc.task analyze --spec-b64 'eyJiYXRjaF9pZCI6ImJhdGNoLTAwMDAwMCIsInNhbXBsZXMiOlt7ImNoYW5uZWxzIjoxLCJkdHlwZSI6InVpbnQ4IiwiaGVpZ2h0Ijo2NCwicGF0aCI6ImltYWdlcy9hYm92ZS5wbmciLCJzYW1wbGVfaWQiOiJhYm92ZSIsInNjaGVtYV92ZXJzaW9uIjoiMS4wLjAiLCJzaGEyNTYiOiI4MWY3ZWNlOTdhZTVlZTZmOWMxZmQ2MmQ5NDQwNTViOTc0Yjg3OWFjZGE5ODc3YzM0OWM4NjAyZWNhZjRmNzU1Iiwic2l6ZV9ieXRlcyI6MTgyLCJ3aWR0aCI6NjR9LHsiY2hhbm5lbHMiOjEsImR0eXBlIjoidWludDgiLCJoZWlnaHQiOjY0LCJwYXRoIjoiaW1hZ2VzL2JsYW5rLnBuZyIsInNhbXBsZV9pZCI6ImJsYW5rIiwic2NoZW1hX3ZlcnNpb24iOiIxLjAuMCIsInNoYTI1NiI6ImFhZDQxZDYzYzUzYWU2YTFjYmYwNjhlMjRjNDIwZGRhZWZlYjYxODJiZjJhMjIyZmY5YjdhOTRkNzhjNDRkZjIiLCJzaXplX2J5dGVzIjoxNTcsIndpZHRoIjo2NH0seyJjaGFubmVscyI6MSwiZHR5cGUiOiJ1aW50OCIsImhlaWdodCI6NjQsInBhdGgiOiJpbWFnZXMvYm9yZGVyLnBuZyIsInNhbXBsZV9pZCI6ImJvcmRlciIsInNjaGVtYV92ZXJzaW9uIjoiMS4wLjAiLCJzaGEyNTYiOiIzYTNjM2UwZDA0MGY1ZmI3MDA3YTQzYTQ2YThmZGRhMWQxMjRmZDQ1NTQ2MmQ0NjE1Y2YwNWM5NzFiNThiNmM1Iiwic2l6ZV9ieXRlcyI6MTkyLCJ3aWR0aCI6NjR9LHsiY2hhbm5lbHMiOjEsImR0eXBlIjoidWludDgiLCJoZWlnaHQiOjY0LCJwYXRoIjoiaW1hZ2VzL2RpYWdvbmFsLnBuZyIsInNhbXBsZV9pZCI6ImRpYWdvbmFsIiwic2NoZW1hX3ZlcnNpb24iOiIxLjAuMCIsInNoYTI1NiI6IjExZmE5NDMxYzBhZjJmYzVhNzVmOTk3YzdmMmE4YWRlZDg0NTZlZWQzN2NkYzE3NmFjYjQxODJkMzNlYmU2ZGYiLCJzaXplX2J5dGVzIjoyNjMsIndpZHRoIjo2NH0seyJjaGFubmVscyI6MSwiZHR5cGUiOiJ1aW50OCIsImhlaWdodCI6NjQsInBhdGgiOiJpbWFnZXMvZXF1YWxpdHkucG5nIiwic2FtcGxlX2lkIjoiZXF1YWxpdHkiLCJzY2hlbWFfdmVyc2lvbiI6IjEuMC4wIiwic2hhMjU2IjoiYzUwOWVmMGMzYjQyOGY1YzU5MjAyMWE3OWMwNTFkZDRmODJkYjVhYjUxN2RmYjllNmEzY2MwODM4NmIwYWE2NyIsInNpemVfYnl0ZXMiOjE4Miwid2lkdGgiOjY0fSx7ImNoYW5uZWxzIjoxLCJkdHlwZSI6InVpbnQ4IiwiaGVpZ2h0Ijo2NCwicGF0aCI6ImltYWdlcy9mdWxsLnBuZyIsInNhbXBsZV9pZCI6ImZ1bGwiLCJzY2hlbWFfdmVyc2lvbiI6IjEuMC4wIiwic2hhMjU2IjoiODI1ZjExZGFlMmZjNzBhMzlkNDJkN2ExZGI5ZTI2MzFlZjNkZWI0NzdjNWM3MGEzOTczZTBmYWM2Y2RjMDgwYSIsInNpemVfYnl0ZXMiOjE4Miwid2lkdGgiOjY0fSx7ImNoYW5uZWxzIjoxLCJkdHlwZSI6InVpbnQ4IiwiaGVpZ2h0Ijo2NCwicGF0aCI6ImltYWdlcy9ncmFkaWVudC5wbmciLCJzYW1wbGVfaWQiOiJncmFkaWVudCIsInNjaGVtYV92ZXJzaW9uIjoiMS4wLjAiLCJzaGEyNTYiOiJjNDYyZWMxNDg1ZGM5OTUwNTc4NDk1YmU2OTE1ZWU3ZjI1OWZiNjFjYzg0MTZhODg2MThlMWIzNDE1YTJkM2I1Iiwic2l6ZV9ieXRlcyI6MTgzLCJ3aWR0aCI6NjR9LHsiY2hhbm5lbHMiOjEsImR0eXBlIjoidWludDgiLCJoZWlnaHQiOjY0LCJwYXRoIjoiaW1hZ2VzL25vaXNlLnBuZyIsInNhbXBsZV9pZCI6Im5vaXNlIiwic2NoZW1hX3ZlcnNpb24iOiIxLjAuMCIsInNoYTI1NiI6IjVkNjFhZmJhMjk4NDRhMDBiYmY1ZmI4NmVhYmE5NmI4MDZlZTEzZWVhMjljM2IyZTRiMGRjNWUwNTc2ZTlmMTQiLCJzaXplX2J5dGVzIjo0NzUsIndpZHRoIjo2NH0seyJjaGFubmVscyI6MSwiZHR5cGUiOiJ1aW50OCIsImhlaWdodCI6NjQsInBhdGgiOiJpbWFnZXMvc21hbGwucG5nIiwic2FtcGxlX2lkIjoic21hbGwiLCJzY2hlbWFfdmVyc2lvbiI6IjEuMC4wIiwic2hhMjU2IjoiZmY1N2M3ZWFhZDVhYzA4NzgxMDlhYzY2ZGI3YWMwNjVmOWRiNjlmNTE2ZWU2OTQ3ZGI4NWZmMGI5MDVmYjVmNyIsInNpemVfYnl0ZXMiOjE2NCwid2lkdGgiOjY0fSx7ImNoYW5uZWxzIjoxLCJkdHlwZSI6InVpbnQ4IiwiaGVpZ2h0Ijo2NCwicGF0aCI6ImltYWdlcy9zcXVhcmUucG5nIiwic2FtcGxlX2lkIjoic3F1YXJlIiwic2NoZW1hX3ZlcnNpb24iOiIxLjAuMCIsInNoYTI1NiI6ImVhZTk4YTJmZjQ1NTViMjc5YjE2MWYwMzY5YWY5ZjlkNDE0MzgyMjhmNmY4YjZlMzA3ZDgwOTE2Yjk5OTJkOWIiLCJzaXplX2J5dGVzIjoyMDksIndpZHRoIjo2NH0seyJjaGFubmVscyI6MSwiZHR5cGUiOiJ1aW50OCIsImhlaWdodCI6NjQsInBhdGgiOiJpbWFnZXMvdG91Y2hpbmcucG5nIiwic2FtcGxlX2lkIjoidG91Y2hpbmciLCJzY2hlbWFfdmVyc2lvbiI6IjEuMC4wIiwic2hhMjU2IjoiZTMwOWE3NTIyNGQ5ODY3ZmU3MjdhMmRhZWVhNjA4ODZhMjNjMjEyNDQ0YjI2YzcwZjViOTZmNjViMzI0NzgyZiIsInNpemVfYnl0ZXMiOjIzOCwid2lkdGgiOjY0fSx7ImNoYW5uZWxzIjoxLCJkdHlwZSI6InVpbnQ4IiwiaGVpZ2h0Ijo2NCwicGF0aCI6ImltYWdlcy90d28ucG5nIiwic2FtcGxlX2lkIjoidHdvIiwic2NoZW1hX3ZlcnNpb24iOiIxLjAuMCIsInNoYTI1NiI6IjQ1Yjg2ODI5YWM2MjcyOGI2MTRkZTE4ZTk4YzBiOGU4YzgwNTExNmM0MTg2YTE4M2NkMGUzMWVhYWU4NjQwYTQiLCJzaXplX2J5dGVzIjoyNTcsIndpZHRoIjo2NH1dLCJwYXJhbXMiOnsiYmF0Y2hfc2l6ZSI6MTYsImNvbm5lY3Rpdml0eSI6OCwic2VlZCI6NDIsIm1pbl9hcmVhX3B4IjoyMCwiZ2F1c3NpYW5fa2VybmVsIjo1LCJ0aHJlc2hvbGQiOjEyNywid3JpdGVfcHJldmlld3MiOnRydWUsImdhdXNzaWFuX3NpZ21hIjoxLjAsImFsZ29yaXRobSI6ImRlbW8tY3YtdjEifSwiY2FsaWJyYXRpb24iOnsicGl4ZWxfc2l6ZV91bSI6MC41LCJzY2hlbWFfdmVyc2lvbiI6IjEuMC4wIiwidW5pdCI6InVtIn0sInJlZmVyZW5jZV9zaGEyNTYiOiJkZWQyMTY1ZjkwMGZhMDczMTY3NThhYTBjMDU4MjQ2YTYxNDZiZThkOTBiNWMzMWVkMGFkOWNkNTBhNjY1MjBmIiwic2lmX3NoYTI1NiI6IjU5MjRlYTRkODA2YWE3YjI2MGE2ODc4OWRiNGQyNjI5MjVmMGE4OGYxMzY0MzAzZDVlYWU4NzliNTk0ZTZkNGQifQ==' --output result image*.png
+
+Command exit status:
+  0
+
+Command output:
+  (empty)
+
+Work dir:
+  /scratch/reprohpc-check/test_missing_output_cannot_be_1/work/2f/62beaec1f6ba154cda07161ab30b53
+
+Container:
+  /scratch/reprohpc-candidate-4.sif
+
+Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
+Sep-14 14:52:57.134 [main] DEBUG nextflow.Session - Session await > all processes finished
+Sep-14 14:52:57.136 [TaskFinalizer-2] DEBUG nextflow.Session - Session aborted -- Cause: Missing output file(s) `result/samples/above/mask.npy` expected by process `ANALYZE_BATCH (batch-000000)`
+Sep-14 14:52:57.179 [TaskFinalizer-2] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=1; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=1.7s; failedDuration=1.6s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=1; peakCpus=1; peakMemory=2 GB; ]
+Sep-14 14:52:57.194 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Sep-14 14:52:57.195 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Sep-14 14:52:57.197 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=1; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=1.7s; failedDuration=1.6s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=1; peakCpus=1; peakMemory=2 GB; ]
+Sep-14 14:52:57.205 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+Sep-14 14:52:57.206 [TaskFinalizer-2] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+Sep-14 14:52:57.257 [TaskFinalizer-2] WARN  nextflow.trace.ReportObserver - Failed to render execution report -- see the log file for details
+java.lang.InterruptedException: null
+	at java.base/java.util.concurrent.FutureTask.awaitDone(FutureTask.java:471)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:190)
+	at java.base/java.util.concurrent.AbstractExecutorService.invokeAll(AbstractExecutorService.java:252)
+	at nextflow.trace.ResourcesAggregator.computeSummaryMap(ResourcesAggregator.groovy:75)
+	at nextflow.trace.ResourcesAggregator.computeSummaryList(ResourcesAggregator.groovy:90)
+	at nextflow.trace.ResourcesAggregator.renderSummaryJson(ResourcesAggregator.groovy:105)
+	at nextflow.trace.ReportObserver.renderSummaryJson(ReportObserver.groovy:201)
+	at nextflow.trace.ReportObserver.renderPayloadJson(ReportObserver.groovy:205)
+	at nextflow.trace.ReportObserver.renderHtml(ReportObserver.groovy:216)
+	at nextflow.trace.ReportObserver.onFlowComplete(ReportObserver.groovy:129)
+	at nextflow.Session$_notifyFlowComplete_lambda39.doCall(Session.groovy:1121)
+	at nextflow.Session.notifyEvent(Session.groovy:1151)
+	at nextflow.Session.notifyFlowComplete(Session.groovy:1121)
+	at nextflow.Session.shutdown0(Session.groovy:779)
+	at nextflow.Session.abort(Session.groovy:834)
+	at nextflow.Session.fault(Session.groovy:796)
+	at nextflow.processor.TaskPollingMonitor.finalizeTask(TaskPollingMonitor.groovy:753)
+	at nextflow.processor.TaskPollingMonitor.safeFinalizeTask(TaskPollingMonitor.groovy:736)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)
+	at groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1339)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1094)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokePogoMethod(InvokerHelper.java:645)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokeMethod(InvokerHelper.java:628)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokeMethodSafe(InvokerHelper.java:82)
+	at nextflow.processor.TaskPollingMonitor$_checkTaskStatus_lambda8.doCall(TaskPollingMonitor.groovy:726)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Sep-14 14:52:57.263 [TaskFinalizer-2] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+Sep-14 14:52:57.427 [TaskFinalizer-2] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+Sep-14 14:52:58.091 [main] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+Sep-14 14:52:58.189 [main] WARN  nextflow.trace.TimelineObserver - Failed to render execution timeline -- see the log file for details
+nextflow.exception.AbortOperationException: Timeline file already exists: /scratch/reprohpc-check/test_missing_output_cannot_be_1/missing/provenance/timeline.html -- enable the 'timeline.overwrite' option in your config file to overwrite existing files
+	at nextflow.trace.TraceHelper.newFileWriter(TraceHelper.groovy:67)
+	at nextflow.trace.TimelineObserver.renderHtml(TimelineObserver.groovy:164)
+	at nextflow.trace.TimelineObserver.onFlowComplete(TimelineObserver.groovy:91)
+	at nextflow.Session$_notifyFlowComplete_lambda39.doCall(Session.groovy:1121)
+	at nextflow.Session.notifyEvent(Session.groovy:1151)
+	at nextflow.Session.notifyFlowComplete(Session.groovy:1121)
+	at nextflow.Session.shutdown0(Session.groovy:779)
+	at nextflow.Session.destroy(Session.groovy:724)
+	at nextflow.script.ScriptRunner.shutdown(ScriptRunner.groovy:263)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:147)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:429)
+	at nextflow.cli.Launcher.run(Launcher.groovy:515)
+	at nextflow.cli.Launcher.main(Launcher.groovy:675)
+Caused by: java.nio.file.FileAlreadyExistsException: /scratch/reprohpc-check/test_missing_output_cannot_be_1/missing/provenance/timeline.html
+	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:94)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106)
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
+	at java.base/sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261)
+	at java.base/java.nio.file.spi.FileSystemProvider.newOutputStream(FileSystemProvider.java:482)
+	at java.base/java.nio.file.Files.newOutputStream(Files.java:228)
+	at java.base/java.nio.file.Files.newBufferedWriter(Files.java:3001)
+	at nextflow.trace.TraceHelper.newFileWriter(TraceHelper.groovy:64)
+	... 12 common frames omitted
+Sep-14 14:52:58.189 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+Sep-14 14:52:58.198 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Sep-14 14:52:58.213 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
