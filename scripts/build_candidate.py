@@ -53,7 +53,10 @@ def main():
         "sif_sha256": digest,
         "sif_path": "artifacts/reprohpc.sif",
         "oci_image_id": inspect["Id"],
-        "oci_digest": inspect["Descriptor"]["digest"],
+        # Docker's containerd image store reports the manifest digest. The classic store
+        # (GitHub-hosted runners) has none until the image is pushed, so record null
+        # rather than presenting the config id above as a manifest digest.
+        "oci_digest": (inspect.get("Descriptor") or {}).get("digest"),
         "platform": f"{inspect['Os']}/{inspect['Architecture']}",
         "oci_repo_digests": inspect.get("RepoDigests", []),
         "runtime": execute("docker", "exec", "reprohpc-lab", "apptainer", "--version"),
