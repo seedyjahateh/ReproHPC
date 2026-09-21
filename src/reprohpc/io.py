@@ -88,6 +88,129 @@ def read_mask(path: Path) -> Mask:
         raise ReproError(f"Invalid mask {path}: {exc}", 5) from exc
 
 
+NIFTI_TYPES = {
+    # NIfTI-1 datatype code: (name, array typecode, bytes per voxel)
+    2: ("uint8", "B", 1),
+    4: ("int16", "h", 2),
+    8: ("int32", "i", 4),
+    16: ("float32", "f", 4),
+    64: ("float64", "d", 8),
+    256: ("int8", "b", 1),
+    512: ("uint16", "H", 2),
+    768: ("uint32", "I", 4),
+}
+
+
+@dataclass(frozen=True)
+class NiftiHeader:
+    dims: tuple[int, ...]
+    voxel_size_mm: tuple[float, ...]
+    datatype: str
+    vox_offset: int
+    byteorder: str
+
+    @property
+    def voxels(self):
+        count = 1
+        for size in self.dims:
+            count *= size
+        return count
+
+
+def _nifti_stream(path: Path):
+    import gzip
+
+    stream = path.open("rb")
+    if path.name.endswith(".gz"):
+        return gzip.GzipFile(fileobj=stream, mode="rb")
+    return stream
+
+
+def nifti_header(path: Path) -> NiftiHeader:
+    """Read only the fixed 348-byte NIfTI-1 header, without scientific libraries.
+
+    Accepts single-file NIfTI-1 (magic "n+1"), 3-D or 4-D with one volume, and the
+    integer/float datatypes FSL writes. Everything else is rejected with the reason.
+    """
+    import math
+    import struct
+
+    try:
+        with _nifti_stream(path) as stream:
+            raw = stream.read(352)
+    except (OSError, EOFError) as exc:
+        raise ReproError(f"Cannot read NIfTI {path}: {exc}") from exc
+    if len(raw) < 348:
+        raise ReproError(f"Not a NIfTI-1 file (truncated header): {path}")
+    for byteorder in ("<", ">"):
+        if struct.unpack(f"{byteorder}i", raw[:4])[0] == 348:
+            break
+    else:
+        raise ReproError(f"Not a single-file NIfTI-1 image (sizeof_hdr != 348): {path}")
+    if raw[344:348] != b"n+1\x00":
+        raise ReproError(f"Not a single-file NIfTI-1 image (magic {raw[344:348]!r}): {path}")
+    dim = struct.unpack(f"{byteorder}8h", raw[40:56])
+    datatype = struct.unpack(f"{byteorder}h", raw[70:72])[0]
+    pixdim = struct.unpack(f"{byteorder}8f", raw[76:108])
+    vox_offset = struct.unpack(f"{byteorder}f", raw[108:112])[0]
+    rank = dim[0]
+    if rank not in (3, 4) or (rank == 4 and dim[4] != 1):
+        raise ReproError(f"Require one 3-D volume, found dim={dim[: rank + 1]}: {path}")
+    dims = tuple(dim[1:4])
+    if any(not 1 <= size <= 2048 for size in dims):
+        raise ReproError(f"Unsupported NIfTI dimensions {dims}: {path}")
+    sizes = tuple(float(value) for value in pixdim[1:4])
+    if any(not (math.isfinite(size) and size > 0) for size in sizes):
+        raise ReproError(f"Invalid voxel size {sizes}: {path}")
+    if datatype not in NIFTI_TYPES:
+        raise ReproError(f"Unsupported NIfTI datatype code {datatype}: {path}")
+    if not (vox_offset >= 352 and vox_offset == int(vox_offset)):
+        raise ReproError(f"Invalid NIfTI vox_offset {vox_offset}: {path}")
+    return NiftiHeader(dims, sizes, NIFTI_TYPES[datatype][0], int(vox_offset), byteorder)
+
+
+@dataclass(frozen=True)
+class NiftiMask:
+    header: NiftiHeader
+    nonzero: int
+    voxel_sha256: str
+
+
+def read_nifti_mask(path: Path) -> NiftiMask:
+    """Stream a NIfTI volume's voxels: count non-zero voxels and hash the voxel bytes.
+
+    The hash covers voxel data only, not the header, so it identifies a mask by content
+    independently of header text fields or gzip framing.
+    """
+    import array
+    import sys
+
+    header = nifti_header(path)
+    _, code, width = next(value for value in NIFTI_TYPES.values() if value[0] == header.datatype)
+    expected = header.voxels * width
+    digest = hashlib.sha256()
+    nonzero = 0
+    remaining = expected
+    chunk = width * 1024 * 1024
+    try:
+        with _nifti_stream(path) as stream:
+            if len(stream.read(header.vox_offset)) != header.vox_offset:
+                raise ReproError(f"Truncated NIfTI before voxel data: {path}")
+            while remaining:
+                block = stream.read(min(chunk, remaining))
+                if not block or len(block) % width:
+                    raise ReproError(f"Truncated NIfTI voxel data: {path}")
+                digest.update(block)
+                values = array.array(code, block)
+                if (header.byteorder == ">") != (sys.byteorder == "big"):
+                    values.byteswap()
+                nonzero += len(values) - values.count(0)
+                remaining -= len(block)
+    except (OSError, EOFError) as exc:
+        raise ReproError(f"Cannot read NIfTI {path}: {exc}") from exc
+    return NiftiMask(header, nonzero, digest.hexdigest())
+
+
 def canonical(value) -> bytes:
     return (
         json.dumps(

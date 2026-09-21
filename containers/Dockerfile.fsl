@@ -1,0 +1,39 @@
+# syntax=docker/dockerfile:1.7
+# Analysis image plus a minimal FSL 6.0.7.23 (bet, fslstats, fslmaths) for fsl-bet-volumetry-v1.
+# The first block repeats containers/Dockerfile exactly, so Python, the locked wheels and the
+# reprohpc package are identical to the analysis image; the existing image is not modified.
+FROM ubuntu@sha256:a61567bd31828687156d735ea8eb01ba4e37636e225dd6a48ba94136a70d9d61
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends python3=3.12.3-0ubuntu2.1 python3-venv=3.12.3-0ubuntu2.1 ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+RUN python3 -m venv /opt/venv
+ENV PATH=/opt/venv/bin:$PATH PYTHONPATH=/opt/reprohpc/src \
+    OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
+    PYTHONHASHSEED=0 LC_ALL=C TZ=UTC
+COPY requirements-build.lock /opt/reprohpc/requirements-build.lock
+RUN pip install --require-hashes --only-binary=:all: -r /opt/reprohpc/requirements-build.lock
+COPY requirements.lock /opt/reprohpc/requirements.lock
+RUN pip install --require-hashes --only-binary=:all: -r /opt/reprohpc/requirements.lock
+
+# FSL from its explicit lock. micromamba is pinned by checksum and removed after use, with its
+# package cache. FSL's bin directory is deliberately not put on PATH: it contains its own
+# Python, and reprohpc calls FSL tools by absolute path under FSLDIR.
+ADD --checksum=sha256:366cd9cd8be14df1ab8ed50352a82111082a36686b2d389fdb79a92c3fafb3e3 \
+    https://github.com/mamba-org/micromamba-releases/releases/download/2.9.0-0/micromamba-linux-64 \
+    /tmp/micromamba
+COPY containers/fsl-6.0.7.23-linux-64.lock /opt/fsl-lock/fsl-6.0.7.23-linux-64.lock
+RUN chmod 755 /tmp/micromamba \
+    && MAMBA_ROOT_PREFIX=/tmp/mamba /tmp/micromamba create -y -q -p /opt/fsl \
+       --file /opt/fsl-lock/fsl-6.0.7.23-linux-64.lock \
+    && rm -rf /tmp/mamba /tmp/micromamba \
+    && printf '{"fsl_release": "6.0.7.23", "install": "minimal explicit lock", "lock": "fsl-6.0.7.23-linux-64.lock"}\n' \
+       > /opt/fsl/etc/reprohpc-fsl-build.json
+ENV FSLDIR=/opt/fsl FSLOUTPUTTYPE=NIFTI_GZ FSLMULTIFILEQUIT=TRUE
+
+COPY src /opt/reprohpc/src
+COPY LICENSE THIRD_PARTY_NOTICES.md /opt/reprohpc/
+RUN python -c "import cv2,numpy,reprohpc; print(cv2.__version__,numpy.__version__)" \
+    && /opt/fsl/bin/bet2 2>&1 | head -1 \
+    && /opt/fsl/bin/fslstats 2>&1 | head -1
+WORKDIR /work
+CMD ["python", "-m", "reprohpc.task", "--help"]

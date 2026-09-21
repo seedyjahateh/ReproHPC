@@ -17,6 +17,11 @@ SCIENCE = {
     "connectivity": 8,
 }
 DEFAULTS = {**SCIENCE, "batch_size": 16, "write_previews": True}
+# Second routine: FSL brain extraction and volumetry. Its science is one BET parameter.
+MRI_ALGORITHM = "fsl-bet-volumetry-v1"
+MRI_SCIENCE = {"algorithm": MRI_ALGORITHM, "bet_frac": 0.5}
+MRI_DEFAULTS = {**MRI_SCIENCE, "batch_size": 1}
+ALGORITHMS = {"demo-cv-v1": SCIENCE, MRI_ALGORITHM: MRI_SCIENCE}
 PATHS = {"dataset", "input_manifest", "reference"}
 EXECUTION = {
     "partition": "demo",
@@ -59,6 +64,8 @@ def load_yaml(path: Path):
 
 def resolve_params(data=None, overrides=None, *, base=None):
     supplied = {**(data or {}), **(overrides or {})}
+    if supplied.get("algorithm") == MRI_ALGORITHM:
+        return _resolve_paths(_resolve_mri(supplied), base)
     unknown = set(supplied) - (set(DEFAULTS) | PATHS | {"schema_version"})
     if unknown:
         raise ReproError(f"Unknown parameter(s): {', '.join(sorted(unknown))}", 2)
@@ -84,9 +91,31 @@ def resolve_params(data=None, overrides=None, *, base=None):
     if type(params["connectivity"]) is not int or params["connectivity"] not in (4, 8):
         raise ReproError("connectivity must be 4 or 8", 2)
     if params["algorithm"] != "demo-cv-v1":
-        raise ReproError("Only algorithm demo-cv-v1 is supported", 2)
+        raise ReproError(f"Unsupported algorithm; choose one of {', '.join(ALGORITHMS)}", 2)
     if type(params["write_previews"]) is not bool:
         raise ReproError("write_previews must be boolean", 2)
+    return _resolve_paths(params, base)
+
+
+def _resolve_mri(supplied):
+    unknown = set(supplied) - (set(MRI_DEFAULTS) | PATHS | {"schema_version"})
+    if unknown:
+        raise ReproError(
+            f"Unknown parameter(s) for {MRI_ALGORITHM}: {', '.join(sorted(unknown))}", 2
+        )
+    params = {"schema_version": "1.0.0", **MRI_DEFAULTS, **supplied}
+    if params["schema_version"] != "1.0.0":
+        raise ReproError("Unsupported parameter schema_version; require 1.0.0", 2)
+    if type(params["batch_size"]) is not int or not 1 <= params["batch_size"] <= 64:
+        raise ReproError("batch_size must be an integer from 1 to 64", 2)
+    frac = params["bet_frac"]
+    if type(frac) not in (int, float) or not 0 < frac < 1:
+        raise ReproError("bet_frac must be a number strictly between 0 and 1", 2)
+    params["bet_frac"] = float(frac)
+    return params
+
+
+def _resolve_paths(params, base):
     if base is not None:
         for key in PATHS:
             value = params.get(key)
@@ -100,7 +129,7 @@ def resolve_params(data=None, overrides=None, *, base=None):
 
 
 def science_params(params):
-    return {key: params[key] for key in SCIENCE}
+    return {key: params[key] for key in ALGORITHMS.get(params.get("algorithm"), SCIENCE)}
 
 
 def validate_execution(settings):
