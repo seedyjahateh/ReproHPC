@@ -19,19 +19,22 @@ from .archive import export_run, pack, prepare, validate_release
 from .config import (
     DEFAULTS,
     EXECUTION,
+    MRI_ALGORITHM,
+    MRI_DEFAULTS,
     PATHS,
     load_yaml,
     resolve_params,
     science_params,
     validate_execution,
 )
-from .data import storage_estimate, validate_dataset, validate_reference
+from .data import sample_kind, storage_estimate, validate_dataset, validate_reference
 from .errors import ReproError
 from .io import atomic_bytes, confined, fingerprint, read_json, sha256, write_json
 from .provenance import (
     collect_accounting,
     collect_tasks,
     compare,
+    contract,
     finalize_run,
     inventory,
     link_outputs,
@@ -197,7 +200,7 @@ def resolve_site(args, root):
         match = re.match(r"params\.([a-z_]+) = (.*)$", line)
         if match:
             key, value = match.groups()
-            if key not in set(DEFAULTS) | set(EXECUTION) | PATHS:
+            if key not in set(DEFAULTS) | set(MRI_DEFAULTS) | set(EXECUTION) | PATHS:
                 continue
             try:
                 value = ast.literal_eval(
@@ -211,7 +214,7 @@ def resolve_site(args, root):
                 science_defaults[key] = value
     overrides = {
         key: getattr(args, key)
-        for key in DEFAULTS | dict.fromkeys(PATHS)
+        for key in DEFAULTS | MRI_DEFAULTS | dict.fromkeys(PATHS)
         if getattr(args, key, None) is not None
     }
     supplied = {**science_defaults, **load_yaml(args.params_file), **overrides}
@@ -245,6 +248,13 @@ def run(args, root=ROOT):
     dataset, samples = validate_dataset(
         Path(params["dataset"]), Path(params["input_manifest"]), preflight=True
     )
+    wanted = "nifti" if params["algorithm"] == MRI_ALGORITHM else "png"
+    if sample_kind(samples) != wanted:
+        raise ReproError(
+            f"{params['algorithm']} requires {wanted} inputs; the manifest lists "
+            f"{sample_kind(samples)} files",
+            2,
+        )
     reference, calibration = validate_reference(Path(params["reference"]))
     out = args.outdir.resolve()
     work = args.work_dir.resolve()
@@ -254,7 +264,10 @@ def run(args, root=ROOT):
         if any(c in str(path) for c in "\r\n\x00"):
             raise ReproError("Invalid execution path", 2)
     out.parent.mkdir(parents=True, exist_ok=True)
-    if storage_estimate(samples, params["write_previews"]) > shutil.disk_usage(out.parent).free:
+    if (
+        storage_estimate(samples, params.get("write_previews", False))
+        > shutil.disk_usage(out.parent).free
+    ):
         raise ReproError("Insufficient storage for decoded images, work retention, and outputs")
     if args.profile.startswith("slurm"):
         match = re.search(r"MaxArraySize\s*=\s*(\d+)", tools["slurm_config"])
@@ -362,9 +375,9 @@ def _execute(
         "reference": reference,
         "calibration": calibration,
     }
-    validate("analysis", specification)
+    validate(contract("analysis", params["algorithm"]), specification)
     write_json(out / "provenance/analysis.json", specification)
-    validate("params", params)
+    validate(contract("params", params["algorithm"]), params)
     for key, name in (
         ("dataset", "dataset.json"),
         ("input_manifest", "samples.csv"),
@@ -390,7 +403,8 @@ def _execute(
         "batch_size": params["batch_size"],
         "science": {
             **science_params(params),
-            "write_previews": params["write_previews"],
+            # fsl-bet-volumetry-v1 writes no previews; main.nf reads this only for images.
+            "write_previews": params.get("write_previews", False),
             "batch_size": params["batch_size"],
         },
     }
@@ -523,7 +537,7 @@ def _execute(
         for p in Path(t["origin_work_dir"]).rglob("*")
         if p.is_file() and not p.is_symlink()
     )
-    validate("run", run_record)
+    validate(contract("run", params["algorithm"]), run_record)
     if code == 0:
         try:
             finalize_run(out, run_record)
@@ -586,7 +600,10 @@ def parser():
     r.add_argument("--resume")
     r.add_argument("--release-lock", type=Path)
     r.add_argument("--test", action="store_true")
-    for key, value in DEFAULTS.items():
+    for key, value in (DEFAULTS | MRI_DEFAULTS).items():
+        if key == "algorithm":
+            r.add_argument("--algorithm", choices=["demo-cv-v1", MRI_ALGORITHM])
+            continue
         flag = "--" + key.replace("_", "-")
         if type(value) is bool:
             r.add_argument(flag, action=argparse.BooleanOptionalAction)

@@ -4,8 +4,18 @@ import csv
 import re
 
 from .errors import ReproError
-from .io import confined, image_header, read_json, sha256
+from .io import confined, image_header, nifti_header, read_json, read_nifti_mask, sha256
 from .schema import validate
+
+NIFTI_SUFFIXES = (".nii.gz", ".nii")
+
+
+def sample_kind(samples):
+    """ "nifti" or "png" for a validated sample list; a dataset never mixes the two."""
+    kinds = {"nifti" if s["path"].endswith(NIFTI_SUFFIXES) else "png" for s in samples}
+    if len(kinds) != 1:
+        raise ReproError("Dataset mixes NIfTI and PNG inputs")
+    return kinds.pop()
 
 
 def validate_reference(path):
@@ -50,6 +60,13 @@ def validate_dataset(dataset_path, manifest_path, *, preflight=False):
                 row["size_bytes"] = int(row["size_bytes"])
             except ValueError as exc:
                 raise ReproError(f"Invalid size_bytes for {sample_id}") from exc
+            if row["path"].endswith(NIFTI_SUFFIXES):
+                samples.append(_nifti_sample(row, path, sample_id, preflight))
+                ids.add(sample_id)
+                paths.add(path)
+                if len(samples) > 10000:
+                    raise ReproError("Dataset exceeds 10,000-image support envelope")
+                continue
             try:
                 if preflight:
                     width, height = image_header(path)
@@ -71,7 +88,29 @@ def validate_dataset(dataset_path, manifest_path, *, preflight=False):
                 raise ReproError("Dataset exceeds 10,000-image support envelope")
     if not samples:
         raise ReproError("Manifest is empty")
+    sample_kind(samples)
     return dataset, sorted(samples, key=lambda row: row["sample_id"])
+
+
+def _nifti_sample(row, path, sample_id, preflight):
+    """Login-node preflight reads the fixed header only; the scheduled validator also
+    hashes the file and streams every voxel, so a truncated volume fails before analysis."""
+    try:
+        if preflight:
+            header = nifti_header(path)
+        else:
+            check_file(path, row)
+            header = read_nifti_mask(path).header
+    except (OSError, ReproError) as exc:
+        raise ReproError(f"Sample {sample_id}: {exc}") from exc
+    row.update(
+        schema_version="1.0.0",
+        format="nifti1",
+        dims=list(header.dims),
+        voxel_size_mm=list(header.voxel_size_mm),
+        datatype=header.datatype,
+    )
+    return validate("mri_sample", row)
 
 
 def plan_batches(samples, size):
@@ -85,6 +124,11 @@ def plan_batches(samples, size):
 
 
 def storage_estimate(samples, previews=True):
+    if sample_kind(samples) == "nifti":
+        # BET's float working volumes plus the gzipped mask, input copies in work, and results.
+        voxels = sum(s["dims"][0] * s["dims"][1] * s["dims"][2] for s in samples)
+        inputs = sum(s["size_bytes"] for s in samples)
+        return int((voxels * 16 + inputs * 3 + 2 * 1024**3) * 1.2)
     # Input + SIF allowance plus work/result copies: bool masks, uint32 labels,
     # float buffers and worst-case retained object rows (min_area=1).
     decoded = sum(s["width"] * s["height"] for s in samples)

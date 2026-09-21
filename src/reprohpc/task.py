@@ -75,6 +75,114 @@ def analyze_batch(spec, images, output):
     )
 
 
+def mri_batch(spec, images, output):
+    """fsl-bet-volumetry-v1 for one batch; task.json carries the same provenance as analyze."""
+    from .mri import ALGORITHM, analyze_subject, fsl_identity
+
+    params = resolve_params(spec["params"])
+    if params["algorithm"] != ALGORITHM:
+        raise ReproError(f"mri requires algorithm {ALGORITHM}", 2)
+    samples = spec["samples"]
+    if len(images) != len(samples):
+        raise ReproError("Staged image count does not match batch specification", 4)
+    identity = fsl_identity()
+    started = time.time()
+    for sample, path in zip(samples, images, strict=True):
+        check_file(path, sample)
+        analyze_subject(path, sample["sample_id"], params, output / "samples" / sample["sample_id"])
+    write_json(
+        output / "task.json",
+        {
+            "schema_version": "1.0.0",
+            "routine": ALGORITHM,
+            "batch_id": spec["batch_id"],
+            "sample_ids": [s["sample_id"] for s in samples],
+            "inputs": samples,
+            "parameter_sha256": fingerprint(science_params(params)),
+            "reference_sha256": spec["reference_sha256"],
+            "sif_sha256": spec["sif_sha256"],
+            "fsl": identity,
+            "started_epoch": started,
+            "finished_epoch": time.time(),
+            "threads": 1,
+            "array_job_id": os.environ.get("SLURM_ARRAY_JOB_ID") or None,
+            "array_task_id": os.environ.get("SLURM_ARRAY_TASK_ID") or None,
+            "job_id": os.environ.get("SLURM_JOB_ID") or None,
+            "uid": os.getuid() if hasattr(os, "getuid") else None,
+            "observed_threads": len(list(Path("/proc/self/task").iterdir()))
+            if Path("/proc/self/task").exists()
+            else None,
+        },
+    )
+
+
+MRI_FIELDS = [
+    "sample_id",
+    "dim_x",
+    "dim_y",
+    "dim_z",
+    "voxel_x_mm",
+    "voxel_y_mm",
+    "voxel_z_mm",
+    "brain_voxels",
+    "brain_volume_mm3",
+    "qc",
+    "parameter_sha256",
+]
+
+
+def mri_row(metric):
+    """One subjects.csv row from a validated metrics record; the verifier rebuilds it too."""
+    return {
+        "sample_id": metric["sample_id"],
+        **{f"dim_{a}": v for a, v in zip("xyz", metric["dims"], strict=True)},
+        **{f"voxel_{a}_mm": v for a, v in zip("xyz", metric["voxel_size_mm"], strict=True)},
+        "brain_voxels": metric["brain_voxels"],
+        "brain_volume_mm3": metric["brain_volume_mm3"],
+        "qc": metric["qc"],
+        "parameter_sha256": metric["parameter_sha256"],
+    }
+
+
+def is_mri(batch_dirs):
+    from .mri import ALGORITHM
+
+    routines = {read_json(folder / "task.json").get("routine") for folder in batch_dirs}
+    if len(routines) != 1:
+        raise ReproError("Batches were produced by different routines", 4)
+    return routines.pop() == ALGORITHM
+
+
+def aggregate_mri(locations, expected_ids, output):
+    from .mri import ALGORITHM
+
+    voxels = 0
+    qc = {}
+    rows = []
+    for sid in sorted(locations):
+        metric = validate("mri_metrics", read_json(locations[sid] / "metrics.json"))
+        if metric["sample_id"] != sid:
+            raise ReproError(f"Wrong metrics identity: {sid}", 4)
+        if not (locations[sid] / "brain_mask.nii.gz").is_file():
+            raise ReproError(f"Missing brain mask for {sid}", 4)
+        voxels += metric["brain_voxels"]
+        for code in metric["qc"]:
+            qc[code] = qc.get(code, 0) + 1
+        rows.append(mri_row(metric))
+    write_csv(output / "subjects.csv", MRI_FIELDS, rows)
+    write_json(
+        output / "dataset.json",
+        {
+            "schema_version": "1.0.0",
+            "algorithm": ALGORITHM,
+            "expected_samples": len(expected_ids),
+            "processed_samples": len(locations),
+            "brain_voxels": voxels,
+            "qc": qc,
+        },
+    )
+
+
 def aggregate(batch_dirs, expected_ids, output):
     locations = {}
     for folder in batch_dirs:
@@ -87,6 +195,9 @@ def aggregate(batch_dirs, expected_ids, output):
             f"Output IDs differ: missing={sorted(set(expected_ids) - set(locations))}, extra={sorted(set(locations) - set(expected_ids))}",
             4,
         )
+    if is_mri(batch_dirs):
+        aggregate_mri(locations, expected_ids, output)
+        return
     count = 0
     qc = {}
     metrics = []
@@ -138,10 +249,11 @@ def main(argv=None):
     v = subs.add_parser("validate")
     for key in ("dataset", "manifest", "reference", "output"):
         v.add_argument(f"--{key}", type=Path, required=True)
-    a = subs.add_parser("analyze")
-    a.add_argument("--spec-b64", required=True)
-    a.add_argument("--output", type=Path, required=True)
-    a.add_argument("images", nargs="+", type=Path)
+    for name in ("analyze", "mri"):
+        a = subs.add_parser(name)
+        a.add_argument("--spec-b64", required=True)
+        a.add_argument("--output", type=Path, required=True)
+        a.add_argument("images", nargs="+", type=Path)
     g = subs.add_parser("aggregate")
     g.add_argument("--expected", type=Path, required=True)
     g.add_argument("--output", type=Path, required=True)
@@ -157,6 +269,8 @@ def main(argv=None):
             validate_task(args.dataset, args.manifest, args.reference, args.output)
         elif args.command == "analyze":
             analyze_batch(json.loads(base64.b64decode(args.spec_b64)), args.images, args.output)
+        elif args.command == "mri":
+            mri_batch(json.loads(base64.b64decode(args.spec_b64)), args.images, args.output)
         elif args.command == "aggregate":
             aggregate(
                 args.batches,

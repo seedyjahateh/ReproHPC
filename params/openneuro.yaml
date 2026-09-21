@@ -1,0 +1,18 @@
+# FSL brain extraction and volumetry on public OpenNeuro T1w anatomicals.
+# Fetch or reconstruct the data first (see docs/neuroimaging.md):
+#   python scripts/fetch_openneuro.py --aws "uvx --from awscli==1.46.1 aws"
+#
+# bet_frac is BET's -f, the fractional intensity threshold (FSL's default is 0.5).
+# Chosen on 2026-09-21 on the tuning subjects sub-01 and sub-02 only; sub-03 to sub-05
+# were not examined for the choice. For each tuning subject, bet was run at -f 0.3, 0.4
+# and 0.5 and its mask outlines were inspected on the mid sagittal, coronal and axial
+# slices. 0.5 gave the tightest boundary on both, with no visible cortical clipping on
+# those slices; 0.3 took in a large region below the skull base. At every value tested
+# some skull-base tissue remains inside the mask. This is visual inspection of three
+# slices on two subjects against no ground truth, not an optimisation.
+algorithm: fsl-bet-volumetry-v1
+dataset: data/openneuro/ds000001/1.0.0/dataset.json
+input_manifest: data/openneuro/ds000001/1.0.0/samples.csv
+reference: references/openneuro/1.0.0/reference.json
+bet_frac: 0.5
+batch_size: 1

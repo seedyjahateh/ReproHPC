@@ -28,3 +28,9 @@ test-results/
 data/bbbc039/
 references/bbbc039/
 .tools/bbbc039/
+
+# OpenNeuro images are reconstructed from the committed manifests by scripts/fetch_openneuro.py
+data/openneuro/**/*.nii.gz
+data/openneuro/**/*.nii
+data/openneuro/**/dataset_description.json
+data/openneuro/**/CHANGES

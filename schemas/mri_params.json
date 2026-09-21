@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/mri_params.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "algorithm": {
+      "const": "fsl-bet-volumetry-v1"
+    },
+    "bet_frac": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 1
+    },
+    "batch_size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "dataset": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_manifest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "algorithm",
+    "bet_frac",
+    "batch_size"
+  ],
+  "additionalProperties": false
+}

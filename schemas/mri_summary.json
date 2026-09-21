@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/mri_summary.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "algorithm": {
+      "const": "fsl-bet-volumetry-v1"
+    },
+    "expected_samples": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "processed_samples": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "brain_voxels": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "qc": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "EMPTY_MASK",
+          "VOLUME_OUT_OF_RANGE",
+          "MASK_AT_FOV_EDGE"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "algorithm",
+    "expected_samples",
+    "processed_samples",
+    "brain_voxels",
+    "qc"
+  ],
+  "additionalProperties": false
+}

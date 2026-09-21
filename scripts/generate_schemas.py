@@ -218,7 +218,89 @@ def contracts():
             "params": {"type": "object"},
         }
     )
+    # fsl-bet-volumetry-v1: separate contracts, so every demo-cv-v1 contract above is unchanged.
+    triple = {"minItems": 3, "maxItems": 3}
+    dims = {**array({"type": "integer", "minimum": 1, "maximum": 2048}), **triple}
+    voxel_size = {**array({"type": "number", "exclusiveMinimum": 0}), **triple}
+    mri_qc = ["EMPTY_MASK", "VOLUME_OUT_OF_RANGE", "MASK_AT_FOV_EDGE"]
+    mri_algorithm = {"const": "fsl-bet-volumetry-v1"}
+    mri_sample = obj(
+        {
+            "schema_version": VERSION,
+            "sample_id": ID,
+            "path": STR,
+            "sha256": HASH,
+            "size_bytes": INT,
+            "format": {"const": "nifti1"},
+            "dims": dims,
+            "voxel_size_mm": voxel_size,
+            "datatype": {
+                "enum": [
+                    "uint8",
+                    "int8",
+                    "int16",
+                    "uint16",
+                    "int32",
+                    "uint32",
+                    "float32",
+                    "float64",
+                ]
+            },
+        }
+    )
+    mri_params = obj(
+        {
+            "schema_version": VERSION,
+            "algorithm": mri_algorithm,
+            "bet_frac": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+            "batch_size": {"type": "integer", "minimum": 1, "maximum": 64},
+            "dataset": STR,
+            "input_manifest": STR,
+            "reference": STR,
+        },
+        optional=("dataset", "input_manifest", "reference"),
+    )
+    mri_metrics = obj(
+        {
+            "schema_version": VERSION,
+            "sample_id": ID,
+            "dims": dims,
+            "voxel_size_mm": voxel_size,
+            "brain_voxels": INT,
+            "brain_volume_mm3": {"type": "number", "minimum": 0},
+            "qc": array({"enum": mri_qc}),
+            "parameter_sha256": HASH,
+        }
+    )
+    mri_summary = obj(
+        {
+            "schema_version": VERSION,
+            "algorithm": mri_algorithm,
+            "expected_samples": INT,
+            "processed_samples": INT,
+            "brain_voxels": INT,
+            "qc": {
+                "type": "object",
+                "propertyNames": {"enum": mri_qc},
+                "additionalProperties": INT,
+            },
+        }
+    )
+    mri_analysis = obj(
+        {
+            **analysis["properties"],
+            "algorithm": mri_algorithm,
+            "samples": array(mri_sample),
+        }
+    )
+    mri_run = obj({**run["properties"], "params": mri_params})
     return {
+        "mri_sample": mri_sample,
+        "mri_params": mri_params,
+        "mri_metrics": mri_metrics,
+        "mri_summary": mri_summary,
+        "mri_analysis": mri_analysis,
+        "mri_run": mri_run,
         "dataset": dataset,
         "reference": reference,
         "calibration": calibration,

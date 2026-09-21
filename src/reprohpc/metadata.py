@@ -2,6 +2,7 @@
 
 from urllib.parse import quote
 
+from .config import MRI_ALGORITHM
 from .io import fingerprint, read_json, write_json
 
 DICTIONARY = "dictionary/1.0.0.jsonld"
@@ -26,6 +27,17 @@ VARIABLES = {
 }
 
 
+MRI_DICTIONARY = "dictionary/fsl-bet-volumetry-1.0.0.jsonld"
+MRI_VARIABLES = {
+    "brain_voxels": ("voxels", "Non-zero voxels in the FSL BET brain mask."),
+    "brain_volume_mm3": (
+        "cubic millimetres",
+        "Brain voxels times the image's voxel volume from its NIfTI header, as fslstats -V "
+        "reports it.",
+    ),
+}
+
+
 def license_url(identifier):
     return (
         identifier
@@ -44,6 +56,9 @@ def write_public_metadata(root, run):
     The same term definitions travel with every export. The release publisher
     preserves these paths, or supplies the deposit URL as the JSON-LD base.
     """
+    mri = run["params"]["algorithm"] == MRI_ALGORITHM
+    dictionary_path = MRI_DICTIONARY if mri else DICTIONARY
+    variables = MRI_VARIABLES if mri else VARIABLES
     terms = [
         {
             "@type": "DefinedTerm",
@@ -53,10 +68,10 @@ def write_public_metadata(root, run):
             "description": description,
             "inDefinedTermSet": {"@id": "#dictionary"},
         }
-        for name, (_, description) in VARIABLES.items()
+        for name, (_, description) in variables.items()
     ]
     write_json(
-        root / DICTIONARY,
+        root / dictionary_path,
         {
             "@context": "https://schema.org/",
             "@type": "DefinedTermSet",
@@ -121,12 +136,12 @@ def write_public_metadata(root, run):
         "variableMeasured": [
             {
                 "@type": "PropertyValue",
-                "propertyID": f"{DICTIONARY}#{name}",
+                "propertyID": f"{dictionary_path}#{name}",
                 "name": name,
                 "unitText": unit,
                 "description": description,
             }
-            for name, (unit, description) in VARIABLES.items()
+            for name, (unit, description) in variables.items()
         ],
     }
     write_json(

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/mri_metrics.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "sample_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "dims": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 2048
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "voxel_size_mm": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "brain_voxels": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "brain_volume_mm3": {
+      "type": "number",
+      "minimum": 0
+    },
+    "qc": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "EMPTY_MASK",
+          "VOLUME_OUT_OF_RANGE",
+          "MASK_AT_FOV_EDGE"
+        ]
+      }
+    },
+    "parameter_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "sample_id",
+    "dims",
+    "voxel_size_mm",
+    "brain_voxels",
+    "brain_volume_mm3",
+    "qc",
+    "parameter_sha256"
+  ],
+  "additionalProperties": false
+}

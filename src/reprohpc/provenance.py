@@ -12,7 +12,7 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
-from .config import science_params
+from .config import MRI_ALGORITHM, science_params
 from .errors import ReproError
 from .io import (
     atomic_bytes,
@@ -22,6 +22,7 @@ from .io import (
     fingerprint,
     read_json,
     read_mask,
+    read_nifti_mask,
     sha256,
     write_json,
 )
@@ -89,6 +90,7 @@ def link_outputs(root, tasks):
             scope={"sample_id": sample, "kind": "sample" if sample else "dataset"},
             role={
                 ".npy": "segmentation_mask",
+                ".gz": "segmentation_mask",  # NIfTI brain mask, fsl-bet-volumetry-v1
                 ".png": "preview",
                 ".csv": "measurements",
                 ".json": "metrics",
@@ -184,7 +186,8 @@ def _verify_run(root, pending):
     ]
     if expected != link_outputs(root, tasks):
         raise ReproError("Scientific artifact inventory differs", 5)
-    run = validate("run", record("provenance/run.json"))
+    run = record("provenance/run.json")
+    run = validate(contract("run", run.get("params", {}).get("algorithm")), run)
     if run["status"] != status or run["run_id"] != status["run_id"]:
         raise ReproError("Run/status identities differ", 5)
     if sha256(root / "provenance/samples.csv") != run["dataset"]["manifest_sha256"]:
@@ -194,9 +197,15 @@ def _verify_run(root, pending):
     return {"verified": True, "files": len(actual), "run_id": status["run_id"]}
 
 
+def contract(name, algorithm):
+    """Schema name for a contract under the given algorithm; demo-cv-v1 keeps its originals."""
+    return f"mri_{name}" if algorithm == MRI_ALGORITHM else name
+
+
 def validate_lineage(root, run, tasks):
     """Check relationships, beyond each document's structural schema."""
-    specification = validate("analysis", read_json(root / "provenance/analysis.json"))
+    specification = read_json(root / "provenance/analysis.json")
+    specification = validate(contract("analysis", specification.get("algorithm")), specification)
     reference = validate("reference", read_json(root / "provenance/reference.json"))
     calibration = validate("calibration", read_json(root / "provenance/calibration.json"))
     if (
@@ -225,7 +234,7 @@ def validate_lineage(root, run, tasks):
         ):
             raise ReproError("Task requested resources are incomplete", 5)
         if task["status"] not in ("COMPLETED", "CACHED") or not task["process"].endswith(
-            "ANALYZE_BATCH"
+            ("ANALYZE_BATCH", "MRI_BATCH")
         ):
             continue
         metadata = task["scientific_metadata"]
@@ -255,6 +264,9 @@ def validate_scientific(root):
     folders = [p.name for p in (root / "samples").iterdir()]
     if len(ids) != len(set(ids)) or set(ids) != set(folders):
         raise ReproError("Published sample set differs from input manifest", 5)
+    if read_json(root / "provenance/analysis.json").get("algorithm") == MRI_ALGORITHM:
+        _validate_mri(root, ids)
+        return
     total = 0
     expected_images = []
     for sid in sorted(ids):
@@ -303,6 +315,40 @@ def validate_scientific(root):
                         )
         if next(combined, None) is not None:
             raise ReproError("Aggregate contains additional object measurements", 5)
+
+
+def _validate_mri(root, ids):
+    """Every brain mask is re-read: its voxels must match what the metrics claim."""
+    from .task import MRI_FIELDS, mri_row
+
+    voxels_total = 0
+    rows = []
+    for sid in sorted(ids):
+        folder = root / "samples" / sid
+        metric = validate("mri_metrics", read_json(folder / "metrics.json"))
+        if metric["sample_id"] != sid:
+            raise ReproError(f"Metrics identity differs for {sid}", 5)
+        mask = read_nifti_mask(folder / "brain_mask.nii.gz")
+        if list(mask.header.dims) != metric["dims"] or mask.nonzero != metric["brain_voxels"]:
+            raise ReproError(f"Brain mask disagrees with its metrics for {sid}", 5)
+        voxel_mm3 = math.prod(mask.header.voxel_size_mm)
+        expected = metric["brain_voxels"] * voxel_mm3
+        # fslstats prints six decimals; anything beyond that tolerance is a real disagreement.
+        if abs(metric["brain_volume_mm3"] - expected) > 1e-3 + 1e-6 * expected:
+            raise ReproError(f"Brain volume is not voxel count times voxel size for {sid}", 5)
+        voxels_total += metric["brain_voxels"]
+        rows.append({k: str(csv_value(v)) for k, v in mri_row(metric).items()})
+    summary = validate("mri_summary", read_json(root / "summary/dataset.json"))
+    if (
+        summary["processed_samples"] != len(ids)
+        or summary["expected_samples"] != len(ids)
+        or summary["brain_voxels"] != voxels_total
+    ):
+        raise ReproError("Aggregate counts differ from individual subjects", 5)
+    with (root / "summary/subjects.csv").open(encoding="utf-8", newline="") as stream:
+        reader = csv.DictReader(stream)
+        if reader.fieldnames != MRI_FIELDS or list(reader) != rows:
+            raise ReproError("Aggregate subject table differs from individual subjects", 5)
 
 
 def collect_tasks(root, run_id=None, session_id=None):
@@ -472,7 +518,9 @@ def compare(expected, actual, *, exact=False):
     differences = []
     maximum_differences = {}
     oracle = expected / "expected.json"
-    if oracle.is_file():
+    if oracle.is_file() and read_json(oracle).get("algorithm") == MRI_ALGORITHM:
+        _compare_mri_golden(read_json(oracle), actual, exact, differences, maximum_differences)
+    elif oracle.is_file():
         goldens = read_json(oracle)
         actual_samples = actual / "samples"
         if set(goldens) != {p.name for p in actual_samples.iterdir()}:
@@ -511,6 +559,9 @@ def compare(expected, actual, *, exact=False):
                 equal = a.read_bytes() == b.read_bytes()
             elif a.suffix == ".npy":
                 equal = read_mask(a) == read_mask(b)
+            elif a.suffix == ".gz":
+                # NIfTI masks: header geometry, non-zero count and voxel bytes, not gzip framing.
+                equal = read_nifti_mask(a) == read_nifti_mask(b)
             elif a.suffix == ".json":
                 equal = _equivalent(read_json(a), read_json(b), maxima=maximum_differences)
             else:
@@ -533,6 +584,32 @@ def compare(expected, actual, *, exact=False):
     }
 
 
+def _compare_mri_golden(golden, actual, exact, differences, maxima):
+    """Golden = per-subject voxel count, volume, geometry and mask voxel hash. No image data."""
+    subjects = golden["subjects"]
+    present = {p.name for p in (actual / "samples").iterdir()}
+    if set(subjects) != present:
+        differences.append("subject set differs")
+    for sid, expected in sorted(subjects.items()):
+        try:
+            metric = read_json(actual / "samples" / sid / "metrics.json")
+            mask = read_nifti_mask(actual / "samples" / sid / "brain_mask.nii.gz")
+        except (OSError, ReproError) as exc:
+            differences.append(f"{sid}: {exc}")
+            continue
+        if mask.voxel_sha256 != expected["mask_voxel_sha256"]:
+            differences.append(f"{sid}: mask voxels differ")
+        if (
+            metric["brain_voxels"] != expected["brain_voxels"]
+            or list(mask.header.dims) != expected["dims"]
+        ):
+            differences.append(f"{sid}: voxel count or geometry differs")
+        a, b = expected["brain_volume_mm3"], metric["brain_volume_mm3"]
+        maxima["brain_volume_mm3"] = max(maxima.get("brain_volume_mm3", 0.0), abs(b - a))
+        if (a != b) if exact else abs(b - a) > 1e-8 + 1e-6 * abs(a):
+            differences.append(f"{sid}: brain volume differs")
+
+
 def _equivalent(a, b, key="", maxima=None):
     if isinstance(a, dict) and isinstance(b, dict):
         return a.keys() == b.keys() and all(_equivalent(a[k], b[k], k, maxima) for k in a)
@@ -547,6 +624,7 @@ def _equivalent(a, b, key="", maxima=None):
         "area_um2",
         "foreground_fraction",
         "mean_area_px",
+        "brain_volume_mm3",
     }
     if key in floating and a not in (None, "") and b not in (None, ""):
         try:

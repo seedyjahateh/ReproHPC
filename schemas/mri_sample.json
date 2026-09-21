@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/seedyjahateh/ReproHPC/blob/main/schemas/mri_sample.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "sample_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "format": {
+      "const": "nifti1"
+    },
+    "dims": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 2048
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "voxel_size_mm": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "datatype": {
+      "enum": [
+        "uint8",
+        "int8",
+        "int16",
+        "uint16",
+        "int32",
+        "uint32",
+        "float32",
+        "float64"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "sample_id",
+    "path",
+    "sha256",
+    "size_bytes",
+    "format",
+    "dims",
+    "voxel_size_mm",
+    "datatype"
+  ],
+  "additionalProperties": false
+}
