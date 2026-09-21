@@ -11,3 +11,10 @@ reprohpc text eol=lf
 *.png binary
 *.npy binary
 
+# Byte-exact manifests and locks: their SHA-256 values are recorded, so line endings must not change.
+*.csv text eol=lf
+*.tsv text eol=lf
+*.sha256 text eol=lf
+*.lock text eol=lf
+*.in text eol=lf
+Dockerfile* text eol=lf
