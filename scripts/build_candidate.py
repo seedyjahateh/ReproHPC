@@ -17,7 +17,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def execute(*args):
-    return subprocess.run(args, cwd=ROOT, check=True, text=True, capture_output=True).stdout.strip()
+    response = subprocess.run(args, cwd=ROOT, check=False, text=True, capture_output=True)
+    if response.returncode:
+        # Without this the build only reports an exit status, which says nothing on CI.
+        raise SystemExit(
+            f"{' '.join(args[:4])} failed with exit {response.returncode}\n"
+            f"stdout: {response.stdout.strip()[-2000:]}\nstderr: {response.stderr.strip()[-2000:]}"
+        )
+    return response.stdout.strip()
 
 
 def in_sif(sif, *command):
