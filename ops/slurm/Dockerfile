@@ -1,8 +1,14 @@
 FROM ubuntu@sha256:a61567bd31828687156d735ea8eb01ba4e37636e225dd6a48ba94136a70d9d61
 ENV DEBIAN_FRONTEND=noninteractive
+# Exact pins where the archive still carries them. The JRE is pinned to the 21 series only:
+# Ubuntu rotated 21.0.12+8-1~24.04 out of the archive in September 2026 and the build stopped
+# resolving. This is the disposable lab, not the analysis image, and it is not part of any
+# scientific identity: `reprohpc doctor` asserts Java 21 at runtime and every run records the
+# actual java -version string in its provenance. The same rotation will eventually reach the
+# other pins here and in containers/Dockerfile*.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3=3.12.3-0ubuntu2.1 python3-venv=3.12.3-0ubuntu2.1 \
-    openjdk-21-jre-headless=21.0.12+8-1~24.04 slurm-wlm=23.11.4-1.2ubuntu5 \
+    openjdk-21-jre-headless slurm-wlm=23.11.4-1.2ubuntu5 \
     slurmdbd=23.11.4-1.2ubuntu5 mariadb-server munge ca-certificates curl git \
     squashfs-tools uidmap fuse2fs fuse-overlayfs fakeroot libseccomp2 \
     && rm -rf /var/lib/apt/lists/*
