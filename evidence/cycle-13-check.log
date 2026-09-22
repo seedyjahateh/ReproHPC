@@ -1,0 +1,53 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.6.0
+rootdir: /workspace
+configfile: pyproject.toml
+plugins: cov-6.3.0
+collected 228 items
+
+tests/unit/test_accounting.py ......                                     [  2%]
+tests/unit/test_archive.py ......                                        [  5%]
+tests/unit/test_benchmark.py ...                                         [  6%]
+tests/unit/test_cli.py .....                                             [  8%]
+tests/unit/test_contracts.py .....................                       [ 17%]
+tests/unit/test_documentation.py ..                                      [ 18%]
+tests/unit/test_host_io.py ...................                           [ 27%]
+tests/unit/test_mri.py ................................................. [ 48%]
+..                                                                       [ 49%]
+tests/unit/test_mri_pipeline.py ........                                 [ 53%]
+tests/unit/test_preflight.py ...................                         [ 61%]
+tests/unit/test_preparation.py ......                                    [ 64%]
+tests/unit/test_provenance.py ........................                   [ 74%]
+tests/unit/test_release_gate.py ..............                           [ 80%]
+tests/unit/test_reporting.py ..........                                  [ 85%]
+tests/unit/test_science.py ..............                                [ 91%]
+tests/unit/test_tasks.py ....                                            [ 92%]
+tests/integration/test_invalidation.py .                                 [ 93%]
+tests/integration/test_recovery.py .....                                 [ 95%]
+tests/integration/test_slurm.py ......                                   [ 98%]
+tests/integration/test_workflow.py ....                                  [100%]
+
+--------------- generated xml file: /scratch/cycle-13-tests.xml ----------------
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                         Stmts   Miss Branch BrPart  Cover   Missing
+------------------------------------------------------------------------
+src/reprohpc/__init__.py         1      0      0      0   100%
+src/reprohpc/archive.py        152      4     62      4    96%   29, 62, 95, 98
+src/reprohpc/cli.py            360     59    142     18    82%   71, 73, 82, 209-210, 243, 254, 262, 274, 319-327, 365-372, 469-471, 493, 495->498, 532-535, 548-550, 557->585, 581, 644-646, 652, 654, 657-697, 701-703, 707
+src/reprohpc/config.py         103      6     58      5    93%   59, 61, 108, 110, 123, 127
+src/reprohpc/data.py            95     14     36      8    83%   31, 52, 58, 61-62, 68, 88, 100, 104-105, 118, 129-131
+src/reprohpc/errors.py           4      0      0      0   100%
+src/reprohpc/io.py             207     11     72      8    93%   63, 141-142, 144, 161, 164, 198, 210, 246, 272, 301
+src/reprohpc/metadata.py        32      2      4      2    89%   101, 113
+src/reprohpc/mri.py            116      6     28      0    96%   116-117, 153-154, 178-179
+src/reprohpc/provenance.py     356     36    168     30    87%   61, 86, 162, 192, 194, 258, 266, 276, 282, 289, 293, 295, 317, 330, 338, 347, 351, 358, 406->412, 489, 506->492, 527, 532, 544-546, 551, 556-557, 561, 592, 597-599, 606, 610, 637-638
+src/reprohpc/reporting.py      106      6     46      6    92%   118, 121, 124, 135, 224, 231
+src/reprohpc/schema.py          15      0      2      0   100%
+src/reprohpc/science.py         73      2     14      2    95%   59, 158
+src/reprohpc/task.py           150     19     60     11    84%   84, 87, 152, 165, 167, 207, 223, 228, 231, 272-281, 290-294, 299
+------------------------------------------------------------------------
+TOTAL                         1770    165    692     94    89%
+Coverage XML written to file /scratch/coverage-cycle-13.xml
+======================= 228 passed in 4045.46s (1:07:25) =======================
