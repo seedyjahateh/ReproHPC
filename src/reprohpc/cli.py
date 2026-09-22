@@ -228,6 +228,15 @@ def resolve_site(args, root):
     return params, validate_execution(settings), configs, profile, flat
 
 
+def engine_science(params):
+    """The science block Nextflow hands to every task. Tasks re-validate it with
+    resolve_params, so it may carry only keys the routine's own contract accepts."""
+    science = {**science_params(params), "batch_size": params["batch_size"]}
+    if "write_previews" in params:
+        science["write_previews"] = params["write_previews"]
+    return science
+
+
 def run(args, root=ROOT):
     tools = doctor(args.profile)
     if tools["errors"]:
@@ -401,12 +410,7 @@ def _execute(
         "input_manifest": params["input_manifest"],
         "reference": params["reference"],
         "batch_size": params["batch_size"],
-        "science": {
-            **science_params(params),
-            # fsl-bet-volumetry-v1 writes no previews; main.nf reads this only for images.
-            "write_previews": params.get("write_previews", False),
-            "batch_size": params["batch_size"],
-        },
+        "science": engine_science(params),
     }
     effective_path = out / "provenance/engine.params.json"
     write_json(effective_path, effective)

@@ -342,6 +342,23 @@ def test_mri_parameters_are_validated_separately_from_images():
         resolve_params({"algorithm": "fsl-something-else"})
 
 
+@pytest.mark.parametrize(
+    "supplied",
+    [{}, {"algorithm": mri.ALGORITHM, "bet_frac": 0.45, "batch_size": 3}],
+    ids=["demo-cv-v1", "fsl-bet-volumetry-v1"],
+)
+def test_engine_science_is_accepted_by_the_task_side_validator(supplied):
+    """Nextflow passes the launcher's science block to tasks, which call resolve_params on it.
+    A key the routine does not accept (write_previews for MRI) made every real task fail."""
+    from reprohpc.cli import engine_science
+
+    params = resolve_params(supplied)
+    science = engine_science(params)
+    assert resolve_params(science) == {k: v for k, v in params.items() if k in science} | {
+        "schema_version": "1.0.0"
+    }
+
+
 def test_mixed_nifti_and_png_manifests_are_rejected():
     from reprohpc.data import sample_kind
 
