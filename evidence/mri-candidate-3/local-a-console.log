@@ -1,0 +1,4 @@
+Run cebabe09-ac00-46ac-9ced-abde2eb219a6
+Output: /scratch/mri-acceptance-candidate-3/local-a/run
+Status: success; session: d868c606-69ef-4d08-98ef-af5eea866d97; report: /scratch/mri-acceptance-candidate-3/local-a/run/report/index.html
+Resume: /workspace/reprohpc run --profile local --params-file /scratch/mri-acceptance-candidate-3/local-a/run/provenance/params.resolved.json --sif /scratch/reprohpc-fsl-candidate-3.sif --sif-sha256 e55ee8cc555fd3df177b4572f866d52879d03853ceefcf7e7c9494e6c31239f4 --resume d868c606-69ef-4d08-98ef-af5eea866d97 --outdir /scratch/mri-acceptance-candidate-3/local-a/run-resumed --work-dir /scratch/mri-acceptance-candidate-3/local-a/work --launch-dir /scratch/mri-acceptance-candidate-3/local-a/launch --partition demo --account '' --qos '' --array-size 4 --max-inflight 8 --analysis-memory '2 GB' --analysis-time '10 min'

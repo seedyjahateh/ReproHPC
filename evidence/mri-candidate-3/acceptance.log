@@ -1,0 +1,9 @@
+{
+  "local exact bytes": true,
+  "local voxels and volumes": true,
+  "golden vs local_a": true,
+  "golden vs local_b": true,
+  "golden vs slurm": true,
+  "slurm exact bytes vs local": true,
+  "slurm jobs accounted": true
+}

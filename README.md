@@ -3,6 +3,8 @@ A reproducible scientific imaging pipeline using Python/OpenCV, Nextflow DSL2, A
 
 See the [Product Requirements Document](PRD.md) for the MVP scope, architecture, testable requirements, acceptance criteria, and delivery plan.
 
+Two routines run through the same workflow: the synthetic `demo-cv-v1` image routine (also exercised on real [BBBC039 microscopy](docs/real-data.md)) and `fsl-bet-volumetry-v1`, which runs containerized [FSL brain extraction and volumetry](docs/neuroimaging.md) over public OpenNeuro T1w MRI on Slurm, with byte-identical reruns.
+
 This is a development candidate. [TASKS.md](TASKS.md) records verification and open release gates. No software/data DOI has been published. The supplied routine is the documented synthetic `demo-cv-v1` reference; no domain routine was supplied. Open OnDemand is an optional future integration.
 
 ## Start here
@@ -49,7 +51,7 @@ The eventual published release will support `python reprohpc reproduce --release
 
 ## Guides and contracts
 
-- [Architecture and DAG](docs/architecture.md), [algorithm](docs/algorithm.md), [real microscopy data](docs/real-data.md), [data dictionary](docs/data-dictionary.md), [JSON schemas](schemas/).
+- [Architecture and DAG](docs/architecture.md), [algorithm](docs/algorithm.md), [real microscopy data](docs/real-data.md), [FSL neuroimaging](docs/neuroimaging.md), [data dictionary](docs/data-dictionary.md), [JSON schemas](schemas/).
 - [Installation](docs/installation.md), [CLI/configuration](docs/interface.md), [operations and recovery](docs/operations.md), [testing](docs/testing.md).
 - [Benchmark methodology](docs/benchmark.md), [release procedure](docs/release.md), [acceptance evidence](docs/acceptance.md), [contributing](CONTRIBUTING.md).
 - [FAIR/NIH DMS alignment](docs/dms-alignment.md), [citation](CITATION.cff), [software license](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.md).
