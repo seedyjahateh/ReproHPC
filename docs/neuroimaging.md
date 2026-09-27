@@ -91,6 +91,84 @@ python scripts/mri_acceptance.py --sif "$SIF" --output /scratch/mri-acceptance -
 
 Add `--profile slurm --account research --partition demo` for the Slurm run. The data is reconstructed from `data/openneuro/ds000001/1.0.0/sources.json`, which pins each file's S3 object version, the size and MD5 that OpenNeuro publishes for snapshot 1.0.0, and the SHA-256 this project records. No image data is committed.
 
+## DICOM ingest and de-identification
+
+`src/reprohpc/deident.py` takes a DICOM series, applies an explicit tag policy, and converts the result to NIfTI with `dcm2niix`. Both steps run inside the FSL image. **This is a de-identification workflow, not a HIPAA compliance claim**, and this project makes no such claim anywhere.
+
+### The sample series
+
+[neurolabusc/dcm_qa_nih](https://github.com/neurolabusc/dcm_qa_nih), BSD-2-Clause, published to validate dcm2niix, pinned to commit `6a11dc67` with a per-file SHA-256 manifest in `data/dicom-sample/dcm_qa_nih/sources.json`. The series used is `In/20180918Si/mr_0003`, two Siemens EPI files.
+
+No patient data is involved. The patient identity in these files is a placeholder (`PatientName` = `Test^Regression`, `PatientID` = `DEV`), consistent with a scanner QA acquisition. What the files *do* carry is real institutional and device information: `InstitutionName` NIH, a full `InstitutionAddress`, department `FMRIF 3TD`, acquisition dates, `DeviceSerialNumber`, `StationName`, and 38 private Siemens elements. That is what makes it a useful test: there is something real to remove.
+
+### The policy
+
+| Action | What | Why |
+|---|---|---|
+| Replaced with a salted pseudonym | `PatientName`, `PatientID` | the series stays internally linkable without naming anyone |
+| Emptied (kept present, zero length) | `PatientBirthDate`, `PatientSex`, `ReferringPhysicianName`, `AccessionNumber`, `StudyID` | DICOM requires these attributes to exist |
+| Emptied **by value representation** | every `DA`, `DT` and `TM` element, anywhere | dates are identifiers; see the caveat below |
+| Removed entirely | 41 optional attributes naming a person, place, procedure or machine: patient demographics and contact details, `InstitutionName`/`Address`/`DepartmentName`, `StationName`, `DeviceSerialNumber`, physician and operator names, procedure-step and scheduling attributes, `StudyDescription` | they identify a person or a site, not the image |
+| Remapped **by value representation** | every `UI` element except `SOPClassUID`, `MediaStorageSOPClassUID`, `TransferSyntaxUID`, `ImplementationClassUID` | UIDs embed site and device identity; the exceptions name standards |
+| Removed | every private element, at every nesting level | vendor blocks (Siemens CSA here) can hold anything |
+| Removed | file-meta `SourceApplicationEntityTitle` and the other group-0002 AE titles | they name the sending system |
+| Kept | pixel data, geometry, and acquisition attributes: `Modality`, `Manufacturer`, `ManufacturerModelName`, `SoftwareVersions`, `ProtocolName`, `SeriesDescription`, `SequenceName`, `BodyPartExamined`, slice geometry and timing parameters, window settings | the science depends on them |
+
+Every rule runs on the top-level dataset **and on every dataset nested inside a sequence**. The per-file audit in the evidence lists each tag and the action applied to it, so "what was removed and what was kept" is recorded per run rather than asserted here.
+
+Two free-text fields, `SeriesDescription` and `ProtocolName`, are kept deliberately because conversion and BIDS naming use them. Free text can contain anything an operator typed, so that is a judgement call, not a safe default.
+
+### How it is checked
+
+Twice, independently. Inside the container, `deident.py` re-reads each file it wrote and fails if a removed tag is present, a private element or date survived, the pseudonym is not in place, `PatientIdentityRemoved` is not `YES`, or any original identifier or UID string appears anywhere in the file. Then, on the host, `scripts/ingest_dicom.py` re-reads every produced byte, including the NIfTI and its JSON sidecar, and fails if any watched source value appears. The container's own verdict is never the only evidence.
+
+### What those checks caught
+
+Every one of these was found by the verification, on the first real series, after the unit tests on synthetic data already passed:
+
+1. **The station name survived in file meta.** `SourceApplicationEntityTitle (0002,0016)` held `AWP45160`; the policy only walked the main dataset. Group 0002 is now covered.
+2. **The scanner's serial number survived inside UIDs** that the named list did not enumerate. UIDs are now remapped by value representation, not by name.
+3. **The acquisition date survived in `InstanceCreationDate`**, which the named date list missed. Dates are now emptied by value representation.
+4. **The facility name `FMRIF^QA` survived** in `StudyDescription` and in a copy of `PerformedProcedureStepDescription` nested inside a sequence, though that attribute was already in the removal list. Rules now recurse into sequences.
+
+The lesson is recorded because it generalises: enumerating tag names is not sufficient, and a de-identification routine that is not independently re-read after writing will report success it has not earned.
+
+### The recorded run
+
+Candidate-5 FSL image (`298a7c60…2a98f`), two DICOM files:
+
+| | |
+|---|---|
+| Private elements removed | 38 |
+| UIDs remapped | 20 |
+| Dates and times emptied | 10 |
+| Attributes removed | 14 |
+| Attributes emptied | 5 |
+| Replaced with pseudonym | 2 (`PatientName`, `PatientID`) |
+| File-meta entries removed | 1 |
+| Attributes kept | 74 |
+| Independent host scan | 4 files, **0 leaks** |
+
+Outputs: two de-identified DICOM files, one NIfTI and its BIDS sidecar. Evidence in `evidence/dicom-ingest-candidate-5/`, which holds the full per-tag audit; that audit records tag numbers, keywords and actions, and contains no identifier values.
+
+Two observations from the conversion. `dcm2niix` writes the literal string `"None"` into the sidecar for fields it cannot find, so `InstitutionalDepartmentName: "None"` in the sidecar is an absent value rather than a retained one; the `DeidentificationMethod` string propagates into the sidecar, which is useful. And this QA series is EPI, a 4-D functional acquisition (72 × 72 × 9, two volumes), so it is *not* an input for the volumetry routine, whose NIfTI reader correctly rejects anything that is not a single 3-D volume. The ingest is demonstrated here end to end; it was not chained into brain extraction, because this series is the wrong modality for it.
+
+```bash
+python scripts/ingest_dicom.py --sif /scratch/reprohpc-fsl-candidate-5.sif \
+    --output /workspace/artifacts/dicom-ingest --host-output artifacts/dicom-ingest \
+    --keys /scratch/dicom-keys
+```
+
+`--keys` is deliberately separate: it is where the re-identification mapping goes, and it must not be a shared or version-controlled path.
+
+### What this does not do
+
+- **No HIPAA or regulatory claim.** Removing tags is one part of de-identification. This is not a DICOM PS3.15 confidentiality profile, and it is not a substitute for an institution's approved process or for any legal determination.
+- **No pixel-data inspection.** Identifiers burned into the image itself are not detected or removed.
+- **Dates are removed, not shifted.** Relative timing does not survive. An analysis needing intervals would require a date-shifting policy instead.
+- **The mapping is a re-identification key.** `mapping.json` holds the salt and the original identifiers, so it is written outside the de-identified output, the tool refuses to write it inside that output, and in the recorded run it was kept on a path that is neither shared nor version-controlled.
+- **Not validated against another de-identification tool** (for example `gdcmanon`, `dcm2niix -ba`, or CTP), and not reviewed by a privacy officer.
+
 ## How it fits the existing pipeline
 
 `VALIDATE_DATASET`, `AGGREGATE` and `REPORT` are the same Nextflow processes for both routines, and `MRI_BATCH` mirrors `ANALYZE_BATCH`. The Python behind those processes dispatches on `algorithm`, because a 3-D brain mask and a brain volume cannot be represented in the 2-D image contract (`width`, `height`, `object_count`, `mask.npy`) without misreporting them. The MRI routine therefore has its own contracts (`schemas/mri_*.json`) and its own static report; every existing schema file is unchanged byte for byte, and the image workspace report is untouched. See [architecture](architecture.md) and [the algorithm contract](algorithm.md) for the demo routine's side.
