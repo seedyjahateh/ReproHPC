@@ -276,7 +276,17 @@ def test_workflow_limit_failure_and_corrected_resume(tmp_path, runtime, monkeypa
     assert any(any(row[1] == state for row in t["usage"]["slurm_records"]) for t in analysis), tasks
     ids = sorted({t["native_id"].split("_")[0] for t in tasks if t["native_id"]})
     # Only this run's allocation IDs are queried. A missing purged job is also terminal.
-    queue = subprocess.run(["squeue", "-h", "-j", ",".join(ids)], capture_output=True, text=True)
+    # Cleanup is guaranteed within 60 seconds (M-10), not instantly: elements seen right after
+    # the driver returns are normally in CG, still tearing down. Wait for that bound instead of
+    # requiring an empty queue on the first look, and still fail if anything outlives it.
+    deadline = time.monotonic() + 60
+    while True:
+        queue = subprocess.run(
+            ["squeue", "-h", "-j", ",".join(ids)], capture_output=True, text=True
+        )
+        if not queue.stdout.strip() or time.monotonic() >= deadline:
+            break
+        time.sleep(2)
     assert not queue.stdout.strip(), queue.stdout
     correction = ["--analysis-memory", "2 GB"] if fault == "oom" else ["--analysis-time", "3 min"]
     resumed = arguments(
