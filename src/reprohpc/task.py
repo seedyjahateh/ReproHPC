@@ -163,8 +163,9 @@ def aggregate_mri(locations, expected_ids, output):
         metric = validate("mri_metrics", read_json(locations[sid] / "metrics.json"))
         if metric["sample_id"] != sid:
             raise ReproError(f"Wrong metrics identity: {sid}", 4)
-        if not (locations[sid] / "brain_mask.nii.gz").is_file():
-            raise ReproError(f"Missing brain mask for {sid}", 4)
+        for name in ("brain_mask.nii.gz", "preview.png"):
+            if not (locations[sid] / name).is_file():
+                raise ReproError(f"Missing {name} for {sid}", 4)
         voxels += metric["brain_voxels"]
         for code in metric["qc"]:
             qc[code] = qc.get(code, 0) + 1

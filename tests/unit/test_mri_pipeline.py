@@ -28,7 +28,7 @@ from reprohpc.provenance import (
     write_checksums,
     write_tasks,
 )
-from reprohpc.reporting import check_report_links
+from reprohpc.reporting import check_report_links, nice_ceiling
 from reprohpc.task import aggregate, mri_batch, report, validate_task
 
 DIMS = (6, 5, 4)
@@ -365,3 +365,56 @@ def test_mixed_nifti_and_png_manifests_are_rejected():
     assert sample_kind([{"path": "a.nii.gz"}, {"path": "b.nii"}]) == "nifti"
     with pytest.raises(ReproError, match="mixes"):
         sample_kind([{"path": "a.nii.gz"}, {"path": "b.png"}])
+
+
+def test_report_embeds_a_montage_per_subject_and_a_volume_chart(mri_run):
+    document = (mri_run / "report/index.html").read_text(encoding="utf-8")
+    assert document.count("data:image/png;base64,") == 3
+    assert "img-src data:" in document, "embedded montages need an img-src allowance"
+    for sid in ("sub-01", "sub-02", "sub-03"):
+        assert f'alt="Mid sagittal, coronal and axial slices of {sid}' in document
+        assert f'href="../samples/{sid}/preview.png"' in document
+    assert document.count('class="volume-chart"') == 1
+    # One bar per subject, plus the median rule and gridlines, all as inline SVG.
+    assert document.count('fill="var(--green)"') == 3
+    assert "median" in document and "Brain volume (mL)" in document
+    assert "<script" not in document
+    links = check_report_links(mri_run)
+    assert "samples/sub-02/preview.png" in links
+
+
+def test_report_states_a_missing_montage_instead_of_failing(mri_run, tmp_path):
+    batches = sorted((mri_run.parent / "batches").iterdir())
+    (batches[0] / "samples/sub-01/preview.png").unlink()
+    science = {**read_json(mri_run / "provenance/params.resolved.json")}
+    report(mri_run / "summary", science, batches, tmp_path / "degraded.html")
+    document = (tmp_path / "degraded.html").read_text(encoding="utf-8")
+    assert "No montage was written for sub-01" in document
+    assert document.count("data:image/png;base64,") == 2
+
+
+def test_aggregate_requires_the_montage_it_publishes(mri_run):
+    batches = sorted((mri_run.parent / "batches").iterdir())
+    (batches[0] / "samples/sub-01/preview.png").unlink()
+    with pytest.raises(ReproError, match="Missing preview.png for sub-01"):
+        aggregate(batches, ["sub-01", "sub-02", "sub-03"], mri_run / "summary-again")
+
+
+@pytest.mark.parametrize(
+    "value, expected", [(0.0, 4.0), (1.0, 1.0), (940.0, 1000.0), (1500.0, 2000.0), (1010.0, 2000.0)]
+)
+def test_chart_axis_rounds_up_to_readable_gridlines(value, expected):
+    assert nice_ceiling(value) == expected
+
+
+def test_png_size_reads_the_ihdr_so_embedded_montages_reserve_their_space(mri_run):
+    from reprohpc.reporting import png_size
+
+    preview = (mri_run / "samples/sub-01/preview.png").read_bytes()
+    width, height = png_size(preview)
+    # Three tiles of the 6x5x4 fixture, scaled to one height: wider than it is tall.
+    assert height == mri.PREVIEW_HEIGHT and width > height
+    document = (mri_run / "report/index.html").read_text(encoding="utf-8")
+    assert f'width="{width}" height="{height}"' in document
+    with pytest.raises(ReproError, match="not a PNG"):
+        png_size(b"\x89PNG\r\n\x1a\n" + b"0" * 32)

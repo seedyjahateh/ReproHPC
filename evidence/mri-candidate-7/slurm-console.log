@@ -1,0 +1,4 @@
+Run b78a42af-a11c-42c9-81da-6e77689bd947
+Output: /scratch/mri-acceptance-candidate-7/slurm/run
+Status: success; session: dbd8a52b-21c4-4e4a-a21c-9a934e59be00; report: /scratch/mri-acceptance-candidate-7/slurm/run/report/index.html
+Resume: /workspace/reprohpc run --profile slurm --params-file /scratch/mri-acceptance-candidate-7/slurm/run/provenance/params.resolved.json --sif /scratch/reprohpc-fsl-candidate-7.sif --sif-sha256 d37ede021fe8936db533d3117c00ba28828f80bb3817ed0228bb8367281737c9 --resume dbd8a52b-21c4-4e4a-a21c-9a934e59be00 --outdir /scratch/mri-acceptance-candidate-7/slurm/run-resumed --work-dir /scratch/mri-acceptance-candidate-7/slurm/work --launch-dir /scratch/mri-acceptance-candidate-7/slurm/launch --partition demo --account research --qos '' --array-size 4 --max-inflight 8 --analysis-memory '2 GB' --analysis-time '10 min'

@@ -24,6 +24,10 @@ python -m http.server 8765 --bind 127.0.0.1 --directory path/to/completed-run
 
 Then open `http://127.0.0.1:8765/report/index.html`. The server exposes only the selected local directory; stop it with Ctrl+C when finished.
 
+## Brain volumetry report
+
+Runs of `fsl-bet-volumetry-v1` write a different `report/index.html` at the same path: a static document with no JavaScript at all, sharing the same stylesheet. It carries a volume distribution chart as inline SVG, one QC montage per subject (mid sagittal, coronal and axial slices with the BET mask outlined, embedded as PNG data URIs, at most 24 subjects), the per-subject table with the mask, montage and metrics downloads, and the FSL identity and content hashes. Its figures come from the same run as its numbers and are reproducible byte for byte; [neuroimaging](neuroimaging.md) records what they do and do not show.
+
 ## Accessibility and maintenance
 
 Navigation, filters, table links, pagination, and the full-screen viewer support keyboards and visible focus. The viewer is a native modal dialog, so the browser confines focus to it while open and Escape closes it; automated WCAG A/AA checks run against the report with the viewer open as well as on each view. The interface respects reduced-motion settings. Small screens use horizontal navigation and a scrollable measurements table. Without JavaScript, the overview counts, scientific parameters, QC counts, and table links remain available. Printing includes the current pages of the report views; export CSVs for complete datasets.

@@ -12,7 +12,10 @@ from pathlib import Path
 
 from .config import MRI_ALGORITHM, science_params
 from .errors import ReproError
-from .io import fingerprint, nifti_header, write_json
+from .io import NIFTI_TYPES, atomic_bytes, fingerprint, nifti_header, write_json
+
+# Bytes per voxel by dtype name, from the shared NIfTI datatype table.
+NIFTI_TYPES_BY_NAME = {name: width for name, _, width in NIFTI_TYPES.values()}
 
 ALGORITHM = MRI_ALGORITHM
 MASK_NAME = "brain_mask.nii.gz"
@@ -184,6 +187,69 @@ def bet2_banner() -> list[str]:
     return banner
 
 
+PREVIEW_HEIGHT = 240
+PREVIEW_NAME = "preview.png"
+
+
+def load_volume(path: Path):
+    """The voxel array as NIfTI stores it, x fastest, using the header's own dtype."""
+    import gzip
+
+    import numpy as np
+
+    header = nifti_header(path)
+    expected = header.voxels * NIFTI_TYPES_BY_NAME[header.datatype]
+    opener = gzip.open if path.name.endswith(".gz") else open
+    with opener(path, "rb") as stream:
+        if len(stream.read(header.vox_offset)) != header.vox_offset:
+            raise ReproError(f"Truncated NIfTI before voxel data: {path}", 4)
+        raw = stream.read(expected)
+    if len(raw) != expected:
+        raise ReproError(f"Truncated NIfTI voxel data: {path}", 4)
+    dtype = np.dtype(header.datatype).newbyteorder(header.byteorder)
+    return np.frombuffer(raw, dtype=dtype, count=header.voxels).reshape(header.dims, order="F")
+
+
+def montage(image: Path, mask: Path, destination: Path):
+    """Mid sagittal, coronal and axial slices with the brain mask outlined.
+
+    Drawn with OpenCV, which the image already carries for the demo routine, rather than
+    adding a plotting stack. Percentile windowing and nearest-neighbour mask resizing keep
+    the encoded bytes identical between runs, which the determinism comparison checks.
+    """
+    import cv2
+    import numpy as np
+
+    volume, brain = load_volume(image), load_volume(mask)
+    low, high = np.percentile(volume, [1.0, 99.5])
+    span = float(high - low) or 1.0
+    x, y, z = (size // 2 for size in volume.shape)
+    tiles = []
+    for plane, outline in (
+        (volume[x, :, :], brain[x, :, :]),
+        (volume[:, y, :], brain[:, y, :]),
+        (volume[:, :, z], brain[:, :, z]),
+    ):
+        grey = np.clip((np.rot90(plane).astype(np.float64) - low) / span * 255.0, 0, 255)
+        grey = grey.astype(np.uint8)
+        scale = PREVIEW_HEIGHT / grey.shape[0]
+        size = (max(1, round(grey.shape[1] * scale)), PREVIEW_HEIGHT)
+        tile = cv2.cvtColor(
+            cv2.resize(grey, size, interpolation=cv2.INTER_AREA), cv2.COLOR_GRAY2BGR
+        )
+        edge = cv2.resize(
+            (np.rot90(outline) != 0).astype(np.uint8), size, interpolation=cv2.INTER_NEAREST
+        )
+        contours, _ = cv2.findContours(edge, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        cv2.drawContours(tile, contours, -1, (0, 0, 255), 1)
+        tiles.append(cv2.copyMakeBorder(tile, 0, 0, 0, 6, cv2.BORDER_CONSTANT, value=(0, 0, 0)))
+    success, encoded = cv2.imencode(".png", np.hstack(tiles))
+    if not success:
+        raise ReproError(f"Could not encode the QC montage for {image.name}", 4)
+    atomic_bytes(destination, encoded.tobytes())
+    return destination
+
+
 def analyze_subject(image: Path, sample_id: str, params: dict, directory: Path) -> dict:
     header = nifti_header(image)
     mask = skull_strip(image, directory, params["bet_frac"])
@@ -200,4 +266,5 @@ def analyze_subject(image: Path, sample_id: str, params: dict, directory: Path) 
         "parameter_sha256": fingerprint(science_params(params)),
     }
     write_json(directory / "metrics.json", metrics)
+    montage(image, mask, directory / PREVIEW_NAME)
     return metrics

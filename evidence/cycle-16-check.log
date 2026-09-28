@@ -1,0 +1,55 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.6.0
+rootdir: /workspace
+configfile: pyproject.toml
+plugins: cov-6.3.0
+collected 256 items
+
+tests/unit/test_accounting.py ......                                     [  2%]
+tests/unit/test_archive.py ......                                        [  4%]
+tests/unit/test_benchmark.py ...                                         [  5%]
+tests/unit/test_cli.py .....                                             [  7%]
+tests/unit/test_contracts.py .....................                       [ 16%]
+tests/unit/test_deident.py ............                                  [ 20%]
+tests/unit/test_documentation.py ..                                      [ 21%]
+tests/unit/test_host_io.py ...................                           [ 28%]
+tests/unit/test_mri.py ................................................. [ 48%]
+.........                                                                [ 51%]
+tests/unit/test_mri_pipeline.py .................                        [ 58%]
+tests/unit/test_preflight.py ...................                         [ 65%]
+tests/unit/test_preparation.py ......                                    [ 67%]
+tests/unit/test_provenance.py ........................                   [ 77%]
+tests/unit/test_release_gate.py ..............                           [ 82%]
+tests/unit/test_reporting.py ..........                                  [ 86%]
+tests/unit/test_science.py ..............                                [ 92%]
+tests/unit/test_tasks.py ....                                            [ 93%]
+tests/integration/test_invalidation.py .                                 [ 94%]
+tests/integration/test_recovery.py .....                                 [ 96%]
+tests/integration/test_slurm.py ......                                   [ 98%]
+tests/integration/test_workflow.py ....                                  [100%]
+
+--------------- generated xml file: /scratch/cycle-16-tests.xml ----------------
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                         Stmts   Miss Branch BrPart  Cover   Missing
+------------------------------------------------------------------------
+src/reprohpc/__init__.py         1      0      0      0   100%
+src/reprohpc/archive.py        152      4     62      4    96%   29, 62, 95, 98
+src/reprohpc/cli.py            360     59    142     18    82%   71, 73, 82, 209-210, 243, 254, 262, 274, 319-327, 365-372, 469-471, 493, 495->498, 532-535, 548-550, 557->585, 581, 644-646, 652, 654, 657-697, 701-703, 707
+src/reprohpc/config.py         103      6     58      5    93%   59, 61, 108, 110, 123, 127
+src/reprohpc/data.py            95     14     36      8    83%   31, 52, 58, 61-62, 68, 88, 100, 104-105, 118, 129-131
+src/reprohpc/deident.py        180     24     94     14    85%   147->144, 157-158, 195->194, 199->198, 233->246, 234->236, 268, 271, 277, 280, 283, 356-378, 397-399, 402-406, 407->409, 414-416
+src/reprohpc/errors.py           4      0      0      0   100%
+src/reprohpc/io.py             207     11     72      8    93%   63, 141-142, 144, 161, 164, 198, 210, 246, 272, 301
+src/reprohpc/metadata.py        32      2      4      2    89%   101, 113
+src/reprohpc/mri.py            157      8     36      2    95%   119-120, 156-157, 181-182, 205, 248
+src/reprohpc/provenance.py     356     36    168     30    87%   61, 86, 162, 192, 194, 258, 266, 276, 282, 289, 293, 295, 317, 330, 338, 347, 351, 358, 406->412, 489, 506->492, 527, 532, 544-546, 551, 556-557, 561, 592, 597-599, 606, 610, 637-638
+src/reprohpc/reporting.py      154      6     56      6    94%   197, 200, 204, 215, 349, 356
+src/reprohpc/schema.py          15      0      2      0   100%
+src/reprohpc/science.py         73      2     14      2    95%   59, 158
+src/reprohpc/task.py           151     18     62     10    85%   84, 87, 152, 165, 208, 224, 229, 232, 273-282, 291-295, 300
+------------------------------------------------------------------------
+TOTAL                         2040    190    806    109    89%
+Coverage XML written to file /scratch/coverage-cycle-16.xml
+======================= 256 passed in 1250.00s (0:20:50) =======================

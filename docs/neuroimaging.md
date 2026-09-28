@@ -12,9 +12,9 @@ This is engineering evidence. Nothing here is clinical, diagnostic, or validated
 | Subjects | 5 (sub-01 … sub-05), T1w anatomicals only, defaced by the dataset's publishers |
 | FSL | **6.0.7.23** (`fsl-bet2` 2111.9, `fsl-avwutils` 2209.6); `bet2` reports `Part of FSL (ID: 2412.6-dirty)` and `BET (Brain Extraction Tool) v2.1` |
 | Tools called | `bet` (mask only: `-f <bet_frac> -m -n`), `fslstats -V` (voxels and volume), `fslstats -w` (bounding box) |
-| Image | `containers/Dockerfile.fsl`, SIF `e55ee8cc555fd3df177b4572f866d52879d03853ceefcf7e7c9494e6c31239f4`, 396,185,600 bytes |
+| Image | `containers/Dockerfile.fsl`, SIF `d37ede021fe8936db533d3117c00ba28828f80bb3817ed0228bb8367281737c9`, 402,878,464 bytes |
 | Runs | Two local runs in independent work/launch/output directories, and one Slurm run, all on that SIF |
-| Evidence | `evidence/mri-candidate-3/` |
+| Evidence | `evidence/mri-candidate-7/` (`evidence/mri-candidate-3/` is the earlier run, before DICOM ingest and QC figures) |
 
 ### Brain volumes
 
@@ -30,7 +30,7 @@ Volume is the mask's non-zero voxel count times the image's voxel volume (1.0 ×
 
 ### Determinism
 
-Two local runs and one Slurm run, same SIF and inputs, produced **identical results**: every scientific file matched byte for byte, every mask matched by voxel hash, and the maximum absolute difference in `brain_volume_mm3` was **0.0** across all five subjects, local versus local and local versus Slurm. All three runs also match the stored golden exactly. BET is deterministic here; the gzipped NIfTI masks were byte-identical too, so zlib's framing did not vary between runs.
+Two local runs and one Slurm run, same SIF and inputs, produced **identical results**: every scientific file matched byte for byte (masks, metrics, subject table and QC montages), every mask matched by voxel hash, and the maximum absolute difference in `brain_volume_mm3` was **0.0** across all five subjects, local versus local and local versus Slurm. All three runs also match the stored golden exactly. BET is deterministic here; the gzipped NIfTI masks were byte-identical too, so zlib's framing did not vary between runs.
 
 Untested: determinism across different CPUs. All runs were on one machine, so this says nothing about different instruction sets or a different FSL build.
 
@@ -50,7 +50,7 @@ This is visual inspection of three slices on two subjects, against no ground tru
 
 **Skull-base tissue stays in the mask.** At every `-f` tested, some bright tissue below the brain remained inside the mask on both tuning subjects, and the same appears on sub-05. This is a known BET behaviour on T1 images that include the neck when run without `-R`, `-B`, or a `robustfov` crop first. The volumes above are therefore slight over-estimates of brain tissue, and closer to an intracranial measure in that region.
 
-**sub-04's image was already skull-stripped upstream.** Its T1w is 86.3% exactly-zero voxels, against 7.4–9.4% for the other four subjects, where zeros come only from defacing. Its file is 1.2 MB against about 5.5 MB. So for sub-04 the pipeline ran BET on an image that had already been brain-extracted, and its 1,173.7 mL is not comparable with the others. **None of the QC flags caught this**: the volume is inside the plausible range and the mask is clear of the field-of-view edges. A pre-stripped-input check would be a sensible addition; it does not exist yet.
+**sub-04's image was already skull-stripped upstream.** Its T1w is 86.3% exactly-zero voxels, against 7.4–9.4% for the other four subjects, where zeros come only from defacing. Its file is 1.2 MB against about 5.5 MB. So for sub-04 the pipeline ran BET on an image that had already been brain-extracted, and its 1,173.7 mL is not comparable with the others. **None of the QC flags caught this**: the volume is inside the plausible range and the mask is clear of the field-of-view edges. The montage added in the QC visualization below makes it obvious on sight — there is no skull anywhere in the image — but the automated check that would catch it does not exist yet.
 
 **The golden is a regression anchor, not an oracle.** `tests/expected/openneuro/ds000001/1.0.0/expected.json` was written from a verified run of this SIF and holds hashes and numbers only. It proves later runs reproduce these results; it does not prove the results are correct. This differs from the demo routine, whose goldens come from an independent implementation in `tests/reference_oracle.py`.
 
@@ -78,7 +78,7 @@ python scripts/build_candidate.py --dockerfile containers/Dockerfile.fsl \
     --image reprohpc-fsl:dev --name reprohpc-fsl --discard-oci
 
 # 3. One run (inside the lab, as researcher).
-SIF=/scratch/reprohpc-fsl-candidate-3.sif
+SIF=/scratch/reprohpc-fsl-candidate-7.sif
 python reprohpc run --profile local --params-file params/openneuro.yaml \
     --sif "$SIF" --sif-sha256 "$(sha256sum "$SIF" | cut -d' ' -f1)" \
     --outdir /scratch/mri/run --work-dir /scratch/mri/work --launch-dir /scratch/mri/launch
@@ -168,6 +168,24 @@ python scripts/ingest_dicom.py --sif /scratch/reprohpc-fsl-candidate-5.sif \
 - **Dates are removed, not shifted.** Relative timing does not survive. An analysis needing intervals would require a date-shifting policy instead.
 - **The mapping is a re-identification key.** `mapping.json` holds the salt and the original identifiers, so it is written outside the de-identified output, the tool refuses to write it inside that output, and in the recorded run it was kept on a path that is neither shared nor version-controlled.
 - **Not validated against another de-identification tool** (for example `gdcmanon`, `dcm2niix -ba`, or CTP), and not reviewed by a privacy officer.
+
+## QC visualization
+
+The report carries two static figures per run, both generated offline inside the same container as the science.
+
+**Per-subject montages.** `mri.montage()` draws the mid sagittal, coronal and axial slice of each input image and outlines the BET mask on top of it in red. Intensities are windowed to that subject's own 1st–99.5th percentile, each slice is scaled to a common 240 px height, and the three tiles are joined into one `preview.png` published beside `brain_mask.nii.gz` and `metrics.json`. The outline is traced from the mask FSL wrote, not redrawn from the image: replacing the mask with an intensity threshold is caught by a unit test.
+
+**Volume distribution.** One inline SVG bar chart, one bar per subject in subject order, with a dashed rule at the median and gridlines rounded to a 1/2/5 × 10^k step. It is text and vectors, so it scales, stays selectable, and adds no bytes of image data.
+
+**Not nilearn or matplotlib.** The task asked for nilearn or matplotlib. Both were rejected: the image already carries NumPy and OpenCV for the demo routine's previews, and neither plotting stack adds a capability these two figures need. Using them would have grown the container, added a second rendering path to pin for determinism, and bought nothing. Slice selection and windowing are the only "neuroimaging" logic involved, and they are eight lines of NumPy.
+
+**They are deterministic.** The acceptance comparison is byte-exact over every published scientific file, which now includes `preview.png`. Two independent local runs and the Slurm run produced identical montage bytes for all five subjects on `apptainer 1.5.3` with OpenCV 4.12.0.88 as pinned in `requirements.lock`.
+
+**What the montages caught.** They make the two findings above visible rather than merely stated. sub-04's montage has no skull, scalp or neck anywhere — it is obviously an already-extracted brain, which the numeric QC flags missed entirely. On the other four, the outline visibly dips below the brain into skull-base tissue, which is the `-f` behaviour described above.
+
+**Size.** A montage of these 160 × 192 × 192 volumes is 110–290 KB, and the report embeds at most 24 of them, so a full report is a few megabytes of self-contained HTML. The run directory keeps each `preview.png` as its own file regardless.
+
+**Limits.** Three mid slices per subject is a sanity check, not a QC protocol: a defect away from those planes is invisible here. The montage is a rendering, so it is deliberately **not** pinned in `tests/expected/openneuro/.../expected.json`, which holds scientific numbers and mask voxel hashes only; an OpenCV upgrade may change the encoded pixels without changing any result. Run-to-run determinism of the montage is checked, an absolute appearance is not.
 
 ## How it fits the existing pipeline
 

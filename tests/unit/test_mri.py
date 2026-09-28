@@ -233,7 +233,7 @@ def test_analyze_subject_records_fsl_measurements(fsl, tmp_path, monkeypatch):
     image = write_nifti(tmp_path / "t1.nii.gz", [0] * 24, (2, 3, 4), "int16", (1.0, 1.2, 0.9))
 
     def writes_mask(argv):
-        Path(argv[2] + "_mask.nii.gz").write_bytes(b"mask")
+        write_nifti(Path(argv[2] + "_mask.nii.gz"), [1] * 20 + [0] * 4, (2, 3, 4), "uint8")
         return 0, "", ""
 
     monkeypatch.setattr(
@@ -243,6 +243,7 @@ def test_analyze_subject_records_fsl_measurements(fsl, tmp_path, monkeypatch):
     )
     params = {"algorithm": mri.ALGORITHM, "bet_frac": 0.4}
     metrics = mri.analyze_subject(image, "sub-01", params, tmp_path / "out")
+    assert (tmp_path / "out" / mri.PREVIEW_NAME).is_file()
     assert metrics["dims"] == [2, 3, 4]
     assert metrics["voxel_size_mm"] == pytest.approx([1.0, 1.2, 0.9])
     assert (metrics["brain_voxels"], metrics["brain_volume_mm3"]) == (20, 21.6)
@@ -290,3 +291,85 @@ def test_nifti_reader_rejects_truncation_and_non_nifti(tmp_path):
     (tmp_path / "x.nii.gz").write_bytes(gzip.compress(b"\x00" * 400))
     with pytest.raises(ReproError, match="sizeof_hdr"):
         nifti_header(tmp_path / "x.nii.gz")
+
+
+def cube(dims, low, high, value=220):
+    """A volume whose voxels are bright inside a centred cube and dark outside it."""
+    voxels = []
+    for z in range(dims[2]):
+        for y in range(dims[1]):
+            for x in range(dims[0]):
+                inside = all(low <= c < high for c in (x, y, z))
+                voxels.append(value if inside else 10)
+    return voxels
+
+
+def montage_pixels(path):
+    import cv2
+    import numpy as np
+
+    return cv2.imdecode(np.frombuffer(path.read_bytes(), np.uint8), cv2.IMREAD_COLOR)
+
+
+@pytest.mark.parametrize("datatype,byteorder", [("uint8", "<"), ("int16", ">"), ("float32", "<")])
+def test_load_volume_reads_voxels_in_nifti_order(tmp_path, datatype, byteorder):
+    import numpy as np
+
+    dims = (2, 3, 4)
+    voxels = list(range(24))
+    path = write_nifti(tmp_path / "v.nii.gz", voxels, dims, datatype, byteorder=byteorder)
+    volume = mri.load_volume(path)
+    assert volume.shape == dims
+    # NIfTI stores x fastest: the flat order must round-trip through the Fortran reshape.
+    assert np.array_equal(volume.reshape(-1, order="F"), np.array(voxels, dtype=volume.dtype))
+
+
+def test_load_volume_rejects_truncated_voxel_data(tmp_path):
+    path = write_nifti(tmp_path / "v.nii", [1] * 24, (2, 3, 4))
+    path.write_bytes(path.read_bytes()[:-3])
+    with pytest.raises(ReproError, match="Truncated NIfTI voxel data"):
+        mri.load_volume(path)
+
+
+def test_montage_is_byte_identical_between_runs(tmp_path):
+    dims = (20, 18, 16)
+    image = write_nifti(tmp_path / "t1.nii.gz", cube(dims, 4, 13), dims, "int16")
+    mask = write_nifti(tmp_path / "m.nii.gz", [int(v > 100) for v in cube(dims, 4, 13)], dims)
+    first = mri.montage(image, mask, tmp_path / "a.png")
+    second = mri.montage(image, mask, tmp_path / "b.png")
+    assert first.read_bytes() == second.read_bytes()
+    pixels = montage_pixels(first)
+    # Three tiles scaled to a common height, each with a 6 px separator to its right. After the
+    # display rotation the planes are (y,z), (x,z) and (x,y) with z, z and y as their heights.
+    x, y, z = dims
+    assert pixels.shape[0] == mri.PREVIEW_HEIGHT
+    assert pixels.shape[1] == sum(
+        round(width * mri.PREVIEW_HEIGHT / height) + 6 for width, height in ((y, z), (x, z), (x, y))
+    )
+
+
+def test_montage_outlines_the_mask_and_nothing_else(tmp_path):
+    dims = (20, 18, 16)
+    voxels = cube(dims, 4, 13)
+    image = write_nifti(tmp_path / "t1.nii.gz", voxels, dims, "int16")
+    outlined = mri.montage(
+        image,
+        write_nifti(tmp_path / "m.nii.gz", [int(v > 100) for v in voxels], dims),
+        tmp_path / "outlined.png",
+    )
+    empty = mri.montage(
+        image, write_nifti(tmp_path / "e.nii.gz", [0] * len(voxels), dims), tmp_path / "empty.png"
+    )
+    red = montage_pixels(outlined)
+    assert ((red[:, :, 2] == 255) & (red[:, :, 0] == 0) & (red[:, :, 1] == 0)).any()
+    blank = montage_pixels(empty)
+    # No mask, no outline: the same slices are drawn with no red anywhere.
+    assert not ((blank[:, :, 2] == 255) & (blank[:, :, 0] == 0) & (blank[:, :, 1] == 0)).any()
+
+
+def test_montage_windows_each_image_to_its_own_percentiles(tmp_path):
+    """A uniform volume has a zero-width window; the montage must still encode, not divide by 0."""
+    dims = (8, 8, 8)
+    image = write_nifti(tmp_path / "flat.nii.gz", [50] * 512, dims, "int16")
+    mask = write_nifti(tmp_path / "m.nii.gz", [1] * 512, dims)
+    assert montage_pixels(mri.montage(image, mask, tmp_path / "flat.png")).shape[0] == 240

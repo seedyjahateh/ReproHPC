@@ -19,7 +19,7 @@ workflow {
             def spec = [batch_id: String.format('batch-%06d',idx), samples:group, params:params.science,
                 calibration:document.calibration, reference_sha256:params.reference_sha256, sif_sha256:params.sif_sha256]
             def encoded = groovy.json.JsonOutput.toJson(spec).bytes.encodeBase64().toString()
-            def names = mri ? ['brain_mask.nii.gz', 'metrics.json']
+            def names = mri ? ['brain_mask.nii.gz', 'metrics.json', 'preview.png']
                 : ['mask.npy', 'objects.csv', 'metrics.json'] + (params.science.write_previews ? ['preview.png'] : [])
             def expected = group.collectMany { sample -> names.collect { name -> "result/samples/${sample.sample_id}/${name}".toString() } }
             tuple(spec.batch_id, encoded, expected, group.collect { file("${document.data_root}/${it.path}") })
