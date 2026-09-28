@@ -19,6 +19,18 @@ jobs:
         with:
           path: .tools/lab-build
           key: tools-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('environment.lock.json', 'requirements*.lock', 'ops/slurm/Dockerfile') }}
+      - name: Allow nested unprivileged user namespaces
+        run: |
+          # Apptainer runs as an unprivileged user inside the lab container and needs a user
+          # namespace. Ubuntu 24.04 runners restrict that through AppArmor, which shows up as
+          # "Could not write info to setgroups: Permission denied". Print the state first, so a
+          # failure here is diagnosable rather than mysterious.
+          for knob in kernel/apparmor_restrict_unprivileged_userns user/max_user_namespaces \
+                      kernel/unprivileged_userns_clone; do
+            printf '%s=%s\n' "$knob" "$(cat "/proc/sys/$knob" 2>/dev/null || echo absent)"
+          done
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          sudo sysctl -w user.max_user_namespaces=63000 || true
       - name: Build pinned Linux tools
         run: python3 scripts/build_lab.py
       - name: Start disposable Linux runtime (no Slurm service required for PRs)
@@ -26,6 +38,10 @@ jobs:
           docker run -d --init --name reprohpc-lab --hostname reprohpc-lab --add-host reprohpc-lab:127.0.0.1 --privileged --cgroupns private \
             -v "$PWD:/workspace" -v reprohpc-scratch:/scratch reprohpc-lab:dev
           docker exec reprohpc-lab chown researcher:researcher /scratch
+          docker exec reprohpc-lab sh -c 'printf "in-container max_user_namespaces=%s\n" "$(cat /proc/sys/user/max_user_namespaces 2>/dev/null || echo absent)"'
+          docker exec -u researcher reprohpc-lab unshare --user --map-root-user true \
+            && echo "unprivileged user namespace: available" \
+            || echo "unprivileged user namespace: DENIED (Apptainer steps will fail)"
       - name: Build candidate image and canonical SIF
         run: python3 scripts/build_candidate.py
       - name: Lint, build, units and real local Apptainer workflow
